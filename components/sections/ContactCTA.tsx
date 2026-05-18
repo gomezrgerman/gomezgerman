@@ -247,13 +247,13 @@ export default function ContactCTA({
         {/* Contacto */}
         <div className="cta-email flex flex-col gap-5">
           <a
-            href="mailto:germangomez1193@gmail.com"
+            href="mailto:contacto@german-gomez.es"
             className="group relative inline-block font-anybody"
             style={{ fontSize: 'clamp(1rem, 2vw, 1.7rem)', fontWeight: 600, color: '#7DB892' }}
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#DDD0BC' }}
             onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#7DB892' }}
           >
-            germangomez1193@gmail.com
+            contacto@german-gomez.es
             <span
               className="absolute -bottom-1 left-0 h-px transition-all duration-300 ease-out group-hover:w-full"
               style={{ width: 0, backgroundColor: '#DDD0BC' }}

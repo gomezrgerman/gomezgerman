@@ -684,15 +684,4 @@ function CountUpMetric({ value, label }: { value: string; label: string }) {
   )
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h2
-      className="font-anybody text-cream"
-      style={{ fontSize: '2rem', fontWeight: 600, letterSpacing: '-0.02em' }}
-    >
-      {children}
-    </h2>
-  )
-}
-
 

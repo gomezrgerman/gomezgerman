@@ -117,9 +117,9 @@ export default function AboutContent() {
               {/* Datos */}
               <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1.75rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {[
-                  '3 proyectos entregados.',
+                  'Tres negocios. Tres sistemas funcionando solos.',
                   'Marina Alta · en remoto.',
-                  'Fitness, salud y belleza.',
+                  'Servicios, comercio, hostelería y más.',
                 ].map((fact) => (
                   <p
                     key={fact}

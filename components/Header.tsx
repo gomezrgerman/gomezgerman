@@ -74,7 +74,7 @@ export default function Header() {
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
-            <NavLink key={link.href} href={link.href} label={link.label} />
+            <NavLink key={link.href} href={link.href} label={link.label} pathname={pathname} />
           ))}
         </nav>
 
@@ -96,15 +96,19 @@ export default function Header() {
   )
 }
 
-function NavLink({ href, label }: { href: string; label: string }) {
+function NavLink({ href, label, pathname }: { href: string; label: string; pathname: string }) {
+  const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
   return (
     <Link
       href={href}
-      className="group relative font-cabinet font-medium text-cream-dim transition-colors duration-200 hover:text-cream"
-      style={{ fontSize: '0.9375rem' }}
+      className="group relative font-cabinet font-medium transition-colors duration-200 hover:text-cream"
+      style={{ fontSize: '0.9375rem', color: isActive ? '#F5F0E8' : '#A89F8C' }}
     >
       {label}
-      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-green transition-all duration-300 ease-out group-hover:w-full" />
+      <span
+        className="absolute -bottom-0.5 left-0 h-px transition-all duration-300 ease-out group-hover:w-full"
+        style={{ backgroundColor: '#4A7C59', width: isActive ? '100%' : '0' }}
+      />
     </Link>
   )
 }

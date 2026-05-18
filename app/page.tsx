@@ -14,13 +14,11 @@ export const metadata: Metadata = {
     description: 'Sistemas de automatización para negocios reales.',
     locale: 'es_ES',
     type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Germán Gómez — Automatización & Desarrollo Web',
     description: 'Sistemas de automatización para negocios reales.',
-    images: ['/og-image.png'],
   },
 }
 
