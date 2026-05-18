@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg:          #0a0a0a;
+  --color-bg-card:     #111111;
+  --color-cream:       #DDD0BC;
+  --color-cream-dim:   #A89F8C;
+  --color-green:       #4A7C59;
+  --color-green-light: #7DB892;
+  --color-border:      #1E1E1E;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto; /* Lenis se encarga del scroll suave */
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-cream);
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-weight: 400;
+    cursor: none;
+    overflow-x: hidden;
+    min-height: 100dvh;
+  }
+
+  /* Restaurar cursor en dispositivos táctiles */
+  @media (hover: none) and (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
+  }
+
+  a,
+  button {
+    cursor: none;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    a,
+    button {
+      cursor: auto;
+    }
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    display: block;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-anybody), sans-serif;
+    letter-spacing: -0.03em;
+    font-feature-settings: 'ss01', 'cv01';
+  }
+
+  ::selection {
+    background-color: var(--color-green);
+    color: var(--color-cream);
+  }
+}
