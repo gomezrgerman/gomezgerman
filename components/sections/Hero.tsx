@@ -227,12 +227,23 @@ export default function Hero() {
           SISTE
         </span>
 
-        {/* Baraja */}
+        {/* Baraja — ocupa desde el final de SISTE hasta el borde derecho */}
         <div
           className="absolute"
-          style={{ top: 'calc(5vh + 50vw - 130px)', right: '5vw', zIndex: 5, transform: 'rotate(-6deg)' }}
+          style={{
+            top: 'calc(5vh + 37.7vw)',
+            left: '47vw',
+            right: 0,
+            height: 'calc(2vh + 28vw)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 5,
+          }}
         >
-          <HeroCardDeck />
+          <div style={{ transform: 'rotate(-6deg)' }}>
+            <HeroCardDeck />
+          </div>
         </div>
 
         {/* Logo Antigravity */}
