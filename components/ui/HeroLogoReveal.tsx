@@ -21,33 +21,48 @@ export default function HeroLogoReveal() {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={triggered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-      transition={{ duration: 0.9, ease: 'easeOut', delay: 0.15 }}
-      style={{ width: 'clamp(280px, 62vw, 980px)', userSelect: 'none' }}
+      initial={{ opacity: 0, scale: 1.06 }}
+      animate={triggered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.06 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 22, delay: 0.2 }}
+      style={{
+        width: 'clamp(280px, 60vw, 900px)',
+        userSelect: 'none',
+        transform: 'rotate(-2deg)',
+        filter: 'drop-shadow(0 0 18px rgba(125, 184, 146, 0.12))',
+      }}
     >
+      {/* Borde exterior — efecto sello */}
       <div
         style={{
-          background: 'rgba(8, 18, 11, 0.88)',
-          border: '1px solid rgba(125, 184, 146, 0.22)',
-          borderRadius: 10,
-          padding: 'clamp(1.75rem, 3vw, 2.75rem) clamp(2rem, 3.5vw, 3rem)',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(125,184,146,0.1)',
+          border: '2px dashed rgba(125, 184, 146, 0.5)',
+          borderRadius: 2,
+          padding: 5,
         }}
       >
-        <p
-          className="font-anybody text-cream"
+        {/* Borde interior */}
+        <div
           style={{
-            fontSize: 'clamp(2rem, 5vw, 6rem)',
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.1,
-            margin: 0,
-            whiteSpace: 'pre-line',
+            border: '1px solid rgba(125, 184, 146, 0.22)',
+            borderRadius: 1,
+            background: 'rgba(74, 124, 89, 0.07)',
+            padding: 'clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.75rem, 3vw, 3rem)',
           }}
         >
-          {`Construyo procesos\nque hacen dinero,\nahorran tiempo y\nno piden vacaciones.`}
-        </p>
+          <p
+            className="font-anybody"
+            style={{
+              fontSize: 'clamp(1.6rem, 3.8vw, 4.8rem)',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              margin: 0,
+              whiteSpace: 'pre-line',
+              color: '#7DB892',
+            }}
+          >
+            {`Construyo procesos\nque hacen dinero,\nahorran tiempo y\nno piden vacaciones.`}
+          </p>
+        </div>
       </div>
     </motion.div>
   )

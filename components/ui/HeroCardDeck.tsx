@@ -10,8 +10,8 @@ const STACK = [
   { x: -20, y: 24, rotate: 13,  scale: 0.94, z: 10 },
 ]
 
-const CARD_W      = 520
-const CARD_HEIGHT = 410
+const CARD_W      = 590
+const CARD_HEIGHT = 465
 
 // ── Typewriter hook ──────────────────────────────────────────────────────────
 type TWPhase = 'idle' | 'typing-indicator' | 'typing' | 'done'
