@@ -20,15 +20,26 @@ export const FlowSection: React.FC<FlowSectionProps> = ({ children, className, s
   >
     <div
       data-flow-inner
-      className="flow-art-container relative flex min-h-screen w-full flex-col justify-between"
+      className="flow-art-container relative min-h-screen w-full"
       style={{
-        padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 5rem)',
         transformOrigin: 'bottom left',
         willChange: 'transform',
         ...style,
       }}
     >
-      {children}
+      <div
+        className="flex flex-col justify-between"
+        style={{
+          minHeight: '100vh',
+          padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 5rem)',
+          maxWidth: '1600px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          width: '100%',
+        }}
+      >
+        {children}
+      </div>
     </div>
   </section>
 )

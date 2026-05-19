@@ -213,7 +213,7 @@ export default function Hero() {
         <span
           ref={line1Ref}
           className="absolute block select-none font-anybody text-cream"
-          style={{ top: '4vw', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 22rem)', ...titleStyleDesktop }}
+          style={{ top: '4vw', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 32rem)', ...titleStyleDesktop }}
         >
           DISEÑO
         </span>
@@ -222,7 +222,7 @@ export default function Hero() {
         <span
           ref={line2Ref}
           className="absolute left-0 block select-none font-anybody text-cream"
-          style={{ top: 'calc(5vh + 37.7vw)', paddingLeft: '1.5vw', fontSize: 'clamp(2rem, 14vw, 18rem)', ...titleStyleDesktop }}
+          style={{ top: 'calc(5vh + 37.7vw)', paddingLeft: '1.5vw', fontSize: 'clamp(2rem, 14vw, 28rem)', ...titleStyleDesktop }}
         >
           SISTE
         </span>
@@ -248,7 +248,7 @@ export default function Hero() {
         <span
           ref={masRef}
           className="absolute block select-none font-anybody text-cream"
-          style={{ top: 'calc(7vh + 65.4vw)', right: '1.5vw', fontSize: 'clamp(2rem, 14vw, 18rem)', ...titleStyleDesktop }}
+          style={{ top: 'calc(7vh + 65.4vw)', right: '1.5vw', fontSize: 'clamp(2rem, 14vw, 28rem)', ...titleStyleDesktop }}
         >
           -MAS
         </span>
@@ -257,7 +257,7 @@ export default function Hero() {
         <span
           ref={line3Ref}
           className="absolute left-0 block select-none font-anybody text-cream"
-          style={{ top: 'calc(9vh + 98vw)', paddingLeft: '1.5vw', fontSize: 'clamp(1rem, 9vw, 10rem)', ...titleStyleDesktop }}
+          style={{ top: 'calc(9vh + 98vw)', paddingLeft: '1.5vw', fontSize: 'clamp(1rem, 9vw, 17rem)', ...titleStyleDesktop }}
         >
           PARA NEGOCIOS
         </span>
@@ -266,7 +266,7 @@ export default function Hero() {
         <span
           ref={line4Ref}
           className="absolute block select-none font-anybody text-cream"
-          style={{ top: 'calc(11vh + 115.8vw)', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 22rem)', ...titleStyleDesktop }}
+          style={{ top: 'calc(11vh + 115.8vw)', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 32rem)', ...titleStyleDesktop }}
         >
           REALES
         </span>

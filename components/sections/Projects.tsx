@@ -256,7 +256,7 @@ export default function Projects() {
                   <h3
                     className="font-anybody text-cream"
                     style={{
-                      fontSize: 'clamp(3rem, 9vw, 9rem)',
+                      fontSize: 'clamp(3rem, 9vw, 14rem)',
                       fontWeight: 800,
                       letterSpacing: '-0.04em',
                       lineHeight: 0.88,
@@ -292,8 +292,8 @@ export default function Projects() {
                       <div
                         key={src}
                         style={{
-                          width: 'clamp(140px, 22vw, 320px)',
-                          height: 'clamp(96px, 14vw, 210px)',
+                          width: 'clamp(140px, 20vw, 420px)',
+                          height: 'clamp(96px, 13vw, 280px)',
                           borderRadius: 'clamp(10px, 1.2vw, 16px)',
                           overflow: 'hidden',
                           backgroundColor: '#000',
@@ -320,7 +320,7 @@ export default function Projects() {
                   <div style={{ flex: '0 0 auto' }}>
                     <div
                       style={{
-                        width: 'clamp(130px, 13vw, 190px)',
+                        width: 'clamp(130px, 12vw, 260px)',
                         borderRadius: 'clamp(16px, 2vw, 26px)',
                         overflow: 'hidden',
                         backgroundColor: '#000',
@@ -403,13 +403,13 @@ export default function Projects() {
                 >
                   <div>
                     <Label color={p.accent}>Problema</Label>
-                    <p className="font-cabinet text-cream-dim" style={{ fontSize: 'clamp(0.75rem, 0.95vw, 0.9rem)', lineHeight: 1.7 }}>
+                    <p className="font-cabinet text-cream-dim" style={{ fontSize: 'clamp(0.75rem, 0.95vw, 1rem)', lineHeight: 1.7 }}>
                       {p.problem}
                     </p>
                   </div>
                   <div>
                     <Label color={p.accent}>Solución</Label>
-                    <p className="font-cabinet text-cream-dim" style={{ fontSize: 'clamp(0.75rem, 0.95vw, 0.9rem)', lineHeight: 1.7 }}>
+                    <p className="font-cabinet text-cream-dim" style={{ fontSize: 'clamp(0.75rem, 0.95vw, 1rem)', lineHeight: 1.7 }}>
                       {p.solution}
                     </p>
                   </div>
@@ -418,7 +418,7 @@ export default function Projects() {
                     <p
                       className="font-anybody"
                       style={{
-                        fontSize: 'clamp(1.8rem, 3.5vw, 3.5rem)',
+                        fontSize: 'clamp(1.8rem, 3.5vw, 5rem)',
                         fontWeight: 800,
                         color: p.accent,
                         letterSpacing: '-0.03em',

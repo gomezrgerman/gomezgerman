@@ -195,8 +195,11 @@ export default function ContactCTA({
         />
       </svg>
 
+      {/* Contenedor de contenido con max-width */}
+      <div style={{ position: 'relative', zIndex: 10, maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
+
       {/* Badge de disponibilidad */}
-      <div className="cta-badge relative z-10 mb-10 inline-flex items-center gap-2.5">
+      <div className="cta-badge mb-10 inline-flex items-center gap-2.5">
         <span
           className="inline-block h-2 w-2 rounded-full"
           style={{ backgroundColor: '#7DB892', boxShadow: '0 0 8px #7DB892aa' }}
@@ -211,7 +214,7 @@ export default function ContactCTA({
 
       {/* Heading */}
       <h2
-        className="cta-heading font-anybody text-cream relative z-10"
+        className="cta-heading font-anybody text-cream"
         style={{
           fontSize: 'clamp(3.5rem, 14vw, 14rem)',
           fontWeight: 800,
@@ -225,7 +228,7 @@ export default function ContactCTA({
 
       {/* Separador */}
       <div
-        className="cta-divider relative z-10"
+        className="cta-divider"
         style={{
           height: 1,
           backgroundColor: 'rgba(125, 184, 146, 0.3)',
@@ -234,7 +237,7 @@ export default function ContactCTA({
       />
 
       {/* Grid: subtítulo + contacto */}
-      <div className="relative z-10 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16" style={{ alignItems: 'end' }}>
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16" style={{ alignItems: 'end' }}>
 
         {/* Subtítulo */}
         <p
@@ -296,6 +299,7 @@ export default function ContactCTA({
           </div>
         </div>
       </div>
+      </div>{/* fin max-width wrapper */}
     </section>
   )
 }

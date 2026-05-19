@@ -50,6 +50,7 @@ export default function MiniAbout() {
         borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}
     >
+      <div style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-20" style={{ alignItems: 'end' }}>
 
         {/* Izquierda: statement */}
@@ -135,6 +136,7 @@ export default function MiniAbout() {
           </Link>
         </div>
 
+      </div>
       </div>
     </section>
   )

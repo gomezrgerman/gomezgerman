@@ -65,7 +65,7 @@ export default function AboutContent() {
       <div style={{ position: 'relative', zIndex: 1 }}>
 
         {/* ─── HERO ─── */}
-        <section className="flex min-h-[70svh] flex-col justify-end px-5 pb-12 pt-28 sm:px-8 sm:pb-16 md:px-12 md:pb-24">
+        <section className="flex min-h-[70svh] flex-col justify-end px-5 pb-12 pt-28 sm:px-8 sm:pb-16 md:px-12 md:pb-24" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
           <p
             className="about-sub mb-5 font-cabinet text-cream-dim"
             style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}
@@ -98,7 +98,7 @@ export default function AboutContent() {
           className="px-5 py-16 sm:px-8 sm:py-24 md:px-12 md:py-32"
           style={{ borderTop: '1px solid var(--color-border)' }}
         >
-          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-24">
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-24" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
             {/* Texto + datos */}
             <div className="reveal-up flex flex-col gap-8">
               <p className="font-cabinet text-cream" style={{ fontSize: '1.1rem', lineHeight: 1.85 }}>
@@ -199,7 +199,7 @@ export default function AboutContent() {
           >
             Cómo trabajo
           </p>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
             {PROCESS.map((step, i) => (
               <div
                 key={step.num}
