@@ -226,7 +226,7 @@ export default function WorkList() {
                   inset: 0,
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 8,
+                  gap: 10,
                   padding: 'clamp(5rem, 9vw, 7.5rem) clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 4vw, 3rem)',
                   opacity: active ? 1 : 0,
                   transform: active ? 'translateY(0)' : 'translateY(18px)',
@@ -236,14 +236,62 @@ export default function WorkList() {
                   pointerEvents: 'none',
                 }}
               >
+                {/* Label del proyecto */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: 4,
+                  }}
+                >
+                  <span
+                    className="font-anybody"
+                    style={{
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: project.accentColor,
+                      opacity: 0.9,
+                    }}
+                  >
+                    {project.number} — {project.title}
+                  </span>
+                  {preview.liveUrl && (
+                    <a
+                      href={preview.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        pointerEvents: 'auto',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        fontSize: '0.65rem',
+                        fontFamily: 'inherit',
+                        color: project.accentColor,
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        textDecoration: 'none',
+                        opacity: 0.7,
+                        transition: 'opacity 0.2s ease',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
+                    >
+                      Visitar ↗
+                    </a>
+                  )}
+                </div>
+
                 {/* Imagen principal */}
                 <div
                   style={{
                     flex: '0 0 58%',
-                    borderRadius: 12,
+                    borderRadius: 10,
                     overflow: 'hidden',
-                    border: `1px solid ${project.accentColor}28`,
-                    boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
+                    border: `1px solid ${project.accentColor}35`,
+                    boxShadow: `0 20px 56px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.3)`,
                   }}
                 >
                   <Image
@@ -251,50 +299,19 @@ export default function WorkList() {
                     alt={project.title}
                     width={700}
                     height={460}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top left', display: 'block' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
                   />
                 </div>
 
-                {/* Link a web real */}
-                {preview.liveUrl && (
-                  <a
-                    href={preview.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      pointerEvents: 'auto',
-                      position: 'absolute',
-                      bottom: 'clamp(1rem, 2vw, 1.75rem)',
-                      right: 'clamp(1.5rem, 3vw, 2.5rem)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 5,
-                      fontSize: '0.7rem',
-                      fontFamily: 'inherit',
-                      color: project.accentColor,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      textDecoration: 'none',
-                      opacity: 0.85,
-                      transition: 'opacity 0.2s ease',
-                      zIndex: 10,
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                    onMouseLeave={e => (e.currentTarget.style.opacity = '0.85')}
-                  >
-                    Visitar web ↗
-                  </a>
-                )}
-
                 {/* Dos imágenes secundarias */}
-                <div style={{ flex: '0 0 38%', display: 'flex', gap: 8 }}>
+                <div style={{ flex: '1 1 0', display: 'flex', gap: 10, minHeight: 0 }}>
                   <div
                     style={{
                       flex: 1,
-                      borderRadius: 12,
+                      borderRadius: 10,
                       overflow: 'hidden',
-                      border: `1px solid ${project.accentColor}20`,
-                      boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
+                      border: `1px solid ${project.accentColor}22`,
+                      boxShadow: '0 10px 28px rgba(0,0,0,0.45)',
                     }}
                   >
                     <Image
@@ -302,16 +319,16 @@ export default function WorkList() {
                       alt={`${project.title} — detalle`}
                       width={350}
                       height={280}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top left', display: 'block' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
                     />
                   </div>
                   <div
                     style={{
                       flex: 1,
-                      borderRadius: 12,
+                      borderRadius: 10,
                       overflow: 'hidden',
-                      border: `1px solid ${project.accentColor}20`,
-                      boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
+                      border: `1px solid ${project.accentColor}22`,
+                      boxShadow: '0 10px 28px rgba(0,0,0,0.45)',
                     }}
                   >
                     <Image
@@ -319,7 +336,7 @@ export default function WorkList() {
                       alt={`${project.title} — detalle`}
                       width={350}
                       height={280}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top left', display: 'block' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
                     />
                   </div>
                 </div>
