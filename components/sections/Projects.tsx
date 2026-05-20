@@ -250,9 +250,11 @@ export default function Projects() {
                 </Link>
               </div>
 
-              {/* Centro: título + mockup */}
-              <div className="flex flex-col md:flex-row items-center" style={{ flex: 1, minWidth: 0, gap: 'clamp(3rem, 8vw, 10rem)' }}>
-                <div style={{ flex: '1 1 0', minWidth: 0 }}>
+              {/* Centro: título arriba, imágenes abajo a la derecha */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 'clamp(2.5rem, 5vw, 5rem)' }}>
+
+                {/* Título — ancho completo, sin competencia con imágenes */}
+                <div>
                   <h3
                     className="font-anybody text-cream"
                     style={{
@@ -279,45 +281,47 @@ export default function Projects() {
                   </p>
                 </div>
 
-                {'pwas' in p && Array.isArray((p as any).pwas) && (
-                  <PwaCardDeck
-                    images={(p as any).pwas as string[]}
-                    accent={p.accent}
-                  />
-                )}
+                {/* Imágenes — fila propia, empujadas a la derecha */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
 
-                {'dualImages' in p && Array.isArray((p as any).dualImages) && (
-                  <div style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center' }}>
-                    {(p as any).dualImages.map((src: string, i: number) => (
-                      <div
-                        key={src}
-                        style={{
-                          width: 'clamp(140px, 20vw, 420px)',
-                          height: 'clamp(96px, 13vw, 280px)',
-                          borderRadius: 'clamp(10px, 1.2vw, 16px)',
-                          overflow: 'hidden',
-                          backgroundColor: '#000',
-                          border: '2px solid rgba(255,255,255,0.08)',
-                          boxShadow: '0 20px 48px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4)',
-                          transform: i === 0 ? 'rotate(-4deg)' : 'rotate(4deg)',
-                          marginLeft: i === 0 ? 0 : 'clamp(-30px, -4vw, -60px)',
-                          zIndex: i === 0 ? 1 : 0,
-                        }}
-                      >
-                        <Image
-                          src={src}
-                          alt={p.title}
-                          width={600}
-                          height={380}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
+                  {'pwas' in p && Array.isArray((p as any).pwas) && (
+                    <PwaCardDeck
+                      images={(p as any).pwas as string[]}
+                      accent={p.accent}
+                    />
+                  )}
 
-                {p.img && !('imgDesktop' in p) && (
-                  <div style={{ flex: '0 0 auto' }}>
+                  {'dualImages' in p && Array.isArray((p as any).dualImages) && (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      {(p as any).dualImages.map((src: string, i: number) => (
+                        <div
+                          key={src}
+                          style={{
+                            width: 'clamp(140px, 20vw, 420px)',
+                            height: 'clamp(96px, 13vw, 280px)',
+                            borderRadius: 'clamp(10px, 1.2vw, 16px)',
+                            overflow: 'hidden',
+                            backgroundColor: '#000',
+                            border: '2px solid rgba(255,255,255,0.08)',
+                            boxShadow: '0 20px 48px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.4)',
+                            transform: i === 0 ? 'rotate(-4deg)' : 'rotate(4deg)',
+                            marginLeft: i === 0 ? 0 : 'clamp(-30px, -4vw, -60px)',
+                            zIndex: i === 0 ? 1 : 0,
+                          }}
+                        >
+                          <Image
+                            src={src}
+                            alt={p.title}
+                            width={600}
+                            height={380}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {p.img && !('imgDesktop' in p) && (
                     <div
                       style={{
                         width: 'clamp(130px, 12vw, 260px)',
@@ -350,11 +354,9 @@ export default function Projects() {
                         />
                       )}
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {p.img && 'imgDesktop' in p && (
-                  <div style={{ flex: '0 0 auto' }}>
+                  {p.img && 'imgDesktop' in p && (
                     <div
                       style={{
                         width: 'clamp(260px, 32vw, 480px)',
@@ -366,7 +368,6 @@ export default function Projects() {
                         transform: 'rotate(-1.5deg)',
                       }}
                     >
-                      {/* Browser chrome */}
                       <div style={{ backgroundColor: '#1c1c1e', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#ff5f57', display: 'inline-block' }} />
                         <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#febc2e', display: 'inline-block' }} />
@@ -381,8 +382,9 @@ export default function Projects() {
                         style={{ width: '100%', height: 'auto', display: 'block' }}
                       />
                     </div>
-                  </div>
-                )}
+                  )}
+
+                </div>
               </div>
 
               {/* Pipeline de automatización — solo NutriFlow */}
