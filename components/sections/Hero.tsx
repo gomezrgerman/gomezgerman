@@ -250,7 +250,7 @@ export default function Hero() {
         <div
           ref={logoWrapRef}
           className="absolute"
-          style={{ top: 'calc(7vh + 67vw)', left: '1.5vw', zIndex: 0 }}
+          style={{ top: 'calc(7vh + 67vw)', left: '8.5vw', zIndex: 0 }}
         >
           <HeroLogoReveal />
         </div>
