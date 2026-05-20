@@ -251,7 +251,7 @@ export default function Projects() {
               </div>
 
               {/* Centro: título + mockup */}
-              <div className="flex flex-col md:flex-row items-center" style={{ flex: 1, minWidth: 0, gap: 'clamp(1.5rem, 3.5vw, 3.5rem)' }}>
+              <div className="flex flex-col md:flex-row items-center" style={{ flex: 1, minWidth: 0, gap: 'clamp(3rem, 8vw, 10rem)' }}>
                 <div style={{ flex: '1 1 0', minWidth: 0 }}>
                   <h3
                     className="font-anybody text-cream"
