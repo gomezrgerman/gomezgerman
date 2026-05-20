@@ -96,7 +96,7 @@ export default function HeroLogoReveal() {
                 lineHeight: 1.1,
                 margin: 0,
                 whiteSpace: 'pre-line',
-                color: hovered ? '#F5F0E8' : '#7DB892',
+                color: hovered ? '#7DB892' : '#F5F0E8',
                 transition: 'color 0.3s ease',
               }}
             >
