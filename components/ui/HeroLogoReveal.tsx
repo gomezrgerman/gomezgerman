@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function HeroLogoReveal() {
   const [triggered, setTriggered] = useState(false)
   const [impacted, setImpacted]   = useState(false)
+  const [hovered, setHovered]     = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -19,7 +20,6 @@ export default function HeroLogoReveal() {
     return () => obs.disconnect()
   }, [])
 
-  // Ripple dispara justo en el impacto (50% de 0.55s + 0.25s delay)
   useEffect(() => {
     if (!triggered) return
     const t = setTimeout(() => setImpacted(true), 520)
@@ -27,16 +27,20 @@ export default function HeroLogoReveal() {
   }, [triggered])
 
   return (
-    <div
+    <motion.div
       ref={ref}
       style={{
         position: 'relative',
         display: 'inline-block',
-        width: 'clamp(280px, 60vw, 900px)',
+        width: 'clamp(260px, 52vw, 820px)',
         userSelect: 'none',
       }}
+      whileHover={{ scale: 1.025, rotate: -2.8 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      transition={{ type: 'spring', stiffness: 380, damping: 28 }}
     >
-      {/* Sello */}
+      {/* Sello — cae y golpea */}
       <motion.div
         initial={{ opacity: 0, y: -80, scale: 1.15, rotate: -2 }}
         animate={
@@ -64,25 +68,36 @@ export default function HeroLogoReveal() {
           delay:    0.25,
         }}
       >
-        <div style={{ border: '2px dashed rgba(125, 184, 146, 0.5)', borderRadius: 2, padding: 5 }}>
+        {/* Borde exterior */}
+        <div
+          style={{
+            border: `2px dashed rgba(125, 184, 146, ${hovered ? 0.85 : 0.5})`,
+            borderRadius: 2,
+            padding: 5,
+            transition: 'border-color 0.3s ease',
+          }}
+        >
+          {/* Borde interior */}
           <div
             style={{
-              border: '1px solid rgba(125, 184, 146, 0.22)',
+              border: `1px solid rgba(125, 184, 146, ${hovered ? 0.45 : 0.22})`,
               borderRadius: 1,
-              background: 'rgba(74, 124, 89, 0.07)',
+              background: hovered ? 'rgba(74, 124, 89, 0.13)' : 'rgba(74, 124, 89, 0.07)',
               padding: 'clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.75rem, 3vw, 3rem)',
+              transition: 'border-color 0.3s ease, background 0.3s ease',
             }}
           >
             <p
               className="font-anybody"
               style={{
-                fontSize: 'clamp(1.6rem, 3.8vw, 4.8rem)',
+                fontSize: 'clamp(1.8rem, 4.2vw, 5.2rem)',
                 fontWeight: 700,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
                 margin: 0,
                 whiteSpace: 'pre-line',
-                color: '#7DB892',
+                color: hovered ? '#F5F0E8' : '#7DB892',
+                transition: 'color 0.3s ease',
               }}
             >
               {`Construyo procesos\nque hacen dinero,\nahorran tiempo y\nno piden vacaciones.`}
@@ -128,6 +143,6 @@ export default function HeroLogoReveal() {
           </>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }
