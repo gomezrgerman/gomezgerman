@@ -87,8 +87,8 @@ export default function AutomationPipeline({ accent }: { accent: string }) {
                 backgroundColor: `${accent}0D`,
                 border: `1px solid ${accent}25`,
                 borderRadius: 8,
-                padding: 'clamp(6px, 0.8vw, 10px) clamp(8px, 1.2vw, 14px)',
-                minWidth: 'clamp(70px, 9vw, 120px)',
+                padding: 'clamp(8px, 0.9vw, 12px) clamp(10px, 1.3vw, 16px)',
+                minWidth: 'clamp(76px, 9vw, 120px)',
                 textAlign: 'center',
               }}
             >
@@ -100,7 +100,7 @@ export default function AutomationPipeline({ accent }: { accent: string }) {
               <span
                 className="font-cabinet"
                 style={{
-                  fontSize: 'clamp(0.55rem, 0.75vw, 0.7rem)',
+                  fontSize: 'clamp(0.7rem, 0.8vw, 0.8rem)',
                   fontWeight: 700,
                   color: '#DDD0BC',
                   letterSpacing: '0.03em',
@@ -112,9 +112,9 @@ export default function AutomationPipeline({ accent }: { accent: string }) {
               <span
                 className="font-cabinet"
                 style={{
-                  fontSize: 'clamp(0.5rem, 0.6vw, 0.6rem)',
+                  fontSize: 'clamp(0.65rem, 0.65vw, 0.7rem)',
                   color: accent,
-                  opacity: 0.55,
+                  opacity: 0.65,
                   lineHeight: 1,
                 }}
               >

@@ -430,6 +430,7 @@ export default function Projects() {
                         letterSpacing: '-0.03em',
                         lineHeight: 1,
                         marginBottom: '0.3em',
+                        fontVariantNumeric: 'tabular-nums',
                       }}
                     >
                       {p.metric}

@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import HeroCardDeck from '@/components/ui/HeroCardDeck'
 import HeroLogoReveal from '@/components/ui/HeroLogoReveal'
 
-const SCALE_Y = 2.2
-const LINE_H  = 0.9
+const SCALE_Y   = 2.2
+const LINE_H    = 0.9
+const CARD_W    = 590  // ancho fijo del HeroCardDeck
+const CARD_H    = 535  // alto fijo del HeroCardDeck
 
 const titleStyleDesktop = {
   fontWeight: 800,
@@ -18,8 +20,8 @@ const titleStyleDesktop = {
 
 const titleStyleMobile = {
   fontWeight: 800,
-  letterSpacing: '-0.04em',
-  lineHeight: 0.9,
+  letterSpacing: '-0.03em',
+  lineHeight: 0.92,
   display: 'block' as const,
 }
 
@@ -27,6 +29,18 @@ export default function Hero() {
   const sectionRef  = useRef<HTMLElement>(null)
   const canvasRef   = useRef<HTMLCanvasElement>(null)
   const logoWrapRef = useRef<HTMLDivElement>(null)
+
+  // Escala dinámica del CardDeck en mobile
+  const [cardScale, setCardScale] = useState(0.62)
+  useEffect(() => {
+    const update = () => {
+      const scale = Math.min(0.88, (window.innerWidth - 40) / CARD_W)
+      setCardScale(Math.max(0.44, scale))
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   // Desktop refs
   const line1Ref    = useRef<HTMLSpanElement>(null)
@@ -137,72 +151,79 @@ export default function Hero() {
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 
       {/* ── MOBILE LAYOUT ─── < 768px ──────────────────────────────────── */}
-      <div className="relative z-10 flex min-h-svh flex-col items-center justify-center px-5 pb-20 pt-24 text-center md:hidden">
+      <div className="relative z-10 flex min-h-svh flex-col items-center justify-center px-5 pb-16 pt-24 text-center md:hidden">
         <span
           ref={mLine1Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(2.5rem, 18vw, 7rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(2rem, 15vw, 6rem)', ...titleStyleMobile }}
         >
           DISEÑO
         </span>
         <span
           ref={mLine2Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(2rem, 14vw, 5.5rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(1.75rem, 12vw, 5rem)', ...titleStyleMobile }}
         >
           SISTEMAS
         </span>
         <span
           ref={mLine3Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(1.1rem, 9vw, 3.5rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(0.95rem, 7.5vw, 3rem)', ...titleStyleMobile, letterSpacing: '-0.01em' }}
         >
           PARA NEGOCIOS
         </span>
         <span
           ref={mLine4Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(2.5rem, 18vw, 7rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(2rem, 15vw, 6rem)', ...titleStyleMobile }}
         >
           REALES
         </span>
 
-        <div ref={mSubRef} className="mt-8 flex flex-col items-center gap-2 px-2">
+        <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2">
           <p
             className="font-cabinet text-cream"
-            style={{ fontSize: 'clamp(0.875rem, 3.8vw, 1rem)', maxWidth: '34ch', lineHeight: 1.8, letterSpacing: '0.01em' }}
+            style={{ fontSize: 'clamp(0.875rem, 3.8vw, 1rem)', maxWidth: '32ch', lineHeight: 1.75, letterSpacing: '0.01em' }}
           >
             Automatizaciones, IA y procesos diseñados para ahorrar tiempo
             y organizar negocios automáticamente.
           </p>
           <p
             className="font-cabinet text-cream-dim"
-            style={{ fontSize: '0.8125rem', letterSpacing: '0.06em' }}
+            style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em' }}
           >
             Dénia, Alicante
           </p>
         </div>
 
-        {/* Baraja de cards — rompe el px-5 para usar ancho completo */}
+        {/* Baraja de cards — escala dinámica por viewport */}
         <div
-          className="mt-8"
+          className="mt-6"
           style={{
             width: '100vw',
             marginLeft: 'calc(50% - 50vw)',
             overflow: 'hidden',
-            paddingTop: '1.75rem',
-            paddingBottom: '2.5rem',
+            position: 'relative',
+            height: `${Math.round(cardScale * (CARD_H + 70))}px`,
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ transform: 'scale(0.72)', transformOrigin: 'top center' }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            paddingTop: `${Math.round(cardScale * 40)}px`,
+          }}>
+            <div style={{ transform: `scale(${cardScale})`, transformOrigin: 'top center' }}>
               <HeroCardDeck />
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 right-6 z-20">
-          <span className="animate-bounce font-cabinet text-cream-dim" style={{ fontSize: '0.8125rem', letterSpacing: '0.08em' }}>
+        <div className="absolute bottom-6 right-6 z-20">
+          <span className="animate-bounce font-cabinet text-cream-dim" style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em' }}>
             scroll ↓
           </span>
         </div>

@@ -91,8 +91,8 @@ export default function ContactPage() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-dvh overflow-hidden px-6 pb-24 pt-36 md:px-12 md:pb-32"
-      style={{ backgroundColor: '#0d2416' }}
+      className="relative min-h-dvh overflow-hidden"
+      style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'calc(var(--py) + 2rem)', paddingBottom: 'var(--py)', backgroundColor: '#0d2416' }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 

@@ -433,8 +433,8 @@ export default function ProjectDetail({ project, next }: Props) {
     <div ref={containerRef} style={{ backgroundColor: '#0a0e0b' }}>
       {/* ─── 1. HERO ─── */}
       <section
-        className="relative flex h-[100svh] flex-col justify-end overflow-hidden px-5 pb-12 sm:px-8 sm:pb-16 md:px-12 md:pb-24"
-        style={{ backgroundColor: '#0a0e0b' }}
+        className="relative flex h-[100svh] flex-col justify-end overflow-hidden"
+        style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingBottom: 'var(--space-xl)', backgroundColor: '#0a0e0b' }}
       >
         <MeshCanvas variant="subtle" />
 
@@ -565,8 +565,8 @@ export default function ProjectDetail({ project, next }: Props) {
 
       {/* ─── 3. MÉTRICAS ─── */}
       <section
-        className="metrics-section px-5 py-16 sm:px-8 sm:py-24 md:px-12 md:py-32"
-        style={{ backgroundColor: '#0a0e0b' }}
+        className="metrics-section"
+        style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'var(--py)', paddingBottom: 'var(--py)', backgroundColor: '#0a0e0b' }}
       >
         <p
           className="reveal-up font-cabinet text-cream-dim mb-16 md:mb-20"
@@ -584,8 +584,8 @@ export default function ProjectDetail({ project, next }: Props) {
 
       {/* ─── 5. NAVEGACIÓN ENTRE PROYECTOS ─── */}
       <section
-        className="reveal-up px-5 py-14 sm:px-8 sm:py-20 md:px-12"
-        style={{ borderTop: '1px solid var(--color-border)' }}
+        className="reveal-up"
+        style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'var(--space-xl)', paddingBottom: 'var(--space-xl)', borderTop: '1px solid var(--color-border)' }}
       >
         {next ? (
           <Link href={`/work/${next.slug}`} className="group inline-flex flex-col gap-3 cursor-pointer">
@@ -675,7 +675,7 @@ function CountUpMetric({ value, label }: { value: string; label: string }) {
     >
       <span
         className="block font-anybody text-green-light"
-        style={{ fontSize: 'clamp(2.5rem, 10vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1 }}
+        style={{ fontSize: 'clamp(2.5rem, 10vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}
       >
         {text}
       </span>

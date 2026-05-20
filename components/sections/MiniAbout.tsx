@@ -45,8 +45,9 @@ export default function MiniAbout() {
   return (
     <section
       ref={sectionRef}
-      className="px-5 py-20 sm:px-8 sm:py-28 md:px-12 md:py-36"
       style={{
+        paddingLeft: 'var(--px)', paddingRight: 'var(--px)',
+        paddingTop: 'var(--py)', paddingBottom: 'var(--py)',
         backgroundColor: '#152B1C',
         borderTop: '1px solid rgba(255,255,255,0.06)',
         borderBottom: '1px solid rgba(255,255,255,0.06)',

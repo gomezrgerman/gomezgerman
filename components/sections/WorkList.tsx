@@ -56,8 +56,8 @@ export default function WorkList() {
       style={{
         position: 'relative',
         backgroundColor: '#0a0e0b',
-        paddingTop: 'clamp(7rem, 14vw, 11rem)',
-        paddingBottom: 'clamp(5rem, 10vw, 9rem)',
+        paddingTop: 'calc(var(--py) + 2rem)',
+        paddingBottom: 'var(--py)',
       }}
     >
       <MeshCanvas variant="subtle" />
@@ -65,7 +65,7 @@ export default function WorkList() {
       <div style={{ position: 'relative', zIndex: 1 }}>
 
       {/* Header — ancho completo */}
-      <div className="wl-header px-5 sm:px-8 md:px-12 mb-12 md:mb-20" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
+      <div className="wl-header mb-12 md:mb-20" style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
         <h1
           className="font-anybody text-cream"
           style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}
@@ -84,7 +84,7 @@ export default function WorkList() {
       <div className="flex items-start" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
 
         {/* Columna izquierda: filas */}
-        <div className="min-w-0 flex-1 pl-5 sm:pl-8 md:pl-12">
+        <div className="min-w-0 flex-1" style={{ paddingLeft: 'var(--px)' }}>
           {PROJECTS.map((project, i) => {
             const active = hovered === project.slug
             const accent = project.accentColor

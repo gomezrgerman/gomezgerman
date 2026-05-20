@@ -125,8 +125,8 @@ export default function ContactCTA({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden px-5 pb-20 pt-24 sm:px-8 md:px-12 md:pb-32 md:pt-36"
-      style={{ backgroundColor: '#0d2416' }}
+      className="relative overflow-hidden"
+      style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'var(--py)', paddingBottom: 'var(--py)', backgroundColor: '#0d2416' }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 

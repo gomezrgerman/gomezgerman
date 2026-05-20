@@ -67,7 +67,7 @@ export default function AboutContent() {
       <div style={{ position: 'relative', zIndex: 1 }}>
 
         {/* ─── HERO ─── */}
-        <section className="flex min-h-[70svh] flex-col justify-end px-5 pb-12 pt-28 sm:px-8 sm:pb-16 md:px-12 md:pb-24" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
+        <section className="flex min-h-[70svh] flex-col justify-end" style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'calc(var(--py) + 2rem)', paddingBottom: 'var(--space-xl)', maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
           <p
             className="about-sub mb-5 font-cabinet text-cream-dim"
             style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}
@@ -97,8 +97,7 @@ export default function AboutContent() {
 
         {/* ─── CONTENIDO PRINCIPAL ─── */}
         <section
-          className="px-5 py-16 sm:px-8 sm:py-24 md:px-12 md:py-32"
-          style={{ borderTop: '1px solid var(--color-border)' }}
+          style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'var(--py)', paddingBottom: 'var(--py)', borderTop: '1px solid var(--color-border)' }}
         >
           <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-24" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
             {/* Texto + datos */}
@@ -144,6 +143,7 @@ export default function AboutContent() {
                   src="/img/german-gomez.jpg"
                   alt="Germán Gómez"
                   fill
+                  priority
                   style={{ objectFit: 'cover', objectPosition: 'center' }}
                 />
                 <div
@@ -157,8 +157,10 @@ export default function AboutContent() {
 
         {/* ─── MANIFIESTO ─── */}
         <section
-          className="reveal-up px-5 py-16 sm:px-8 sm:py-24 md:px-12 md:py-32"
+          className="reveal-up"
           style={{
+            paddingLeft: 'var(--px)', paddingRight: 'var(--px)',
+            paddingTop: 'var(--py)', paddingBottom: 'var(--py)',
             borderTop: '1px solid rgba(74,124,89,0.25)',
             borderBottom: '1px solid rgba(74,124,89,0.25)',
             backgroundColor: 'rgba(10,20,16,0.6)',
@@ -194,7 +196,7 @@ export default function AboutContent() {
         </section>
 
         {/* ─── PROCESO ─── */}
-        <section className="px-5 py-16 sm:px-8 sm:py-24 md:px-12 md:py-32" style={{ borderTop: '1px solid var(--color-border)' }}>
+        <section style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingTop: 'var(--py)', paddingBottom: 'var(--py)', borderTop: '1px solid var(--color-border)' }}>
           <p
             className="reveal-up font-cabinet text-cream-dim mb-16 md:mb-20"
             style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}
