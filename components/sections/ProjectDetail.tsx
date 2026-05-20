@@ -38,7 +38,7 @@ function PwaPanel({ src, alt }: { src: string; alt: string }) {
 function TextPanel({ num, label, heading, body, accent }: { num: string; label: string; heading: string; body: string; accent: string }) {
   return (
     <div style={{ padding: 'clamp(1rem, 4vw, 4rem)', maxWidth: 440, width: '100%' }}>
-      <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6, marginBottom: '1.25rem' }}>
+      <p className="font-cabinet" style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6, marginBottom: '1.25rem' }}>
         {num} — {label}
       </p>
       <h3 className="font-anybody" style={{ fontSize: 'clamp(1.8rem, 3.2vw, 2.8rem)', fontWeight: 800, color: '#DDD0BC', letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '1.25rem' }}>
@@ -238,7 +238,7 @@ function SummaryCell({
     >
       <p
         className="font-cabinet"
-        style={{ fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.75, marginBottom: '0.75rem' }}
+        style={{ fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.75, marginBottom: '0.75rem' }}
       >
         {label}
       </p>
@@ -399,6 +399,8 @@ export default function ProjectDetail({ project, next }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       // Hero: entra en mount sin scroll
       gsap.timeline({ delay: 0.15 })

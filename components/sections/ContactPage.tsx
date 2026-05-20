@@ -62,6 +62,8 @@ export default function ContactPage() {
   }, [])
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       gsap.fromTo('.cp-badge', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 })
       gsap.fromTo('.cp-heading', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out', delay: 0.35 })
@@ -210,7 +212,7 @@ export default function ContactPage() {
           <a
             href="mailto:contacto@german-gomez.es"
             className="group relative inline-block font-anybody"
-            style={{ fontSize: 'clamp(1rem, 2vw, 1.7rem)', fontWeight: 600, color: '#7DB892' }}
+            style={{ fontSize: 'clamp(1rem, 2vw, 1.7rem)', fontWeight: 600, color: '#7DB892', wordBreak: 'break-all', overflowWrap: 'break-word' }}
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#DDD0BC' }}
             onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#7DB892' }}
           >

@@ -80,7 +80,7 @@ function Label({ children, color }: { children: string; color: string }) {
     <p
       className="font-cabinet"
       style={{
-        fontSize: 'clamp(0.6rem, 0.7vw, 0.65rem)',
+        fontSize: 'clamp(0.7rem, 0.75vw, 0.75rem)',
         color,
         letterSpacing: '0.14em',
         textTransform: 'uppercase',
@@ -103,6 +103,7 @@ export default function Projects() {
     const sis    = sistemasRef.current
     const dig    = digitalesRef.current
     if (!header || !sis || !dig) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const vw = window.innerWidth / 100
 
@@ -232,7 +233,7 @@ export default function Projects() {
                   href={`/work/${p.slug}`}
                   className="group font-cabinet flex items-center gap-1.5"
                   style={{
-                    fontSize: 'clamp(0.7rem, 0.85vw, 0.8rem)',
+                    fontSize: 'clamp(0.8rem, 0.85vw, 0.9rem)',
                     color: p.accent,
                     letterSpacing: '0.06em',
                     opacity: 0.8,
@@ -433,7 +434,7 @@ export default function Projects() {
                     >
                       {p.metric}
                     </p>
-                    <p className="font-cabinet" style={{ fontSize: 'clamp(0.6rem, 0.75vw, 0.7rem)', color: p.accent, opacity: 0.6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    <p className="font-cabinet" style={{ fontSize: 'clamp(0.7rem, 0.75vw, 0.75rem)', color: p.accent, opacity: 0.6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                       {p.metricLabel}
                     </p>
                     <p className="font-cabinet text-cream-dim" style={{ fontSize: 'clamp(0.75rem, 0.95vw, 0.9rem)', lineHeight: 1.7, marginTop: '0.75em' }}>
@@ -448,11 +449,11 @@ export default function Projects() {
                       key={tag}
                       className="font-cabinet"
                       style={{
-                        fontSize: 'clamp(0.55rem, 0.7vw, 0.65rem)',
+                        fontSize: 'clamp(0.65rem, 0.7vw, 0.75rem)',
                         color: p.accent,
                         border: `1px solid ${p.accent}35`,
                         borderRadius: 3,
-                        padding: '3px 9px',
+                        padding: '4px 10px',
                         letterSpacing: '0.07em',
                       }}
                     >

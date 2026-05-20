@@ -31,6 +31,8 @@ export default function AboutContent() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       // Hero: entra en mount
       gsap.timeline({ delay: 0.15 })

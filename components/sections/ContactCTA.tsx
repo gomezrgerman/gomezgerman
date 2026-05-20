@@ -55,6 +55,8 @@ export default function ContactCTA({
   }, [])
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.cta-badge',
@@ -252,7 +254,7 @@ export default function ContactCTA({
           <a
             href="mailto:contacto@german-gomez.es"
             className="group relative inline-block font-anybody"
-            style={{ fontSize: 'clamp(1rem, 2vw, 1.7rem)', fontWeight: 600, color: '#7DB892' }}
+            style={{ fontSize: 'clamp(1rem, 2vw, 1.7rem)', fontWeight: 600, color: '#7DB892', wordBreak: 'break-all', overflowWrap: 'break-word' }}
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#DDD0BC' }}
             onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#7DB892' }}
           >

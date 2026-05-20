@@ -11,6 +11,8 @@ export default function MiniAbout() {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.mini-about-left',
@@ -104,6 +106,7 @@ export default function MiniAbout() {
                     lineHeight: 1,
                     marginBottom: '0.4rem',
                     color: '#7DB892',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {num}

@@ -82,6 +82,8 @@ export default function Hero() {
 
   // ── GSAP — entrada ─────────────────────────────────────────────────────
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       const mobile = window.innerWidth < 768
 

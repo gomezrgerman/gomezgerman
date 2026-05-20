@@ -60,7 +60,7 @@ export default function ProjectCard({
   // transición suave al salir.
   const transition = active
     ? 'border-color 0.15s ease'
-    : 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
+    : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
 
   return (
     <Link
@@ -70,6 +70,7 @@ export default function ProjectCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
+        touchAction: 'manipulation',
         backgroundColor: 'var(--color-bg-card)',
         border: `1px solid ${active ? 'var(--color-green)' : 'var(--color-border)'}`,
         borderRadius: '4px',

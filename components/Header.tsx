@@ -80,10 +80,12 @@ export default function Header() {
 
         {/* Hamburger — solo mobile */}
         <button
-          className="flex flex-col justify-center gap-[5px] p-2 md:hidden"
+          className="flex flex-col justify-center gap-[5px] md:hidden"
+          style={{ minWidth: 44, minHeight: 44, padding: '10px 8px' }}
           onClick={() => setMenuOpen(true)}
           aria-label="Abrir menú"
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <span className="block h-px w-6 bg-cream" />
           <span className="block h-px w-6 bg-cream" />
@@ -116,6 +118,10 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
 function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <div
+      id="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menú de navegación"
       aria-hidden={!open}
       className="fixed inset-0 z-[60] flex flex-col items-center justify-center"
       style={{
@@ -123,13 +129,17 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
         clipPath: open ? 'inset(0 0 0% 0)' : 'inset(0 0 100% 0)',
         transition: 'clip-path 0.6s cubic-bezier(0.76, 0, 0.24, 1)',
         pointerEvents: open ? 'auto' : 'none',
+        overscrollBehavior: 'contain',
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
       }}
     >
       {/* Botón cerrar — posicionado donde estaba el hamburger */}
       <button
         onClick={onClose}
         aria-label="Cerrar menú"
-        className="absolute right-8 top-[1.65rem] flex h-8 w-8 items-center justify-center"
+        className="absolute right-6 top-[1.25rem] flex items-center justify-center"
+        style={{ minWidth: 44, minHeight: 44 }}
       >
         <span className="absolute block h-px w-6 rotate-45 bg-cream" />
         <span className="absolute block h-px w-6 -rotate-45 bg-cream" />
