@@ -90,7 +90,7 @@ export default function HeroLogoReveal() {
             <p
               className="font-anybody"
               style={{
-                fontSize: 'clamp(1.8rem, 4.2vw, 5.2rem)',
+                fontSize: 'clamp(1.1rem, 2.8vw, 3.4rem)',
                 fontWeight: 700,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
