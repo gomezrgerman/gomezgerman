@@ -32,7 +32,6 @@ export default function HeroLogoReveal() {
       style={{
         position: 'relative',
         display: 'inline-block',
-        width: 'clamp(260px, 52vw, 820px)',
         userSelect: 'none',
       }}
       whileHover={{ scale: 1.025, rotate: -2.8 }}
