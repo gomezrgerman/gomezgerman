@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${project.title} — Germán Gómez`,
     description: project.shortDescription,
+    alternates: {
+      canonical: `/work/${params.slug}`,
+    },
   }
 }
 

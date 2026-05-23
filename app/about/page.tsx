@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     description: 'Consultor de automatización digital y desarrollo web en la Marina Alta, Alicante.',
     locale: 'es_ES',
     type: 'profile',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
+  alternates: {
+    canonical: '/about',
   },
 }
 

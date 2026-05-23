@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     title: 'Germán Gómez — Automatización & Desarrollo Web',
     description: 'Sistemas de automatización para negocios reales.',
   },
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function Home() {
