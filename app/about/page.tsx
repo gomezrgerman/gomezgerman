@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import PageTransition from '@/components/PageTransition'
 import AboutContent from '@/components/sections/AboutContent'
 
 export const metadata: Metadata = {
@@ -16,9 +15,5 @@ export const metadata: Metadata = {
 }
 
 export default function About() {
-  return (
-    <PageTransition>
-      <AboutContent />
-    </PageTransition>
-  )
+  return <AboutContent />
 }

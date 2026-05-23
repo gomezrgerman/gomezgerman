@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { hexAlpha } from '@/lib/utils'
+import ContactForm from '@/components/sections/ContactForm'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,7 +25,7 @@ const FAQS = [
 
 export default function ContactPage() {
   const sectionRef = useRef<HTMLElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const canvasRef  = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -31,10 +33,16 @@ export default function ContactPage() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     let rafId: number
+    let visible = true
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
     resize()
-    const obs = new ResizeObserver(resize)
-    obs.observe(canvas)
+    const resizeObs = new ResizeObserver(resize)
+    resizeObs.observe(canvas)
+    const visibilityObs = new IntersectionObserver(
+      ([e]) => { visible = e.isIntersecting },
+      { threshold: 0 },
+    )
+    visibilityObs.observe(canvas)
     const orbs = [
       { cx: 0.12, cy: 0.25, r: 0.65, hex: '#4A7C59', alpha: 0.22, phase: 0 },
       { cx: 0.88, cy: 0.75, r: 0.55, hex: '#7DB892', alpha: 0.12, phase: Math.PI },
@@ -42,6 +50,8 @@ export default function ContactPage() {
     ]
     let t = 0
     const draw = () => {
+      rafId = requestAnimationFrame(draw)
+      if (!visible) return
       const W = canvas.width; const H = canvas.height
       ctx.clearRect(0, 0, W, H)
       for (const o of orbs) {
@@ -55,24 +65,24 @@ export default function ContactPage() {
         ctx.fillRect(0, 0, W, H)
       }
       t += 0.003
-      rafId = requestAnimationFrame(draw)
     }
     draw()
-    return () => { cancelAnimationFrame(rafId); obs.disconnect() }
+    return () => { cancelAnimationFrame(rafId); resizeObs.disconnect(); visibilityObs.disconnect() }
   }, [])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {
-      gsap.fromTo('.cp-badge', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 })
+      gsap.fromTo('.cp-badge',   { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 })
       gsap.fromTo('.cp-heading', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out', delay: 0.35 })
       gsap.fromTo(
         '.cp-divider',
         { scaleX: 0, opacity: 0, transformOrigin: 'left center' },
         { scaleX: 1, opacity: 1, duration: 1.0, ease: 'power3.out', delay: 0.75 },
       )
-      gsap.fromTo('.cp-contact', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.9 })
+      gsap.fromTo('.cp-form',    { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.9 })
+      gsap.fromTo('.cp-contact', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 1.05 })
 
       gsap.fromTo(
         '.cp-faq-label',
@@ -196,18 +206,32 @@ export default function ContactPage() {
         }}
       />
 
-      {/* Contact channels */}
+      {/* Formulario de contacto */}
+      <div
+        className="cp-form relative z-10"
+        style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}
+      >
+        <p
+          className="font-cabinet text-cream-dim"
+          style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1.5rem' }}
+        >
+          Escríbeme
+        </p>
+        <ContactForm />
+      </div>
+
+      {/* Alternativas de contacto */}
       <div
         className="cp-contact relative z-10 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16"
-        style={{ alignItems: 'end', marginBottom: 'clamp(4rem, 8vw, 8rem)' }}
+        style={{ alignItems: 'end', marginBottom: 'clamp(4rem, 8vw, 8rem)', borderTop: '1px solid rgba(125,184,146,0.15)', paddingTop: 'clamp(2rem, 4vw, 3rem)' }}
       >
-        {/* Email */}
+        {/* Email directo */}
         <div className="flex flex-col gap-4">
           <p
             className="font-cabinet text-cream-dim"
             style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}
           >
-            Escríbeme directamente
+            O escríbeme directamente
           </p>
           <a
             href="mailto:contacto@german-gomez.es"
@@ -340,11 +364,4 @@ function WhatsAppIcon() {
       />
     </svg>
   )
-}
-
-function hexAlpha(hex: string, alpha: number): string {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import PageTransition from '@/components/PageTransition'
 import ContactPage from '@/components/sections/ContactPage'
 
 export const metadata: Metadata = {
@@ -10,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function Contacto() {
   return (
-    <PageTransition>
-      <main>
-        <ContactPage />
-      </main>
-    </PageTransition>
+    <main>
+      <ContactPage />
+    </main>
   )
 }

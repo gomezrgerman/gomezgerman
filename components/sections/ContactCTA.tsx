@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { hexAlpha } from '@/lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,10 +25,16 @@ export default function ContactCTA({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     let rafId: number
+    let visible = true
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
     resize()
-    const obs = new ResizeObserver(resize)
-    obs.observe(canvas)
+    const resizeObs = new ResizeObserver(resize)
+    resizeObs.observe(canvas)
+    const visibilityObs = new IntersectionObserver(
+      ([e]) => { visible = e.isIntersecting },
+      { threshold: 0 },
+    )
+    visibilityObs.observe(canvas)
     const orbs = [
       { cx: 0.12, cy: 0.25, r: 0.65, hex: '#4A7C59', alpha: 0.22, phase: 0 },
       { cx: 0.88, cy: 0.75, r: 0.55, hex: '#7DB892', alpha: 0.12, phase: Math.PI },
@@ -35,6 +42,8 @@ export default function ContactCTA({
     ]
     let t = 0
     const draw = () => {
+      rafId = requestAnimationFrame(draw)
+      if (!visible) return
       const W = canvas.width; const H = canvas.height
       ctx.clearRect(0, 0, W, H)
       for (const o of orbs) {
@@ -48,10 +57,9 @@ export default function ContactCTA({
         ctx.fillRect(0, 0, W, H)
       }
       t += 0.003
-      rafId = requestAnimationFrame(draw)
     }
     draw()
-    return () => { cancelAnimationFrame(rafId); obs.disconnect() }
+    return () => { cancelAnimationFrame(rafId); resizeObs.disconnect(); visibilityObs.disconnect() }
   }, [])
 
   useEffect(() => {
@@ -306,9 +314,3 @@ export default function ContactCTA({
   )
 }
 
-function hexAlpha(hex: string, alpha: number): string {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
-}

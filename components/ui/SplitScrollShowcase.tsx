@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import React from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export interface SplitPage {
   left: React.ReactNode
@@ -29,18 +33,18 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
 
   useEffect(() => {
     if (isMobile) return
-    const handleScroll = () => {
-      if (!wrapperRef.current) return
-      const rect     = wrapperRef.current.getBoundingClientRect()
-      const scrolled = Math.max(0, -rect.top)
-      const total    = wrapperRef.current.offsetHeight - window.innerHeight
-      if (total <= 0) return
-      const progress = Math.min(1, scrolled / total)
-      const idx = Math.min(pages.length - 1, Math.floor(progress * pages.length))
-      setCurrent(idx)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    if (!wrapperRef.current) return
+
+    const st = ScrollTrigger.create({
+      trigger: wrapperRef.current,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const idx = Math.min(pages.length - 1, Math.floor(self.progress * pages.length))
+        setCurrent(idx)
+      },
+    })
+    return () => st.kill()
   }, [pages.length, isMobile])
 
   // ── Mobile: paneles apilados verticalmente ──────────────────────────────

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import PageTransition from '@/components/PageTransition'
 import Hero from '@/components/sections/Hero'
 import Projects from '@/components/sections/Projects'
 import MiniAbout from '@/components/sections/MiniAbout'
@@ -24,15 +23,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <PageTransition>
-      <main>
-        <div style={{ backgroundColor: '#152B1C' }}>
-          <Hero />
-          <Projects />
-        </div>
-        <MiniAbout />
-        <ContactCTA />
-      </main>
-    </PageTransition>
+    <main>
+      <div style={{ backgroundColor: '#152B1C' }}>
+        <Hero />
+        <Projects />
+      </div>
+      <MiniAbout />
+      <ContactCTA />
+    </main>
   )
 }

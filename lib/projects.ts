@@ -26,6 +26,17 @@ export interface Project {
   placeholderColor: string
   media?: MediaItem[]
   liveUrl?: string
+  // Home-section display fields
+  homeSubtitle?: string
+  homeVideo?: string
+  homePosterImg?: string
+  homeDualImages?: string[]
+  homeHasPipeline?: boolean
+  homeMetric?: string
+  homeMetricLabel?: string
+  homeProblem?: string
+  homeSolution?: string
+  homeResult?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -52,6 +63,15 @@ export const PROJECTS: Project[] = [
     ],
     accentColor: '#4A7C59',
     placeholderColor: '#0d1f12',
+    homeSubtitle: 'Ecosistema Digital',
+    homeMetric: '150+',
+    homeMetricLabel: 'clientes gestionados',
+    homeVideo: '/img/g2fit-demo-web.mp4',
+    homePosterImg: '/img/g2fit-mobile.jpg',
+    homeDualImages: ['/img/pwa-g2fit1.png', '/img/pwa-g2fit2.png'],
+    homeProblem: '150+ clientes y 3 trainers gestionados con papel y WhatsApp. Sin control de bonos, sin pagos online, sin visibilidad real del negocio.',
+    homeSolution: 'Web pública con chatbot IA, gestión de bonos en tiempo real, sistema de pagos y PWA instalable para que trainers y clientes accedan sin fricción.',
+    homeResult: 'De caos operativo a sistema digital completo. Control total del negocio desde el móvil.',
     media: [
       { src: '/img/g2fit-demo-web.mp4',          type: 'video', label: 'Web pública',          frame: 'phone'    },
       { src: '/img/pwa-g2fit1.png',             type: 'image', label: 'Control de asistencia', frame: 'browser' },
@@ -83,6 +103,14 @@ export const PROJECTS: Project[] = [
     ],
     accentColor: '#A89F8C',
     placeholderColor: '#1a160e',
+    homeSubtitle: 'Dietas a medida en minutos',
+    homeMetric: '−95%',
+    homeMetricLabel: 'tiempo por cliente',
+    homeDualImages: ['/img/nutri_app.png', '/img/nutri_app2.png'],
+    homeHasPipeline: true,
+    homeProblem: '2–3 horas por paciente creando planes nutricionales a mano. Tiempo que no se puede escalar ni rentabilizar.',
+    homeSolution: 'La nutricionista recibe el plan ya listo en su email. Sin tocar herramientas nuevas, sin aprender nada técnico. Solo revisa, valida con un clic y la paciente lo recibe al instante.',
+    homeResult: 'De 2–3 horas a menos de 5 minutos por cliente. Un sistema que ahora puede vender a otras nutricionistas.',
   },
   {
     number: '03',
@@ -107,6 +135,15 @@ export const PROJECTS: Project[] = [
     ],
     accentColor: '#C17B5A',
     placeholderColor: '#1f1212',
+    homeSubtitle: 'Web + Reservas + CRM',
+    homeMetric: '24/7',
+    homeMetricLabel: 'reservas automáticas',
+    homeVideo: '/img/d-bonita-demo.mp4',
+    homePosterImg: '/img/hero-dbonita.png',
+    homeDualImages: ['/img/dbonita-admin.png', '/img/dbonita-admin1.png'],
+    homeProblem: 'Agenda de papel y WhatsApp como único sistema. Sin historial de clientes, sin pagos online, dependencia total del teléfono.',
+    homeSolution: 'Web con identidad propia, reservas online, pagos integrados y PWA que actúa como CRM con historial completo de cada clienta.',
+    homeResult: 'Reservas 24/7 sin intervención manual. CRM completo en el bolsillo de la propietaria.',
     media: [
       { src: '/img/d-bonita-demo.mp4',           type: 'video', label: 'Web pública',          frame: 'phone'   },
       { src: '/img/dbonita-admin.png',    type: 'image', label: 'Panel de gestión',    frame: 'browser' },

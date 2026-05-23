@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { PROJECTS, getProject, getNextProject } from '@/lib/projects'
-import PageTransition from '@/components/PageTransition'
 import ProjectDetail from '@/components/sections/ProjectDetail'
 
 interface Props {
@@ -27,9 +26,5 @@ export default function ProjectPage({ params }: Props) {
 
   const next = getNextProject(params.slug)
 
-  return (
-    <PageTransition>
-      <ProjectDetail project={project} next={next} />
-    </PageTransition>
-  )
+  return <ProjectDetail project={project} next={next} />
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import PageTransition from '@/components/PageTransition'
 import WorkList from '@/components/sections/WorkList'
 
 export const metadata: Metadata = {
@@ -10,10 +9,8 @@ export const metadata: Metadata = {
 
 export default function Work() {
   return (
-    <PageTransition>
-      <main>
-        <WorkList />
-      </main>
-    </PageTransition>
+    <main>
+      <WorkList />
+    </main>
   )
 }
