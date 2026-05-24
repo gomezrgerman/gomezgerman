@@ -211,12 +211,21 @@ export default function ContactPage() {
         className="cp-form relative z-10"
         style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}
       >
-        <p
-          className="font-cabinet text-cream-dim"
-          style={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1.5rem' }}
-        >
-          Escríbeme
-        </p>
+        <div style={{ marginBottom: 'clamp(1.75rem, 3vw, 2.5rem)' }}>
+          <p
+            className="font-anybody text-cream"
+            style={{ fontSize: 'clamp(1.1rem, 1.6vw, 1.375rem)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.4, marginBottom: '0.5rem' }}
+          >
+            Cuéntame qué necesitas.
+          </p>
+          <p
+            className="font-cabinet text-cream-dim"
+            style={{ fontSize: 'clamp(0.875rem, 1.1vw, 1rem)', lineHeight: 1.75 }}
+          >
+            Si veo que puedo ayudarte, te responderé con una propuesta clara.<br />
+            Si no, también te lo diré.
+          </p>
+        </div>
         <ContactForm />
       </div>
 

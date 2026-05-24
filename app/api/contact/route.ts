@@ -45,14 +45,14 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { nombre, email, negocio, mensaje, _trap } = body
+    const { nombre, email, negocio, problema, presupuesto, timing, _trap } = body
 
     if (_trap) return NextResponse.json({ ok: true })
 
-    if (!nombre?.trim() || !email?.trim() || !negocio?.trim() || !mensaje?.trim()) {
+    if (!nombre?.trim() || !email?.trim() || !negocio?.trim() || !problema?.trim()) {
       return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 })
     }
-    if (nombre.trim().length > 100 || mensaje.trim().length > 2000) {
+    if (nombre.trim().length > 100 || problema.trim().length > 2000) {
       return NextResponse.json({ error: 'Campos demasiado largos.' }, { status: 400 })
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
         to:      'contacto@german-gomez.es',
         replyTo: email,
         subject: `Portfolio: mensaje de ${safeNombre}${safeNegocio ? ` (${safeNegocio})` : ''}`,
-        html: buildNotificationHtml({ nombre, email, negocio, mensaje }),
+        html: buildNotificationHtml({ nombre, email, negocio, problema, presupuesto, timing }),
       }),
       // Acuse de recibo al cliente
       transporter.sendMail({
@@ -91,8 +91,14 @@ export async function POST(req: NextRequest) {
 // ── Email templates ───────────────────────────────────────────────────────────
 
 function buildNotificationHtml({
-  nombre, email, negocio, mensaje,
-}: { nombre: string; email: string; negocio?: string; mensaje: string }): string {
+  nombre, email, negocio, problema, presupuesto, timing,
+}: { nombre: string; email: string; negocio: string; problema: string; presupuesto?: string; timing?: string }): string {
+  const row = (label: string, value: string, last = false) => `
+    <tr><td style="padding:20px 0;${last ? '' : 'border-bottom:1px solid #1E1E1E'}">
+      <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A89F8C">${label}</p>
+      <p style="margin:0;font-size:15px;color:#F5F0E8;line-height:1.7;white-space:pre-wrap">${escapeHtml(value)}</p>
+    </td></tr>`
+
   return `<!DOCTYPE html>
 <html lang="es">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -100,31 +106,23 @@ function buildNotificationHtml({
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
-        <tr><td style="background:#152B1C;border-radius:4px 4px 0 0;padding:32px 40px;border-bottom:1px solid rgba(125,184,146,0.2)">
+        <tr><td style="background:#152B1C;border-radius:4px 4px 0 0;padding:28px 40px;border-bottom:1px solid rgba(125,184,146,0.2)">
           <p style="margin:0;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7DB892">Nuevo mensaje del portfolio</p>
         </td></tr>
-        <tr><td style="background:#111;padding:40px;border-radius:0 0 4px 4px;border:1px solid #1E1E1E;border-top:none">
+        <tr><td style="background:#111;padding:32px 40px;border-radius:0 0 4px 4px;border:1px solid #1E1E1E;border-top:none">
           <table width="100%" cellpadding="0" cellspacing="0">
-            <tr><td style="padding-bottom:24px;border-bottom:1px solid #1E1E1E">
-              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A89F8C">Nombre</p>
-              <p style="margin:0;font-size:16px;color:#F5F0E8">${escapeHtml(nombre)}</p>
-            </td></tr>
-            <tr><td style="padding:24px 0;border-bottom:1px solid #1E1E1E">
+            ${row('Nombre', nombre)}
+            <tr><td style="padding:20px 0;border-bottom:1px solid #1E1E1E">
               <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A89F8C">Email</p>
-              <p style="margin:0;font-size:16px"><a href="mailto:${escapeHtml(email)}" style="color:#7DB892;text-decoration:none">${escapeHtml(email)}</a></p>
+              <p style="margin:0;font-size:15px"><a href="mailto:${escapeHtml(email)}" style="color:#7DB892;text-decoration:none">${escapeHtml(email)}</a></p>
             </td></tr>
-            ${negocio?.trim() ? `
-            <tr><td style="padding:24px 0;border-bottom:1px solid #1E1E1E">
-              <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A89F8C">Negocio</p>
-              <p style="margin:0;font-size:16px;color:#F5F0E8">${escapeHtml(negocio)}</p>
-            </td></tr>` : ''}
-            <tr><td style="padding-top:24px">
-              <p style="margin:0 0 12px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A89F8C">Mensaje</p>
-              <p style="margin:0;font-size:15px;color:#F5F0E8;line-height:1.8;white-space:pre-wrap">${escapeHtml(mensaje)}</p>
-            </td></tr>
+            ${row('Negocio', negocio)}
+            ${presupuesto?.trim() ? row('Presupuesto', presupuesto) : ''}
+            ${timing?.trim()      ? row('Timing', timing)           : ''}
+            ${row('¿Qué quiere resolver?', problema, true)}
           </table>
         </td></tr>
-        <tr><td style="padding:20px 0 0;text-align:center">
+        <tr><td style="padding:16px 0 0;text-align:center">
           <p style="margin:0;font-size:11px;color:rgba(168,159,140,0.4);letter-spacing:0.08em">german-gomez.es</p>
         </td></tr>
       </table>

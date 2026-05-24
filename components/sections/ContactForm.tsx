@@ -4,9 +4,14 @@ import { useState } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
+const PRESUPUESTO_OPTIONS = ['Menos de 500€', '500€ – 1.500€', '1.500€ – 5.000€', '+5.000€']
+const TIMING_OPTIONS      = ['Esta semana', 'Este mes', 'Estoy valorándolo todavía']
+
 export default function ContactForm() {
-  const [status, setStatus]     = useState<Status>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
+  const [status, setStatus]         = useState<Status>('idle')
+  const [errorMsg, setErrorMsg]     = useState('')
+  const [presupuesto, setPresupuesto] = useState('')
+  const [timing, setTiming]         = useState('')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -15,11 +20,13 @@ export default function ContactForm() {
 
     const form = e.currentTarget
     const data = {
-      nombre:  (form.elements.namedItem('nombre')  as HTMLInputElement).value,
-      email:   (form.elements.namedItem('email')   as HTMLInputElement).value,
-      negocio: (form.elements.namedItem('negocio') as HTMLInputElement).value,
-      mensaje: (form.elements.namedItem('mensaje') as HTMLTextAreaElement).value,
-      _trap:   (form.elements.namedItem('_trap')   as HTMLInputElement).value,
+      nombre:      (form.elements.namedItem('nombre')   as HTMLInputElement).value,
+      email:       (form.elements.namedItem('email')    as HTMLInputElement).value,
+      negocio:     (form.elements.namedItem('negocio')  as HTMLInputElement).value,
+      problema:    (form.elements.namedItem('problema') as HTMLTextAreaElement).value,
+      presupuesto,
+      timing,
+      _trap:       (form.elements.namedItem('_trap')    as HTMLInputElement).value,
     }
 
     try {
@@ -35,6 +42,8 @@ export default function ContactForm() {
       } else {
         setStatus('success')
         form.reset()
+        setPresupuesto('')
+        setTiming('')
       }
     } catch {
       setStatus('error')
@@ -46,38 +55,48 @@ export default function ContactForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%' }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}
     >
       {/* Honeypot anti-spam */}
       <input name="_trap" type="text" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" aria-hidden />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Field label="Nombre"  name="nombre" required />
-        <Field label="Email"   name="email"  type="email" required />
+        <Field label="Nombre"  name="nombre"  required />
+        <Field label="Email"   name="email"   type="email" required />
       </div>
 
       <Field label="Negocio" name="negocio" required />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <label
-          htmlFor="mensaje"
-          className="font-cabinet"
-          style={labelStyle}
-        >
-          Mensaje *
+        <label htmlFor="problema" className="font-cabinet" style={labelStyle}>
+          ¿Qué estás intentando resolver realmente? *
         </label>
         <textarea
-          id="mensaje"
-          name="mensaje"
+          id="problema"
+          name="problema"
           required
-          rows={5}
-          placeholder="Cuéntame qué proceso te está costando tiempo o dinero."
+          rows={4}
+          placeholder="Describe el problema, el proceso que falla, lo que te está costando tiempo o dinero."
           className="font-cabinet"
           style={inputStyle}
-          onFocus={e  => { e.currentTarget.style.borderColor = 'rgba(125,184,146,0.5)' }}
-          onBlur={e   => { e.currentTarget.style.borderColor = 'rgba(125,184,146,0.2)' }}
+          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(125,184,146,0.5)' }}
+          onBlur={e  => { e.currentTarget.style.borderColor = 'rgba(125,184,146,0.2)' }}
         />
       </div>
+
+      <RadioGroup
+        label="Presupuesto estimado"
+        options={PRESUPUESTO_OPTIONS}
+        value={presupuesto}
+        onChange={setPresupuesto}
+      />
+
+      <RadioGroup
+        label="¿Cuándo quieres tener esto funcionando?"
+        options={TIMING_OPTIONS}
+        value={timing}
+        onChange={setTiming}
+      />
 
       {status === 'error' && (
         <p className="font-cabinet" style={{ fontSize: '0.875rem', color: '#e07070', margin: 0 }}>
@@ -86,10 +105,7 @@ export default function ContactForm() {
       )}
 
       {status === 'success' ? (
-        <p
-          className="font-cabinet"
-          style={{ fontSize: '0.9375rem', color: '#7DB892', lineHeight: 1.6 }}
-        >
+        <p className="font-cabinet" style={{ fontSize: '0.9375rem', color: '#7DB892', lineHeight: 1.6 }}>
           Mensaje enviado. Te respondo en menos de 24 horas.
         </p>
       ) : (
@@ -125,6 +141,41 @@ export default function ContactForm() {
         </button>
       )}
     </form>
+  )
+}
+
+function RadioGroup({
+  label, options, value, onChange,
+}: {
+  label: string; options: string[]; value: string; onChange: (v: string) => void
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+      <span className="font-cabinet" style={labelStyle}>{label}</span>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+        {options.map(opt => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange(value === opt ? '' : opt)}
+            className="font-cabinet"
+            style={{
+              border: `1px solid ${value === opt ? 'rgba(125,184,146,0.65)' : 'rgba(125,184,146,0.2)'}`,
+              borderRadius: 4,
+              padding: '0.5rem 0.875rem',
+              background: value === opt ? 'rgba(125,184,146,0.1)' : 'transparent',
+              color: value === opt ? '#7DB892' : 'rgba(168,159,140,0.65)',
+              fontSize: '0.875rem',
+              cursor: 'pointer',
+              transition: 'all 0.18s ease',
+              lineHeight: 1.4,
+            }}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
   )
 }
 
