@@ -184,10 +184,16 @@ function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
 
                   <!-- Mensaje -->
                   <p style="margin:0 0 16px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    He recibido tu mensaje y lo estoy leyendo. En menos de 24 horas te respondo con algo concreto.
+                    Ya lo he leído. Estoy pensando en cómo se resuelve.
                   </p>
-                  <p style="margin:0;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    Si necesitas algo urgente, responde directamente a este correo.
+                  <p style="margin:0 0 24px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    En menos de 24 horas te escribo con algo concreto para tu caso — no una propuesta genérica ni una reunión de dos horas para "entender tu negocio".
+                  </p>
+                  <a href="https://german-gomez.es/work" style="display:inline-block;font-size:12px;color:rgba(125,184,146,0.7);text-decoration:none;font-family:Georgia,serif;letter-spacing:0.08em;border-bottom:1px solid rgba(125,184,146,0.25);padding-bottom:2px;margin-bottom:24px">
+                    Ver proyectos reales →
+                  </a>
+                  <p style="margin:0;font-size:13px;color:rgba(168,159,140,0.5);line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    Si no puedes esperar, responde a este correo.
                   </p>
 
                 </td></tr>
