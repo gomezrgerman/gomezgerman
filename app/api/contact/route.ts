@@ -166,6 +166,11 @@ function buildAutoReplyHtml({ nombre, negocio }: { nombre: string; negocio: stri
               <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(125,184,146,0.18);border-radius:2px;background:rgba(74,124,89,0.08)">
                 <tr><td style="padding:48px 44px 44px;text-align:center">
 
+                  <!-- Label -->
+                  <p style="margin:0 0 24px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(125,184,146,0.55);font-family:Georgia,serif">
+                    Germán Gómez
+                  </p>
+
                   <!-- Texto principal -->
                   <h1 style="margin:0 0 8px;font-size:64px;font-weight:800;letter-spacing:-0.04em;line-height:0.9;color:#F5F0E8;font-family:'Anybody',Georgia,serif">
                     Recibido.
@@ -178,17 +183,24 @@ function buildAutoReplyHtml({ nombre, negocio }: { nombre: string; negocio: stri
                   <div style="height:1px;background:rgba(125,184,146,0.25);margin:0 auto 32px;width:60px"></div>
 
                   <!-- Mensaje -->
-                  <p style="margin:0 0 16px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    Ya lo he leído. Estoy pensando en cómo se puede mejorar lo de <strong style="color:#F5F0E8;font-weight:normal">${escapeHtml(negocio)}</strong>.
+                  <p style="margin:0 0 20px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    Ya he leído lo que necesitas.
                   </p>
-                  <p style="margin:0 0 24px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    En menos de 24 horas te escribo con algo concreto — no una propuesta genérica ni una reunión de dos horas para "entender tu negocio".
+                  <p style="margin:0 0 20px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    Ahora toca la parte importante:<br>
+                    ver si realmente merece la pena hacerlo y cómo hacerlo bien.
                   </p>
-                  <a href="https://german-gomez.es/work" style="display:inline-block;font-size:12px;color:rgba(125,184,146,0.7);text-decoration:none;font-family:Georgia,serif;letter-spacing:0.08em;border-bottom:1px solid rgba(125,184,146,0.25);padding-bottom:2px;margin-bottom:24px">
+                  <p style="margin:0 0 28px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    En menos de 24 horas te responderé con algo útil para tu caso.<br>
+                    No con una plantilla reciclada.<br>
+                    Ni con una videollamada eterna para &#8220;entender tu negocio&#8221;.
+                  </p>
+                  <a href="https://german-gomez.es/work" style="display:inline-block;font-size:12px;color:rgba(125,184,146,0.7);text-decoration:none;font-family:Georgia,serif;letter-spacing:0.08em;border-bottom:1px solid rgba(125,184,146,0.25);padding-bottom:2px;margin-bottom:28px">
                     Ver proyectos reales →
                   </a>
-                  <p style="margin:0;font-size:13px;color:rgba(168,159,140,0.5);line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    Si no puedes esperar, responde a este correo.
+                  <p style="margin:0;font-size:14px;color:rgba(168,159,140,0.6);line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
+                    Si tienes prisa, responde a este correo.<br>
+                    Aquí no responde un equipo de soporte. Respondo yo.
                   </p>
 
                 </td></tr>
