@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     if (_trap) return NextResponse.json({ ok: true })
 
-    if (!nombre?.trim() || !email?.trim() || !mensaje?.trim()) {
+    if (!nombre?.trim() || !email?.trim() || !negocio?.trim() || !mensaje?.trim()) {
       return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 })
     }
     if (nombre.trim().length > 100 || mensaje.trim().length > 2000) {
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         from:    `"Germán Gómez" <${process.env.SMTP_USER}>`,
         to:      email,
         subject: `Recibido, ${safeNombre} — te respondo pronto`,
-        html:    buildAutoReplyHtml({ nombre }),
+        html:    buildAutoReplyHtml({ nombre, negocio }),
       }),
     ])
 
@@ -134,7 +134,7 @@ function buildNotificationHtml({
 </html>`
 }
 
-function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
+function buildAutoReplyHtml({ nombre, negocio }: { nombre: string; negocio: string }): string {
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -144,10 +144,10 @@ function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
     @import url('https://fonts.googleapis.com/css2?family=Anybody:wght@700;800&display=swap');
   </style>
 </head>
-<body style="margin:0;padding:0;background:#0d2416;font-family:Georgia,'Times New Roman',serif">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0d2416;padding:48px 20px">
+<body bgcolor="#0d2416" style="margin:0;padding:0;background-color:#0d2416 !important;font-family:Georgia,'Times New Roman',serif">
+  <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#0d2416" style="background-color:#0d2416 !important;padding:48px 20px">
     <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
+      <table width="560" cellpadding="0" cellspacing="0" bgcolor="#0d2416" style="max-width:560px;width:100%;background-color:#0d2416 !important">
 
         <!-- Logo pequeño arriba -->
         <tr><td align="center" style="padding-bottom:40px">
@@ -166,11 +166,6 @@ function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
               <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(125,184,146,0.18);border-radius:2px;background:rgba(74,124,89,0.08)">
                 <tr><td style="padding:48px 44px 44px;text-align:center">
 
-                  <!-- Label superior -->
-                  <p style="margin:0 0 28px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(125,184,146,0.55);font-family:Georgia,serif">
-                    Germán Gómez · Marina Alta, Alicante
-                  </p>
-
                   <!-- Texto principal -->
                   <h1 style="margin:0 0 8px;font-size:64px;font-weight:800;letter-spacing:-0.04em;line-height:0.9;color:#F5F0E8;font-family:'Anybody',Georgia,serif">
                     Recibido.
@@ -184,10 +179,10 @@ function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
 
                   <!-- Mensaje -->
                   <p style="margin:0 0 16px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    Ya lo he leído. Estoy pensando en cómo se resuelve.
+                    Ya lo he leído. Estoy pensando en cómo se puede mejorar lo de <strong style="color:#F5F0E8;font-weight:normal">${escapeHtml(negocio)}</strong>.
                   </p>
                   <p style="margin:0 0 24px;font-size:15px;color:#A89F8C;line-height:1.8;font-family:Georgia,serif;max-width:380px;margin-left:auto;margin-right:auto">
-                    En menos de 24 horas te escribo con algo concreto para tu caso — no una propuesta genérica ni una reunión de dos horas para "entender tu negocio".
+                    En menos de 24 horas te escribo con algo concreto — no una propuesta genérica ni una reunión de dos horas para "entender tu negocio".
                   </p>
                   <a href="https://german-gomez.es/work" style="display:inline-block;font-size:12px;color:rgba(125,184,146,0.7);text-decoration:none;font-family:Georgia,serif;letter-spacing:0.08em;border-bottom:1px solid rgba(125,184,146,0.25);padding-bottom:2px;margin-bottom:24px">
                     Ver proyectos reales →

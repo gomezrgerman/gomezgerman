@@ -56,7 +56,7 @@ export default function ContactForm() {
         <Field label="Email"   name="email"  type="email" required />
       </div>
 
-      <Field label="Negocio (opcional)" name="negocio" />
+      <Field label="Negocio" name="negocio" required />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <label
