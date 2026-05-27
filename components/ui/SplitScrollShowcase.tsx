@@ -35,16 +35,28 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
     if (isMobile) return
     if (!wrapperRef.current) return
 
-    const st = ScrollTrigger.create({
-      trigger: wrapperRef.current,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        const idx = Math.min(pages.length - 1, Math.floor(self.progress * pages.length))
-        setCurrent(idx)
-      },
-    })
-    return () => st.kill()
+    let st: ReturnType<typeof ScrollTrigger.create> | undefined
+
+    // Delay to ensure layout is stable after SPA navigation
+    const timer = setTimeout(() => {
+      if (!wrapperRef.current) return
+      ScrollTrigger.refresh()
+
+      st = ScrollTrigger.create({
+        trigger: wrapperRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        onUpdate: (self) => {
+          const idx = Math.min(pages.length - 1, Math.floor(self.progress * pages.length))
+          setCurrent(idx)
+        },
+      })
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      st?.kill()
+    }
   }, [pages.length, isMobile])
 
   // ── Mobile: paneles apilados verticalmente ──────────────────────────────
@@ -83,44 +95,60 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
     )
   }
 
-  // ── Desktop: sticky scroll con animación ────────────────────────────────
+  // ── Desktop: sticky scroll con clip-path ────────────────────────────────
   return (
     <div ref={wrapperRef} style={{ height: `${pages.length * 100}vh` }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
         {pages.map((page, i) => {
           const isActive = current === i
+          const isPast = i < current
+          // Past pages stay open as background — active page clips in on top
+          const isVisible = isActive || isPast
+
           return (
-            <div key={i} style={{ position: 'absolute', inset: 0, zIndex: i + 1 }}>
-              {/* Left half — enters from bottom */}
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                // Active page always on top; past/future pages below by index
+                zIndex: isActive ? pages.length + 1 : i + 1,
+              }}
+            >
+              {/* Left half — reveals from bottom (top clip recedes 100% → 0%) */}
               <div
                 style={{
                   position: 'absolute',
                   top: 0, left: 0, width: '50%', height: '100%',
                   backgroundColor: page.leftBg ?? '#0a0a0a',
-                  transform: isActive ? 'translateY(0)' : 'translateY(100%)',
-                  transition: 'transform 900ms cubic-bezier(0.76, 0, 0.24, 1)',
-                  overflow: 'hidden',
+                  clipPath: isVisible ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
+                  transition: isActive
+                    ? 'clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1)'
+                    : 'none',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  overflow: 'hidden',
                 }}
               >
                 {page.left}
               </div>
 
-              {/* Right half — enters from top */}
+              {/* Right half — reveals from top (bottom clip recedes 100% → 0%) */}
               <div
                 style={{
                   position: 'absolute',
                   top: 0, left: '50%', width: '50%', height: '100%',
                   backgroundColor: page.rightBg ?? '#111',
-                  transform: isActive ? 'translateY(0)' : 'translateY(-100%)',
-                  transition: 'transform 900ms cubic-bezier(0.76, 0, 0.24, 1)',
-                  overflow: 'hidden',
+                  clipPath: isVisible ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
+                  transition: isActive
+                    ? 'clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1)'
+                    : 'none',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  overflow: 'hidden',
                 }}
               >
                 {page.right}
@@ -132,9 +160,13 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
         {/* Page indicator */}
         <div
           style={{
-            position: 'absolute', bottom: 28, left: '50%',
+            position: 'absolute',
+            bottom: 28,
+            left: '50%',
             transform: 'translateX(-50%)',
-            display: 'flex', gap: 6, zIndex: 100,
+            display: 'flex',
+            gap: 6,
+            zIndex: 100,
           }}
         >
           {pages.map((_, i) => (
