@@ -47,14 +47,11 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
 
       cont.style.zIndex = String(isActive ? pages.length + 1 : i + 1)
 
-      const transition = isActive
-        ? 'clip-path 800ms cubic-bezier(0.76, 0, 0.24, 1)'
-        : 'none'
-      left.style.transition  = transition
-      right.style.transition = transition
-
-      left.style.clipPath  = isVisible ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)'
-      right.style.clipPath = isVisible ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)'
+      const t = isActive ? 'clip-path 800ms cubic-bezier(0.76, 0, 0.24, 1)' : 'none'
+      left.style.transition  = t
+      right.style.transition = t
+      left.style.clipPath    = isVisible ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)'
+      right.style.clipPath   = isVisible ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)'
     })
 
     dotRefs.current.forEach((dot, i) => {
@@ -68,26 +65,47 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
     if (isMobile || !wrapperRef.current) return
 
     const wrapper = wrapperRef.current
-    let rafId: number
 
-    const tick = () => {
-      const rect            = wrapper.getBoundingClientRect()
-      const totalScrollable = wrapper.offsetHeight - window.innerHeight
-      const scrolled        = -rect.top
+    // Calcular la posición absoluta del wrapper en el documento
+    // getBoundingClientRect + scrollY da el offset desde el top del documento
+    let wrapperTop    = 0
+    let wrapperHeight = 0
+    let viewportH     = 0
 
-      if (scrolled >= 0 && scrolled <= totalScrollable) {
-        const progress = scrolled / totalScrollable
-        const idx = Math.min(pages.length - 1, Math.floor(progress * pages.length))
-        applyState(idx)
-      } else if (scrolled < 0) {
-        applyState(0)
-      }
-
-      rafId = requestAnimationFrame(tick)
+    const recalc = () => {
+      // scrollY debe ser 0 al calcular, o usar getBoundingClientRect + scrollY actual
+      wrapperTop    = wrapper.getBoundingClientRect().top + window.scrollY
+      wrapperHeight = wrapper.offsetHeight
+      viewportH     = window.innerHeight
     }
 
-    rafId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId)
+    recalc()
+    window.addEventListener('resize', recalc, { passive: true })
+
+    const onScroll = () => {
+      const totalScrollable = wrapperHeight - viewportH
+      if (totalScrollable <= 0) return
+
+      const scrolled = window.scrollY - wrapperTop
+
+      if (scrolled <= 0) {
+        applyState(0)
+        return
+      }
+      if (scrolled >= totalScrollable) return
+
+      const progress = scrolled / totalScrollable
+      const idx = Math.min(pages.length - 1, Math.floor(progress * pages.length))
+      applyState(idx)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll() // estado inicial
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', recalc)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages.length, isMobile])
 
@@ -97,10 +115,10 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
       <div>
         {pages.map((page, i) => (
           <div key={i}>
-            <div style={{ backgroundColor: page.leftBg ?? '#0a0a0a', minHeight: '50vw', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem 1.25rem' }}>
+            <div style={{ backgroundColor: page.leftBg ?? '#0a0a0a', minHeight: '60vw', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.25rem' }}>
               {page.left}
             </div>
-            <div style={{ backgroundColor: page.rightBg ?? '#111', minHeight: '50vw', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem 1.25rem' }}>
+            <div style={{ backgroundColor: page.rightBg ?? '#111', minHeight: '60vw', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.25rem' }}>
               {page.right}
             </div>
           </div>
@@ -109,7 +127,7 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
     )
   }
 
-  // ── Desktop: sticky con clip-path controlado por RAF ────────────────────
+  // ── Desktop: sticky con clip-path ────────────────────────────────────────
   return (
     <div ref={wrapperRef} style={{ height: `${pages.length * 100}vh` }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
@@ -120,7 +138,6 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
             ref={el => { containerRefs.current[i] = el }}
             style={{ position: 'absolute', inset: 0, zIndex: i + 1 }}
           >
-            {/* Left half — clip revela de abajo hacia arriba */}
             <div
               ref={el => { leftRefs.current[i] = el }}
               style={{
@@ -135,7 +152,6 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
               {page.left}
             </div>
 
-            {/* Right half — clip revela de arriba hacia abajo */}
             <div
               ref={el => { rightRefs.current[i] = el }}
               style={{
@@ -152,7 +168,6 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
           </div>
         ))}
 
-        {/* Indicador de página */}
         <div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 6, zIndex: 100 }}>
           {pages.map((_, i) => (
             <span

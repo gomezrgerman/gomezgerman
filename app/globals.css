@@ -79,7 +79,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: auto; /* Lenis se encarga del scroll suave */
-    overflow-x: hidden;
+    overflow-x: clip; /* clip no crea scroll container — no rompe position:sticky */
   }
 
   body {
@@ -88,7 +88,7 @@
     font-family: 'Cabinet Grotesk', sans-serif;
     font-weight: 400;
     cursor: none;
-    overflow-x: hidden;
+    overflow-x: clip; /* clip no crea scroll container — no rompe position:sticky */
     min-height: 100dvh;
     padding-bottom: env(safe-area-inset-bottom);
   }
