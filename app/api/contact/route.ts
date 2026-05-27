@@ -29,24 +29,25 @@ const transporter = nodemailer.createTransport({
 })
 
 async function saveToSupabase(data: Record<string, unknown>) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/submissions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''}`,
-    },
-    body: JSON.stringify({
-      type: 'contact',
-      lead_status: 'new',
-      created_at: new Date().toISOString(),
-      data,
-    }),
-  })
-  if (!response.ok) {
-    throw new Error(`Supabase error: ${response.status}`)
+const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/submissions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''}`,
+      },
+      body: JSON.stringify({
+        type: 'contact',
+        lead_status: 'new',
+        created_at: new Date().toISOString(),
+        data,
+      }),
+    })
+    const responseText = await response.text()
+    if (!response.ok) {
+      throw new Error(`Supabase error ${response.status}: ${responseText}`)
+    }
   }
-}
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
     }
 
     await saveToSupabase(submissionData).catch(err => {
-      console.warn('Supabase save failed:', err.message)
+      console.error('Supabase save failed:', err)
     })
 
     const safeNombre = sanitizeHeader(nombre)
