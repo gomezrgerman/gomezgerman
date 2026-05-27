@@ -29,25 +29,35 @@ const transporter = nodemailer.createTransport({
 })
 
 async function saveToSupabase(data: Record<string, unknown>) {
-const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/submissions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''}`,
-      },
-      body: JSON.stringify({
-        type: 'contact',
-        lead_status: 'new',
-        created_at: new Date().toISOString(),
-        data,
-      }),
-    })
-    const responseText = await response.text()
-    if (!response.ok) {
-      throw new Error(`Supabase error ${response.status}: ${responseText}`)
-    }
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.log('Supabase not configured - skipping save')
+    return
   }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/submissions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    body: JSON.stringify({
+      type: 'contact',
+      lead_status: 'new',
+      created_at: new Date().toISOString(),
+      data,
+    }),
+  })
+  const responseText = await response.text()
+  console.log('Supabase response status:', response.status)
+  console.log('Supabase response body:', responseText)
+  if (!response.ok) {
+    throw new Error(`Supabase error ${response.status}: ${responseText}`)
+  }
+}
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
