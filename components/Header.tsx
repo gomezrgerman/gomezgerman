@@ -10,6 +10,8 @@ const NAV_LINKS = [
   { label: 'Contacto', href: '/contacto' },
 ]
 
+const HIDE_HEADER_ROUTES = ['/onboarding', '/dashboard']
+
 export default function Header() {
   const [visible, setVisible] = useState(true)
   const [scrolled, setScrolled] = useState(false)
@@ -17,12 +19,12 @@ export default function Header() {
   const lastScrollY = useRef(0)
   const pathname = usePathname()
 
-  // Cierra el menú en cada cambio de ruta
+  const shouldHide = HIDE_HEADER_ROUTES.some((route) => pathname.startsWith(route))
+
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
 
-  // Lógica de show/hide según dirección de scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY
@@ -42,13 +44,14 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Bloquea scroll nativo mientras el menú mobile está abierto
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
   }, [menuOpen])
+
+  if (shouldHide) return null
 
   return (
     <>
