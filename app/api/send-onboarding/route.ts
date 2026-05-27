@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail({
       from: `"Germán Gómez" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: `Hola ${nombre}, para seguir adelante necesito conocer más sobre tu proyecto`,
+      subject: `${nombre} — un paso antes de empezar`,
       html: buildOnboardingEmailHtml({ nombre, onboardingUrl }),
     })
 
@@ -36,49 +36,71 @@ export async function POST(req: NextRequest) {
 }
 
 function buildOnboardingEmailHtml({ nombre, onboardingUrl }: { nombre: string; onboardingUrl: string }): string {
-  const BG = '#0a0a0a', GREEN = '#4A7C59', GREEN_LIGHT = '#7DB892', CREAM = '#F5F0E8', BORDER = '#1E1E1E', BG_CARD = '#111111'
+  const BG = '#0a0a0a', GREEN = '#4A7C59', GREEN_LIGHT = '#7DB892', CREAM = '#F5F0E8', CREAM_DIM = '#A89F8C', BORDER = '#1E1E1E', BG_CARD = '#111111'
 
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anybody:wght@700;800&display=swap');
-  </style>
 </head>
 <body style="margin:0;padding:0;background:${BG};font-family:Georgia,'Times New Roman',serif">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:${BG};padding:40px 20px">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:${BG};padding:48px 20px">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
-        <tr><td style="padding-bottom:32px;text-align:center">
-          <p style="margin:0;font-family:'Anybody',Georgia,serif;font-size:32px;font-weight:800;letter-spacing:-0.04em;color:${CREAM}">GG</p>
+      <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
+
+        <!-- Logo -->
+        <tr><td style="padding-bottom:36px;text-align:center">
+          <p style="margin:0;font-size:28px;font-weight:800;letter-spacing:-0.04em;color:${CREAM}">GG</p>
         </td></tr>
-        <tr><td style="background:${BG_CARD};border:1px solid ${BORDER};border-radius:12px;padding:40px">
-          <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:${GREEN_LIGHT}">Paso 2</p>
-          <h1 style="margin:0 0 24px;font-family:'Anybody',Georgia,serif;font-size:36px;font-weight:800;letter-spacing:-0.04em;color:${CREAM};line-height:1.1">
-            Hola ${nombre},<br>conozcámoste mejor.
+
+        <!-- Card -->
+        <tr><td style="background:${BG_CARD};border:1px solid ${BORDER};border-radius:8px;padding:44px 40px">
+
+          <!-- Label -->
+          <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:${GREEN_LIGHT}">Siguiente paso</p>
+
+          <!-- Headline -->
+          <h1 style="margin:0 0 28px;font-size:34px;font-weight:800;letter-spacing:-0.03em;color:${CREAM};line-height:1.1">
+            Antes de empezar,<br>necesito entenderte.
           </h1>
-          <p style="margin:0 0 20px;font-size:15px;color:${CREAM};line-height:1.7">
-            Para poder hacer algo que realmente funcione para tu negocio, necesito saber más sobre ti, tu empresa y cómo trabajáis ahora mismo.
+
+          <!-- Body -->
+          <p style="margin:0 0 18px;font-size:15px;color:${CREAM_DIM};line-height:1.75">
+            No construyo lo mismo para todos. Antes de hacer cualquier propuesta, necesito entender cómo funciona tu negocio ahora mismo: qué procesos se repiten, dónde se va el tiempo y qué resultado buscas.
           </p>
-          <p style="margin:0 0 28px;font-size:15px;color:${CREAM};line-height:1.7">
-            He preparado un cuestionario rápido — te llevará unos 10 minutos— y me ayudará a entender tu situación antes de hablar.
+          <p style="margin:0 0 36px;font-size:15px;color:${CREAM_DIM};line-height:1.75">
+            El formulario lleva unos 10 minutos. Con esa información puedo darte una propuesta que tenga sentido real para tu situación — no una genérica.
           </p>
-          <tr><td style="padding:0 0 28px;text-align:center">
-            <a href="${onboardingUrl}" style="display:inline-block;background:${GREEN};color:${CREAM};font-family:'Anybody',Georgia,serif;font-size:14px;font-weight:700;letter-spacing:0.04em;text-decoration:none;padding:16px 40px;border-radius:6px">
-              Rellenar questionnaire →
-            </a>
-          </td></tr>
-          <p style="margin:0;font-size:13px;color:${CREAM};line-height:1.7">
-            Si tienes cualquier duda, responde a este correo directamente.
-          </p>
+
+          <!-- CTA -->
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="text-align:center;padding-bottom:36px">
+              <a href="${onboardingUrl}"
+                 style="display:inline-block;background:${GREEN};color:${CREAM};font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:4px">
+                Completar el formulario &rarr;
+              </a>
+            </td></tr>
+          </table>
+
+          <!-- Divider -->
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="border-top:1px solid ${BORDER};padding-top:28px">
+              <p style="margin:0;font-size:13px;color:${CREAM_DIM};line-height:1.7">
+                Si tienes alguna duda antes de rellenarlo, responde a este correo directamente.
+              </p>
+            </td></tr>
+          </table>
+
         </td></tr>
-        <tr><td style="padding-top:32px;text-align:center">
-          <p style="margin:0;font-size:11px;color:rgba(168,159,140,0.5);letter-spacing:0.06em">
+
+        <!-- Footer -->
+        <tr><td style="padding-top:28px;text-align:center">
+          <p style="margin:0;font-size:11px;color:rgba(168,159,140,0.4);letter-spacing:0.08em;text-transform:uppercase">
             german-gomez.es
           </p>
         </td></tr>
+
       </table>
     </td></tr>
   </table>
