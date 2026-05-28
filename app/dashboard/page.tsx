@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import ProposalBuilder from '@/components/dashboard/ProposalBuilder'
 
 interface Submission {
   id: string
@@ -28,6 +29,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [sendingOnboarding, setSendingOnboarding] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'leads' | 'proposal'>('leads')
+  const [proposalClient, setProposalClient] = useState('')
 
   useEffect(() => {
     const stored = sessionStorage.getItem('dashboard_auth')
@@ -91,13 +94,22 @@ export default function DashboardPage() {
     }
   }
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === (process.env.NEXT_PUBLIC_DASHBOARD_PASSWORD || 'demo123')) {
-      setAuthenticated(true)
-      sessionStorage.setItem('dashboard_auth', 'true')
-      setError(false)
-    } else {
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      if (res.ok) {
+        setAuthenticated(true)
+        sessionStorage.setItem('dashboard_auth', 'true')
+        setError(false)
+      } else {
+        setError(true)
+      }
+    } catch {
       setError(true)
     }
   }
@@ -145,17 +157,39 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen px-6 md:px-12 py-12">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-8">
           <div>
             <p className="font-cabinet text-xs text-green mb-2" style={{ letterSpacing: '0.1em' }}>DASHBOARD</p>
-            <h1 className="font-anybody text-4xl md:text-5xl font-bold text-cream" style={{ letterSpacing: '-0.04em' }}>Leads</h1>
+            <h1 className="font-anybody text-4xl md:text-5xl font-bold text-cream" style={{ letterSpacing: '-0.04em' }}>
+              {activeTab === 'leads' ? 'Leads' : 'Nueva propuesta'}
+            </h1>
           </div>
           <button onClick={handleLogout} className="px-4 py-2 font-cabinet text-sm text-cream-dim border border-[var(--color-border)] hover:border-green hover:text-green transition-colors">
             Cerrar sesión
           </button>
         </div>
 
-        {loading ? (
+        {/* Tabs */}
+        <div className="flex gap-1 mb-10 border-b" style={{ borderColor: 'var(--color-border)' }}>
+          {(['leads', 'proposal'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="px-5 py-2.5 font-cabinet text-sm transition-colors"
+              style={{
+                color: activeTab === tab ? 'var(--color-cream)' : 'var(--color-cream-dim)',
+                borderBottom: activeTab === tab ? '2px solid var(--color-green)' : '2px solid transparent',
+                marginBottom: '-1px',
+              }}
+            >
+              {tab === 'leads' ? 'Leads' : 'Propuestas'}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === 'proposal' ? (
+          <ProposalBuilder initialClientName={proposalClient} />
+        ) : loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-8 h-8 border-2 border-green border-t-transparent rounded-full animate-spin" />
           </div>
@@ -287,6 +321,16 @@ export default function DashboardPage() {
                     <div className="p-6 border" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-bg-card)', borderRadius: '12px' }}>
                       <p className="font-cabinet text-xs text-green uppercase mb-4" style={{ letterSpacing: '0.08em' }}>Acciones</p>
                       <div className="flex flex-wrap gap-3">
+                        <button
+                          onClick={() => {
+                            setProposalClient(selected.data.nombre as string || '')
+                            setActiveTab('proposal')
+                          }}
+                          className="px-4 py-2 font-cabinet text-sm border transition-colors"
+                          style={{ borderColor: 'var(--color-green)', color: 'var(--color-green)' }}
+                        >
+                          Generar propuesta
+                        </button>
                         {selected.lead_status === 'new' && (
                           <button
                             onClick={() => updateStatus(selected.id, 'contacted')}
