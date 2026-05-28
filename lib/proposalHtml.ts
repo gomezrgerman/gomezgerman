@@ -6,6 +6,12 @@ export interface ProposalItem {
   period?: string
 }
 
+export interface ProposalStep {
+  id: string
+  title: string
+  desc: string
+}
+
 export interface ProposalData {
   clientName: string
   date: string
@@ -14,13 +20,23 @@ export interface ProposalData {
   showPhase2: boolean
   phase2: ProposalItem[]
   paymentNote: string
+  steps: ProposalStep[]
   contactEmail: string
   contactWeb: string
 }
 
 export function generateProposalHtml(data: ProposalData): string {
   const total = data.phase1.reduce((sum, i) => sum + i.price, 0)
-  const half = Math.round(total / 2)
+
+  const stepsHtml = data.steps
+    .map(
+      (step, i) => `
+      <div class="step-row">
+        <span class="step-num">${i + 1}</span>
+        <div class="step-text"><strong>${step.title}</strong>${step.desc ? `<br>${step.desc}` : ''}</div>
+      </div>`,
+    )
+    .join('')
 
   const phase1Rows = data.phase1
     .map(
@@ -211,20 +227,12 @@ export function generateProposalHtml(data: ProposalData): string {
         </div>
         <div class="steps-card">
           <span class="future-badge">Cómo empezamos</span>
-          <div class="step-row"><span class="step-num">1</span><div class="step-text"><strong>Confirmar propuesta</strong><br>Revisamos juntos y ajustamos si hace falta</div></div>
-          <div class="step-row"><span class="step-num">2</span><div class="step-text"><strong>${half.toLocaleString('es-ES')} € para arrancar</strong><br>50% inicial para reservar el proyecto</div></div>
-          <div class="step-row"><span class="step-num">3</span><div class="step-text"><strong>Desarrollo 2–3 semanas</strong><br>Con revisiones y feedback durante el proceso</div></div>
-          <div class="step-row"><span class="step-num">4</span><div class="step-text"><strong>${half.toLocaleString('es-ES')} € en entrega</strong><br>Publicación + formación del panel de gestión</div></div>
+          ${stepsHtml}
         </div>
       </div>`
         : `<div class="steps-card" style="margin-bottom:8mm">
         <span class="future-badge">Cómo empezamos</span>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
-          <div class="step-row"><span class="step-num">1</span><div class="step-text"><strong>Confirmar propuesta</strong><br>Revisamos juntos y ajustamos si hace falta</div></div>
-          <div class="step-row"><span class="step-num">2</span><div class="step-text"><strong>${half.toLocaleString('es-ES')} € para arrancar</strong><br>50% inicial para reservar el proyecto</div></div>
-          <div class="step-row" style="border-bottom:none"><span class="step-num">3</span><div class="step-text"><strong>Desarrollo 2–3 semanas</strong><br>Con revisiones y feedback durante el proceso</div></div>
-          <div class="step-row" style="border-bottom:none"><span class="step-num">4</span><div class="step-text"><strong>${half.toLocaleString('es-ES')} € en entrega</strong><br>Publicación + formación del panel de gestión</div></div>
-        </div>
+        ${stepsHtml}
       </div>`
     }
     <div class="footer">

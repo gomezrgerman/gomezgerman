@@ -324,6 +324,7 @@ export default function DashboardPage() {
                         <button
                           onClick={() => {
                             setProposalClient(selected.data.nombre as string || '')
+                            updateStatus(selected.id, 'proposal')
                             setActiveTab('proposal')
                           }}
                           className="px-4 py-2 font-cabinet text-sm border transition-colors"
