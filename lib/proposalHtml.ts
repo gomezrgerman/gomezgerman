@@ -87,14 +87,15 @@ export function generateProposalHtml(data: ProposalData): string {
       background: var(--bg) !important; color: var(--cream) !important;
       font-family: 'Cabinet Grotesk', Georgia, serif;
       -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;
     }
     @media print {
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      body { background: var(--bg) !important; }
-      .page { background: var(--bg) !important; }
+      body { display: block; background: #0a0a0a !important; margin: 0; padding: 0; }
+      .page { width: 100% !important; max-width: none !important; min-height: 100vh; padding: 14mm !important; }
     }
     .page {
-      width: 210mm; min-height: 297mm; padding: 14mm 14mm 12mm;
+      width: 100%; max-width: 210mm; min-height: 297mm; padding: 14mm 14mm 12mm;
       display: flex; flex-direction: column;
     }
     .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10mm; }
