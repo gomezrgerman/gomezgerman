@@ -81,11 +81,17 @@ export function generateProposalHtml(data: ProposalData): string {
       --cream-dim: #A89F8C; --green: #4A7C59; --green-light: #7DB892; --border: #1E1E1E;
     }
     @page { size: A4; margin: 0; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg); color: var(--cream);
+      background: var(--bg) !important; color: var(--cream) !important;
       font-family: 'Cabinet Grotesk', Georgia, serif;
       -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: var(--bg) !important; }
+      .page { background: var(--bg) !important; }
     }
     .page {
       width: 210mm; min-height: 297mm; padding: 14mm 14mm 12mm;

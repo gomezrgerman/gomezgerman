@@ -75,7 +75,12 @@ export default function ProposalBuilder({ initialClientName = '' }: Props) {
     if (!win) return
     win.document.write(html)
     win.document.close()
-    setTimeout(() => win.print(), 600)
+    const launch = () => setTimeout(() => win.print(), 300)
+    if (win.document.fonts?.ready) {
+      win.document.fonts.ready.then(launch)
+    } else {
+      setTimeout(launch, 1500)
+    }
   }, [html])
 
   const updatePhase1 = (id: string, field: keyof ProposalItem, value: string | number) =>
