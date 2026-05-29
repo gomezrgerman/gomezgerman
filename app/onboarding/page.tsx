@@ -40,12 +40,23 @@ interface OnboardingData {
   facilitateContact: string
   showWork: string
   otherGoals: string
+  // Phase 2 - Funcionalidades técnicas
+  contactForm: string
+  whatsappButton: string
+  imageGallery: string
+  locationMap: string
+  downloadCatalog: string
+  blogNews: string
   // Phase 3 - Procesos
   currentManagement: string
   crmUsage: string
   crmDetails: string
   paymentMethods: string
   automationInterest: string
+  autoQuotes: string
+  autoReminders: string
+  autoFollowUp: string
+  autoInvoices: string
   automationAreas: string
   budget: string
   timeline: string
@@ -91,11 +102,21 @@ const initialData: OnboardingData = {
   facilitateContact: '',
   showWork: '',
   otherGoals: '',
+  contactForm: '',
+  whatsappButton: '',
+  imageGallery: '',
+  locationMap: '',
+  downloadCatalog: '',
+  blogNews: '',
   currentManagement: '',
   crmUsage: '',
   crmDetails: '',
   paymentMethods: '',
   automationInterest: '',
+  autoQuotes: '',
+  autoReminders: '',
+  autoFollowUp: '',
+  autoInvoices: '',
   automationAreas: '',
   budget: '',
   timeline: '',
@@ -309,12 +330,12 @@ function Phase2({ data, updateData, onNext, onBack }: { data: OnboardingData; up
 
         <Section title="Funcionalidades técnicas">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Select label="Formulario de contacto" value="" onChange={() => {}} options={['Sí, necesito', 'No es prioritario']} />
-            <Select label="Botón de WhatsApp" value="" onChange={() => {}} options={['Sí, necesito', 'No es prioritario']} />
-            <Select label="Galería de imágenes" value="" onChange={() => {}} options={['Sí, necesito', 'No es prioritario']} />
-            <Select label="Mapa de ubicación" value="" onChange={() => {}} options={['Sí, necesito', 'No es prioritario']} />
-            <Select label="Catálogo descargable" value="" onChange={() => {}} options={['Sí, necesito', 'No es prioritario']} />
-            <Select label="Blog / Noticias" value="" onChange={() => {}} options={['Sí, lo quiero', 'No lo necesito', 'Quizás más adelante']} />
+            <Select label="Formulario de contacto" value={data.contactForm} onChange={(v) => updateData('contactForm', v)} options={['Sí, necesito', 'No es prioritario']} />
+            <Select label="Botón de WhatsApp" value={data.whatsappButton} onChange={(v) => updateData('whatsappButton', v)} options={['Sí, necesito', 'No es prioritario']} />
+            <Select label="Galería de imágenes" value={data.imageGallery} onChange={(v) => updateData('imageGallery', v)} options={['Sí, necesito', 'No es prioritario']} />
+            <Select label="Mapa de ubicación" value={data.locationMap} onChange={(v) => updateData('locationMap', v)} options={['Sí, necesito', 'No es prioritario']} />
+            <Select label="Catálogo descargable" value={data.downloadCatalog} onChange={(v) => updateData('downloadCatalog', v)} options={['Sí, necesito', 'No es prioritario']} />
+            <Select label="Blog / Noticias" value={data.blogNews} onChange={(v) => updateData('blogNews', v)} options={['Sí, lo quiero', 'No lo necesito', 'Quizás más adelante']} />
           </div>
         </Section>
       </div>
@@ -348,10 +369,10 @@ function Phase3({ data, updateData, onSubmit, onBack, submitting }: { data: Onbo
         <Section title="Automatizaciones">
           <p className="font-cabinet text-cream-dim mb-4">¿Hay tareas que haces manualmente y te gustaría automatizar?</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Select label="Envío de presupuestos" value="" onChange={() => {}} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
-            <Select label="Recordatorios de citas" value="" onChange={() => {}} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
-            <Select label="Seguimiento de clientes" value="" onChange={() => {}} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
-            <Select label="Envío de facturas" value="" onChange={() => {}} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
+            <Select label="Envío de presupuestos" value={data.autoQuotes} onChange={(v) => updateData('autoQuotes', v)} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
+            <Select label="Recordatorios de citas" value={data.autoReminders} onChange={(v) => updateData('autoReminders', v)} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
+            <Select label="Seguimiento de clientes" value={data.autoFollowUp} onChange={(v) => updateData('autoFollowUp', v)} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
+            <Select label="Envío de facturas" value={data.autoInvoices} onChange={(v) => updateData('autoInvoices', v)} options={['Manual ahora', 'Me gustaría automatizar', 'Ya lo tengo automatizado']} />
           </div>
           <Input label="Otras áreas a automatizar" value={data.automationAreas} onChange={(v) => updateData('automationAreas', v)} placeholder="Ej: envío de emails, actualizaciones de stock..." />
         </Section>

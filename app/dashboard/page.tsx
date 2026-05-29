@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProposalBuilder from '@/components/dashboard/ProposalBuilder'
+import OnboardingDetail from '@/components/dashboard/OnboardingDetail'
 
 interface Submission {
   id: string
@@ -297,24 +298,9 @@ export default function DashboardPage() {
                       </div>
                     </div>
 
-                    {selected.type === 'onboarding' && (selected.data.companyName as string) && (
+                    {selected.type === 'onboarding' && (
                       <div className="p-6 border" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-bg-card)', borderRadius: '12px' }}>
-                        <p className="font-cabinet text-xs text-green uppercase mb-4" style={{ letterSpacing: '0.08em' }}>Datos del onboarding</p>
-                        <div className="grid grid-cols-2 gap-4">
-                          {selected.data.companyName as string && <DetailField label="Empresa" value={selected.data.companyName as string} />}
-                          {selected.data.sector as string && <DetailField label="Sector" value={selected.data.sector as string} />}
-                          {selected.data.location as string && <DetailField label="Ubicación" value={selected.data.location as string} />}
-                          {selected.data.mainGoal as string && <DetailField label="Objetivo" value={selected.data.mainGoal as string} />}
-                          {selected.data.budget as string && <DetailField label="Presupuesto" value={selected.data.budget as string} />}
-                          {selected.data.timeline as string && <DetailField label="Timeline" value={selected.data.timeline as string} />}
-                          {selected.data.currentManagement as string && <DetailField label="Gestión actual" value={selected.data.currentManagement as string} />}
-                          {selected.data.crmUsage as string && <DetailField label="CRM" value={selected.data.crmUsage as string} />}
-                        </div>
-                        {selected.data.automationAreas as string && (
-                          <div className="mt-4">
-                            <DetailField label="Automatizaciones" value={selected.data.automationAreas as string} />
-                          </div>
-                        )}
+                        <OnboardingDetail data={selected.data} createdAt={selected.created_at} />
                       </div>
                     )}
 
