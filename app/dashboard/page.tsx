@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProposalBuilder from '@/components/dashboard/ProposalBuilder'
 import OnboardingDetail from '@/components/dashboard/OnboardingDetail'
+import LeadNotes, { Note } from '@/components/dashboard/LeadNotes'
+import KPIBar from '@/components/dashboard/KPIBar'
 
 interface Submission {
   id: string
@@ -11,6 +13,8 @@ interface Submission {
   lead_status: 'new' | 'contacted' | 'onboarding_sent' | 'onboarding_received' | 'proposal' | 'closed'
   created_at: string
   data: Record<string, unknown>
+  notes?: Note[]
+  deal_amount?: number | null
 }
 
 const STATUS_CONFIG: Record<Submission['lead_status'], { label: string; color: string; bg: string }> = {
@@ -70,6 +74,19 @@ export default function DashboardPage() {
       )
     } catch (e) {
       console.error('Failed to update status:', e)
+    }
+  }
+
+  const updateDealAmount = async (id: string, amount: number | null) => {
+    try {
+      await fetch('/api/submissions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, deal_amount: amount }),
+      })
+      setSubmissions(prev => prev.map(s => s.id === id ? { ...s, deal_amount: amount } : s))
+    } catch (e) {
+      console.error('Failed to update deal amount:', e)
     }
   }
 
@@ -199,6 +216,8 @@ export default function DashboardPage() {
             <p className="font-cabinet text-cream-dim">No hay formularios todavía.</p>
           </div>
         ) : (
+          <>
+          <KPIBar submissions={submissions} />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1 space-y-4">
               {submissions.map((sub) => {
@@ -386,6 +405,34 @@ export default function DashboardPage() {
                         ))}
                       </div>
                     </div>
+
+                    {/* Deal amount */}
+                    {selected.lead_status === 'closed' && (
+                      <div className="p-6 border" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-bg-card)', borderRadius: '12px' }}>
+                        <p className="font-cabinet text-xs text-green uppercase mb-4" style={{ letterSpacing: '0.08em' }}>Importe del proyecto</p>
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="number"
+                            defaultValue={selected.deal_amount ?? ''}
+                            placeholder="0"
+                            className="w-32 bg-transparent border-b font-anybody font-bold text-cream text-xl focus:outline-none pb-1 transition-colors"
+                            style={{ borderColor: 'var(--color-border)' }}
+                            onBlur={e => updateDealAmount(selected.id, e.target.value ? Number(e.target.value) : null)}
+                          />
+                          <span className="font-cabinet text-cream-dim">€</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Notes */}
+                    <div className="p-6 border" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-bg-card)', borderRadius: '12px' }}>
+                      <LeadNotes
+                        key={selected.id}
+                        submissionId={selected.id}
+                        initialNotes={selected.notes ?? []}
+                      />
+                    </div>
+
                   </motion.div>
                 ) : (
                   <div className="flex items-center justify-center h-full" style={{ minHeight: '400px' }}>
@@ -395,6 +442,7 @@ export default function DashboardPage() {
               </AnimatePresence>
             </div>
           </div>
+          </>
         )}
       </div>
     </main>

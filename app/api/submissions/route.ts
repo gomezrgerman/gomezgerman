@@ -35,11 +35,15 @@ export async function GET() {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { id, lead_status } = await req.json()
+    const { id, lead_status, deal_amount } = await req.json()
 
-    if (!id || !lead_status) {
-      return NextResponse.json({ error: 'Missing id or lead_status' }, { status: 400 })
+    if (!id) {
+      return NextResponse.json({ error: 'Missing id' }, { status: 400 })
     }
+
+    const body: Record<string, unknown> = {}
+    if (lead_status !== undefined) body.lead_status = lead_status
+    if (deal_amount !== undefined) body.deal_amount = deal_amount
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/submissions?id=eq.${id}`,
@@ -51,7 +55,7 @@ export async function PATCH(req: NextRequest) {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''}`,
           Prefer: 'return=representation',
         },
-        body: JSON.stringify({ lead_status }),
+        body: JSON.stringify(body),
       }
     )
 
