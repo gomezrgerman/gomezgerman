@@ -222,8 +222,10 @@ export default function DashboardPage() {
             <div className="lg:col-span-1 space-y-4">
               {submissions.map((sub) => {
                 const sc = STATUS_CONFIG[sub.lead_status]
-                const nombre = sub.data.nombre as string || 'Sin nombre'
-                const email = sub.data.email as string || ''
+                const nombre = (sub.type === 'onboarding'
+                  ? sub.data.companyName as string || sub.data.contactName as string
+                  : sub.data.nombre as string) || 'Sin nombre'
+                const email = (sub.data.email as string || sub.data.contactEmail as string) || ''
                 const negocio = sub.data.negocio as string || ''
                 return (
                   <button
@@ -268,11 +270,21 @@ export default function DashboardPage() {
                     <div className="p-6 border" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-bg-card)', borderRadius: '12px' }}>
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-10 h-10 rounded-full bg-green/20 flex items-center justify-center">
-                          <span className="font-anybody font-bold text-green text-sm">{(selected.data.nombre as string || 'N')[0]}</span>
+                          <span className="font-anybody font-bold text-green text-sm">
+                            {((selected.type === 'onboarding'
+                              ? selected.data.companyName as string || selected.data.contactName as string
+                              : selected.data.nombre as string) || 'N')[0].toUpperCase()}
+                          </span>
                         </div>
                         <div className="flex-1">
-                          <p className="font-cabinet font-medium text-cream">{selected.data.nombre as string || 'Sin nombre'}</p>
-                          <p className="font-cabinet text-xs text-cream-dim">{selected.data.email as string}</p>
+                          <p className="font-cabinet font-medium text-cream">
+                            {selected.type === 'onboarding'
+                              ? (selected.data.companyName as string || selected.data.contactName as string || 'Sin nombre')
+                              : (selected.data.nombre as string || 'Sin nombre')}
+                          </p>
+                          <p className="font-cabinet text-xs text-cream-dim">
+                            {selected.data.email as string || selected.data.contactEmail as string}
+                          </p>
                         </div>
                         {statusConfig && (
                           <span className="font-cabinet text-xs px-3 py-1.5 rounded" style={{ color: statusConfig.color, backgroundColor: statusConfig.bg }}>
@@ -328,7 +340,11 @@ export default function DashboardPage() {
                       <div className="flex flex-wrap gap-3">
                         <button
                           onClick={() => {
-                            setProposalClient(selected.data.nombre as string || '')
+                            setProposalClient(
+                              selected.type === 'onboarding'
+                                ? (selected.data.companyName as string || selected.data.contactName as string || '')
+                                : (selected.data.nombre as string || '')
+                            )
                             updateStatus(selected.id, 'proposal')
                             setActiveTab('proposal')
                           }}
