@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import HeroCardDeck from '@/components/ui/HeroCardDeck'
 import HeroLogoReveal from '@/components/ui/HeroLogoReveal'
+import ScrollStroke from '@/components/ui/ScrollStroke'
 import { hexAlpha } from '@/lib/utils'
 
 const SCALE_Y   = 2.2
@@ -232,6 +233,8 @@ export default function Hero() {
 
       {/* ── DESKTOP LAYOUT ─── >= 768px ────────────────────────────────── */}
       <div className="hidden md:block" style={{ height: 'calc(20vh + 150vw)', position: 'relative' }}>
+
+        <ScrollStroke />
 
         {/* DISEÑO */}
         <span
