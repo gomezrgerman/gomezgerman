@@ -1,23 +1,46 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  animate,
+} from 'framer-motion'
 
 export default function ScrollStroke() {
   const ref = useRef<HTMLDivElement>(null)
 
+  // ── Scroll progress (0 → 1 mientras scrolleas el hero) ─────────────────
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   })
+  const scrollProgress = useTransform(scrollYProgress, [0, 0.88], [0, 1])
 
-  // Dibuja de 0 → 1 mientras scrolleas el hero
-  const pathLength = useTransform(scrollYProgress, [0, 0.88], [0, 1])
-  // Fade in suave al empezar, fade out al llegar a los proyectos
+  // ── Entrada automática al cargar (dibuja los primeros ~20%) ─────────────
+  const autoProgress = useMotionValue(0)
+  useEffect(() => {
+    const ctrl = animate(autoProgress, 0.20, {
+      duration: 2.2,
+      ease: [0.16, 1, 0.3, 1],   // expo-out suave
+      delay: 0.5,
+    })
+    return ctrl.stop
+  }, [autoProgress])
+
+  // ── Combina ambos: toma el mayor de los dos en cada frame ───────────────
+  const pathLength = useTransform(
+    [autoProgress, scrollProgress],
+    (values: number[]) => Math.max(values[0], values[1]),
+  )
+
+  // Opacidad ligada al pathLength — independiente de si es scroll o auto
   const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.05, 0.80, 0.96],
-    [0,  0.55,  0.55,  0],
+    pathLength,
+    [0, 0.02, 0.80, 0.96],
+    [0, 0.60, 0.60, 0],
   )
 
   return (
@@ -43,7 +66,7 @@ export default function ScrollStroke() {
           style={{ pathLength, opacity }}
         />
 
-        {/* Punto de inicio */}
+        {/* Punto de inicio — visible desde el arranque */}
         <motion.circle
           cx="1340"
           cy="75"
@@ -52,14 +75,14 @@ export default function ScrollStroke() {
           style={{ opacity }}
         />
 
-        {/* Punto final — apunta a la sección de proyectos */}
+        {/* Punto final — aparece solo al completarse */}
         <motion.circle
           cx="640"
           cy="2300"
           r="3"
           fill="#7DB892"
           style={{
-            opacity: useTransform(pathLength, [0.95, 1], [0, 1]),
+            opacity: useTransform(pathLength, [0.94, 1], [0, 0.6]),
           }}
         />
       </svg>
