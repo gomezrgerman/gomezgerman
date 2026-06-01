@@ -17,16 +17,16 @@ export default function ScrollStroke() {
     offset: ['start start', 'end start'],
   })
 
-  // Scroll aporta hasta 0.85 del trazo, comprimido en el primer 46% del hero
-  // → respuesta inmediata, linea acompaña el scroll sin trecho muerto
+  // Scroll aporta hasta 0.85 repartido en el 90% del hero
+  // → la línea acompaña el scroll durante casi todo el recorrido
   const scrollAddition = useTransform(
     scrollYProgress,
-    [0, 0.46],
+    [0, 0.90],
     [0, 0.85],
     { clamp: true },
   )
 
-  // Entrada automática: dibuja el primer 15% al cargar
+  // Entrada automática al cargar: dibuja el primer 15%
   const autoProgress = useMotionValue(0)
   useEffect(() => {
     const ctrl = animate(autoProgress, 0.15, {
@@ -37,17 +37,20 @@ export default function ScrollStroke() {
     return ctrl.stop
   }, [autoProgress])
 
-  // Aditivo: auto + scroll (tope en 1)
-  // No hay trecho muerto — en cuanto scrolleas, la línea se mueve
+  // pathLength = auto + scroll, tope 1
   const pathLength = useTransform(
     [autoProgress, scrollAddition],
-    (values: number[]) => Math.min(1, values[0] + values[1]),
+    (v: number[]) => Math.min(1, v[0] + v[1]),
   )
 
-  const opacity = useTransform(
-    pathLength,
-    [0, 0.02, 0.82, 0.97],
-    [0,  0.60,  0.60,  0],
+  // Opacidad en dos fases separadas:
+  //   Entrada  — ligada a pathLength (aparece al empezar a dibujar)
+  //   Salida   — ligada a scrollYProgress (desaparece solo cerca del final del hero)
+  const opacityIn  = useTransform(pathLength,       [0, 0.02],       [0, 1],    { clamp: true })
+  const opacityOut = useTransform(scrollYProgress,  [0.88, 0.98],    [0.60, 0], { clamp: true })
+  const opacity    = useTransform(
+    [opacityIn, opacityOut],
+    (v: number[]) => v[0] * v[1],
   )
 
   return (
