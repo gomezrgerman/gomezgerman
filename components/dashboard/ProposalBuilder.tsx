@@ -5,6 +5,7 @@ import { generateProposalHtml, ProposalItem, ProposalStep, ProposalData } from '
 
 interface Props {
   initialClientName?: string
+  initialIntro?: string
 }
 
 const DEFAULT_PHASE1: ProposalItem[] = [
@@ -37,9 +38,9 @@ const DEFAULT_STEPS: ProposalStep[] = [
 
 function newId() { return Date.now().toString() }
 
-export default function ProposalBuilder({ initialClientName = '' }: Props) {
+export default function ProposalBuilder({ initialClientName = '', initialIntro }: Props) {
   const [clientName, setClientName]   = useState(initialClientName)
-  const [intro, setIntro]             = useState('Presupuesto para presencia digital: página web profesional con carta, sistema de reservas integrado y panel de gestión para que el equipo pueda actualizar contenido de forma autónoma.')
+  const [intro, setIntro]             = useState(initialIntro ?? 'Presupuesto para presencia digital: página web profesional con carta, sistema de reservas integrado y panel de gestión para que el equipo pueda actualizar contenido de forma autónoma.')
   const [phase1, setPhase1]           = useState<ProposalItem[]>(DEFAULT_PHASE1)
   const [showPhase2, setShowPhase2]   = useState(true)
   const [phase2, setPhase2]           = useState<ProposalItem[]>(DEFAULT_PHASE2)
@@ -47,9 +48,6 @@ export default function ProposalBuilder({ initialClientName = '' }: Props) {
   const [steps, setSteps]             = useState<ProposalStep[]>(DEFAULT_STEPS)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  useEffect(() => {
-    if (initialClientName) setClientName(initialClientName)
-  }, [initialClientName])
 
   const proposalData: ProposalData = {
     clientName,

@@ -34,8 +34,10 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [sendingOnboarding, setSendingOnboarding] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'leads' | 'proposal'>('leads')
+  const [activeTab, setActiveTab]     = useState<'leads' | 'proposal'>('leads')
   const [proposalClient, setProposalClient] = useState('')
+  const [proposalIntro, setProposalIntro]   = useState('')
+  const [proposalKey, setProposalKey]       = useState('default')
 
   useEffect(() => {
     const stored = sessionStorage.getItem('dashboard_auth')
@@ -141,6 +143,24 @@ export default function DashboardPage() {
   const selected = submissions.find((s) => s.id === selectedId)
   const statusConfig = selected ? STATUS_CONFIG[selected.lead_status] : null
 
+  function buildIntroFromLead(sub: Submission): string {
+    const d = sub.data
+    if (sub.type === 'onboarding') {
+      const parts: string[] = []
+      const sector   = d.sector as string
+      const location = d.location as string
+      const goal     = d.mainGoal as string
+      const services = d.services as string
+      if (sector && location) parts.push(`Negocio del sector ${sector} en ${location}.`)
+      else if (sector)        parts.push(`Negocio del sector ${sector}.`)
+      else if (location)      parts.push(`Negocio en ${location}.`)
+      if (goal)     parts.push(goal)
+      if (services) parts.push(`Servicios: ${services}`)
+      return parts.join(' ').trim()
+    }
+    return (d.problema as string) || ''
+  }
+
   if (!authenticated) {
     return (
       <main className="min-h-screen flex items-center justify-center px-6">
@@ -206,7 +226,11 @@ export default function DashboardPage() {
         </div>
 
         {activeTab === 'proposal' ? (
-          <ProposalBuilder initialClientName={proposalClient} />
+          <ProposalBuilder
+            key={proposalKey}
+            initialClientName={proposalClient}
+            initialIntro={proposalIntro || undefined}
+          />
         ) : loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-8 h-8 border-2 border-green border-t-transparent rounded-full animate-spin" />
@@ -340,11 +364,12 @@ export default function DashboardPage() {
                       <div className="flex flex-wrap gap-3">
                         <button
                           onClick={() => {
-                            setProposalClient(
-                              selected.type === 'onboarding'
-                                ? (selected.data.companyName as string || selected.data.contactName as string || '')
-                                : (selected.data.nombre as string || '')
-                            )
+                            const name = selected.type === 'onboarding'
+                              ? (selected.data.companyName as string || selected.data.contactName as string || '')
+                              : (selected.data.nombre as string || '')
+                            setProposalClient(name)
+                            setProposalIntro(buildIntroFromLead(selected))
+                            setProposalKey(selected.id)
                             updateStatus(selected.id, 'proposal')
                             setActiveTab('proposal')
                           }}
