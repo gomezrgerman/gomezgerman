@@ -201,9 +201,10 @@ export default function Hero() {
             justifyContent: 'center',
             alignItems: 'flex-start',
             paddingTop: `${Math.round(cardScale * 48)}px`,
-            paddingLeft: '8px',
           }}>
-            <div style={{ transform: `scale(${cardScale})`, transformOrigin: 'top center' }}>
+            {/* La baraja reserva 48px de margen a la derecha (para que las cards de atrás asomen),
+                lo que descentra la card frontal visualmente. translateX(24px) lo compensa antes de escalar. */}
+            <div style={{ transform: `scale(${cardScale}) translateX(24px)`, transformOrigin: 'top center' }}>
               <HeroCardDeck />
             </div>
           </div>
