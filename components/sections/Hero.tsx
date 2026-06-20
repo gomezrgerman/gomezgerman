@@ -170,28 +170,56 @@ export default function Hero() {
         <span
           ref={mLine1Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(2rem, 15vw, 6rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(2.5rem, 17vw, 6.5rem)', ...titleStyleMobile }}
         >
           DISEÑO
         </span>
         <span
           ref={mLine2Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(1.75rem, 12vw, 5rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(2.25rem, 14vw, 5.5rem)', ...titleStyleMobile }}
         >
           SISTEMAS
         </span>
+
+        {/* Baraja de cards — intercalada entre el texto, como en desktop */}
+        <div
+          style={{
+            width: '100vw',
+            marginLeft: 'calc(50% - 50vw)',
+            marginTop: `${Math.round(cardScale * 8)}px`,
+            marginBottom: `${Math.round(cardScale * -150)}px`,
+            overflow: 'hidden',
+            position: 'relative',
+            height: `${Math.round(cardScale * (CARD_H + 40))}px`,
+          }}
+        >
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            paddingTop: `${Math.round(cardScale * 48)}px`,
+            paddingLeft: '8px',
+          }}>
+            <div style={{ transform: `scale(${cardScale})`, transformOrigin: 'top center' }}>
+              <HeroCardDeck />
+            </div>
+          </div>
+        </div>
+
         <span
           ref={mLine3Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(0.95rem, 7.5vw, 3rem)', ...titleStyleMobile, letterSpacing: '-0.01em' }}
+          style={{ fontSize: 'clamp(1.05rem, 8.5vw, 3.3rem)', ...titleStyleMobile, letterSpacing: '-0.01em' }}
         >
           PARA NEGOCIOS
         </span>
         <span
           ref={mLine4Ref}
           className="select-none font-anybody text-cream"
-          style={{ fontSize: 'clamp(2rem, 15vw, 6rem)', ...titleStyleMobile }}
+          style={{ fontSize: 'clamp(2.5rem, 17vw, 6.5rem)', ...titleStyleMobile }}
         >
           REALES
         </span>
@@ -210,31 +238,6 @@ export default function Hero() {
           >
             Dénia, Alicante
           </p>
-        </div>
-
-        {/* Baraja de cards — escala dinámica por viewport */}
-        <div
-          className="mt-6"
-          style={{
-            width: '100vw',
-            marginLeft: 'calc(50% - 50vw)',
-            overflow: 'hidden',
-            position: 'relative',
-            height: `${Math.round(cardScale * (CARD_H + 70))}px`,
-          }}
-        >
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            paddingTop: `${Math.round(cardScale * 40)}px`,
-          }}>
-            <div style={{ transform: `scale(${cardScale})`, transformOrigin: 'top center' }}>
-              <HeroCardDeck />
-            </div>
-          </div>
         </div>
 
         <div className="absolute bottom-6 right-6 z-20">
