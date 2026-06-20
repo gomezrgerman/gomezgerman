@@ -139,22 +139,22 @@ function buildNutricionSummary(accent: string): Record<string, { hook: string; s
       ),
     },
     solution: {
-      hook: 'El cliente rellena un formulario. El sistema hace el resto.',
+      hook: 'El cliente paga, completa su perfil. Claude hace el resto.',
       support: (
         <div className="font-cabinet">
           {rule}
-          <p style={sup}>Tally captura datos. Stripe gestiona el pago.<br />n8n orquesta el pipeline.<br />Claude API genera el plan de 7 días.<br />ReportLab crea el PDF con branding.</p>
-          <p style={gap}>Lydia revisa y envía con un clic.</p>
+          <p style={sup}>Stripe gestiona el pago.<br />Onboarding propio captura el perfil.<br />Claude API genera el plan de 4 semanas.<br />React-PDF crea el documento con branding.</p>
+          <p style={gap}>Lydia revisa y envía desde su panel.</p>
         </div>
       ),
     },
     result: {
-      hook: 'De 2–3 horas a minutos de revisión.',
+      hook: 'De 2–3 horas a menos de un minuto de generación.',
       support: (
         <div className="font-cabinet">
           {rule}
-          <p style={sup}>El plan llega el mismo día, con macros calculados<br />y PDF listo para el cliente.</p>
-          <p style={gap}>Más clientes. Mismas horas.<br />El sistema genera, ella valida.</p>
+          <p style={sup}>El plan llega con menú de 4 semanas, lista de compra<br />y macros calculados, listo para el cliente.</p>
+          <p style={gap}>Cada edición que hace Lydia entrena al sistema.<br />Cuanto más lo usa, menos tiene que corregir.</p>
         </div>
       ),
     },
@@ -309,19 +309,19 @@ function buildNutricionPages(accent: string): SplitPage[] {
     },
     {
       leftBg: '#1f180e',
-      left: <TextPanel num="02" label="Pipeline" heading="Automatización de extremo a extremo" body="Tally captura los datos del cliente, Stripe gestiona el pago, n8n orquesta todo el flujo y Claude API genera el plan nutricional con macros calculados. Sin intervención manual." accent={accent} />,
+      left: <TextPanel num="02" label="Pipeline" heading="Automatización de extremo a extremo" body="Stripe gestiona el pago, un onboarding propio captura el perfil del cliente y Claude API genera el plan nutricional de 4 semanas con macros calculados. Todo el flujo vive en código propio, sin servicios externos de orquestación." accent={accent} />,
       rightBg: '#1a160e',
-      right: <PwaPanel src="/img/flujo_n8n2.png" alt="Pipeline n8n" />,
+      right: <PwaPanel src="/img/pdf-nutri.png" alt="Plan generado por IA" />,
     },
     {
       leftBg: '#1a160e',
-      left: <PwaPanel src="/img/pdf-nutri.png" alt="PDF nutricional" />,
+      left: <PwaPanel src="/img/nutri_app.png" alt="PDF nutricional" />,
       rightBg: '#1f180e',
-      right: <TextPanel num="03" label="PDF" heading="PDF profesional con branding" body="Python con ReportLab genera un PDF de 7 días con los macros calculados y el branding de la nutricionista. El plan llega al cliente el mismo día, listo para usar." accent={accent} />,
+      right: <TextPanel num="03" label="PDF" heading="PDF profesional con branding" body="React-PDF genera un documento de 4 semanas (menú rotativo A/B) con macros calculados, lista de la compra y el branding de la nutricionista. El plan llega al cliente el mismo día, listo para usar." accent={accent} />,
     },
     {
       leftBg: '#1f180e',
-      left: <TextPanel num="04" label="Resultado" heading="De horas a minutos" body="Lo que antes eran 2-3 horas se reduce a menos de 5 minutos de revisión. La nutricionista solo valida y envía. Más clientes sin trabajar más horas. El sistema genera, ella valida." accent={accent} />,
+      left: <TextPanel num="04" label="Resultado" heading="De horas a menos de un minuto" body="Lo que antes eran 2-3 horas se reduce a menos de un minuto de generación con IA. La nutricionista revisa, ajusta si hace falta, y cada edición entrena al sistema para mejorar el siguiente plan." accent={accent} />,
       rightBg: '#1a160e',
       right: <PwaPanel src="/img/nutri_app2.png" alt="NutriFlow resultado" />,
     },

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 import {
+  CreditCard,
   ClipboardList,
-  Workflow,
   Sparkles,
   FileText,
   Mail,
@@ -11,14 +11,14 @@ import {
 
 const steps = [
   {
-    icon: ClipboardList,
-    label: 'Tally',
-    desc: 'Captura datos',
+    icon: CreditCard,
+    label: 'Stripe',
+    desc: 'Pago',
   },
   {
-    icon: Workflow,
-    label: 'n8n',
-    desc: 'Orquesta',
+    icon: ClipboardList,
+    label: 'Onboarding',
+    desc: 'Captura perfil',
   },
   {
     icon: Sparkles,
@@ -28,12 +28,12 @@ const steps = [
   {
     icon: FileText,
     label: 'PDF',
-    desc: 'Branding auto',
+    desc: '4 semanas + lista',
   },
   {
     icon: Mail,
-    label: 'Email',
-    desc: 'Entrega al cliente',
+    label: 'Panel',
+    desc: 'Revisa y envía',
   },
 ]
 

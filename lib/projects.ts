@@ -92,13 +92,13 @@ export const PROJECTS: Project[] = [
     problem:
       'Cada cliente nuevo le costaba entre 2 y 3 horas antes de entregarle nada. Con la demanda que tenía, era insostenible seguir gestionando así. El tiempo limitaba el número de clientes y hacía el servicio imposible de escalar.',
     solution:
-      'El cliente rellena un formulario Tally con sus datos (objetivos, alergias, preferencias), completa el pago por Stripe y el sistema genera automáticamente un plan de 7 días con los macros calculados. n8n orquesta el pipeline, Claude API genera el plan estructurado, Python con ReportLab crea el PDF con branding profesional. Lydia recibe el plan, lo revisa y — si todo está correcto — lo envía al cliente con un clic.',
+      'El cliente paga la primera consulta por Stripe y recibe un enlace de bienvenida para completar su perfil (objetivos, alergias, preferencias). Claude API genera en menos de un minuto un plan rotativo de 4 semanas (menú A/B) con macros calculados y lista de la compra agrupada por categorías, y el PDF se crea al instante con branding propio. Lydia revisa y ajusta desde su panel de administración — y cada edición que hace alimenta un sistema de aprendizaje que mejora los planes que Claude genera después. Recordatorios automáticos a los 14 y 28 días mantienen el seguimiento sin que ella tenga que acordarse.',
     result:
-      'Lo que antes eran 2–3 horas se reduce a minutos de revisión. El plan llega al cliente el mismo día, con macros calculados y un PDF listo para usar. Puede atender más clientes sin trabajar más horas. El sistema genera, ella valida.',
-    tags: ['n8n', 'Claude API', 'Supabase', 'Python', 'Tally', 'Stripe'],
+      'Lo que antes eran 2–3 horas se reduce a menos de un minuto de generación con IA. El plan llega con menú de 4 semanas, lista de la compra y una app instalable para el cliente. Cada edición que hace Lydia entrena al sistema — cuanto más lo usa, menos tiene que corregir.',
+    tags: ['Next.js', 'Claude API', 'Supabase', 'Stripe', 'PWA'],
     metrics: [
       { value: '-95%', label: 'tiempo por cliente' },
-      { value: '<5 min', label: 'por plan nutricional' },
+      { value: '<1 min', label: 'generación del plan con IA' },
       { value: '∞', label: 'escalabilidad' },
     ],
     accentColor: '#A89F8C',
@@ -109,8 +109,8 @@ export const PROJECTS: Project[] = [
     homeDualImages: ['/img/nutri_app.png', '/img/nutri_app2.png'],
     homeHasPipeline: true,
     homeProblem: '2–3 horas por paciente creando planes nutricionales a mano. Tiempo que no se puede escalar ni rentabilizar.',
-    homeSolution: 'La nutricionista recibe el plan ya listo en su email. Sin tocar herramientas nuevas, sin aprender nada técnico. Solo revisa, valida con un clic y la paciente lo recibe al instante.',
-    homeResult: 'De 2–3 horas a menos de 5 minutos por cliente. Un sistema que ahora puede vender a otras nutricionistas.',
+    homeSolution: 'Claude genera un plan de 4 semanas con lista de la compra en menos de un minuto. Lydia revisa desde su panel, ajusta si hace falta, y cada cambio entrena al sistema para la próxima vez.',
+    homeResult: 'De 2–3 horas a menos de un minuto de generación. Un sistema propio que aprende de cada edición, sin depender de herramientas externas.',
   },
   {
     number: '03',
