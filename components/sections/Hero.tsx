@@ -18,6 +18,7 @@ const titleStyleDesktop = {
   lineHeight: LINE_H,
   whiteSpace: 'nowrap' as const,
   zIndex: 1,
+  opacity: 0,
 }
 
 const titleStyleMobile = {
@@ -25,6 +26,7 @@ const titleStyleMobile = {
   letterSpacing: '-0.03em',
   lineHeight: 0.92,
   display: 'block' as const,
+  opacity: 0,
 }
 
 export default function Hero() {
@@ -98,7 +100,7 @@ export default function Hero() {
 
   // ── GSAP — entrada ─────────────────────────────────────────────────────
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const ctx = gsap.context(() => {
       const mobile = window.innerWidth < 768
@@ -112,6 +114,11 @@ export default function Hero() {
         ]
         const sub = mSubRef.current
         if (mEls.some((r) => !r) || !sub) return
+
+        if (reducedMotion) {
+          gsap.set([...mEls, sub], { opacity: 1, y: 0 })
+          return
+        }
 
         gsap.timeline({ delay: 0.1 })
           .from(mEls[0], { opacity: 0, y: 28, duration: 1.0, ease: 'power3.out' })
@@ -130,6 +137,12 @@ export default function Hero() {
       const l4  = line4Ref.current
       const sub = subtitleRef.current
       if (!l1 || !l2 || !mas || !l3 || !l4 || !sub) return
+
+      if (reducedMotion) {
+        gsap.set([l1, l2, mas, l3, l4], { opacity: 1, scaleY: SCALE_Y })
+        gsap.set(sub, { opacity: 1, y: 0 })
+        return
+      }
 
       const tOrigin = '0 0'
       gsap.timeline({ delay: 0.1 })
@@ -183,7 +196,7 @@ export default function Hero() {
           REALES
         </span>
 
-        <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2">
+        <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2" style={{ opacity: 0 }}>
           <p
             className="font-cabinet text-cream"
             style={{ fontSize: 'clamp(0.875rem, 3.8vw, 1rem)', maxWidth: '32ch', lineHeight: 1.75, letterSpacing: '0.01em' }}
@@ -320,6 +333,7 @@ export default function Hero() {
             paddingBottom: '2.5vw',
             zIndex: 10,
             pointerEvents: 'none',
+            opacity: 0,
           }}
         >
           <p
