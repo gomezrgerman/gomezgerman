@@ -121,11 +121,11 @@ export default function Hero() {
         }
 
         gsap.timeline({ delay: 0.1 })
-          .from(mEls[0], { opacity: 0, y: 28, duration: 1.0, ease: 'power3.out' })
-          .from(mEls[1], { opacity: 0, y: 28, duration: 0.9, ease: 'power3.out' }, '-=0.55')
-          .from(mEls[2], { opacity: 0, y: 28, duration: 0.9, ease: 'power3.out' }, '-=0.75')
-          .from(mEls[3], { opacity: 0, y: 28, duration: 1.0, ease: 'power3.out' }, '-=0.75')
-          .from(sub,     { opacity: 0, y: 16, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+          .fromTo(mEls[0], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' })
+          .fromTo(mEls[1], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.55')
+          .fromTo(mEls[2], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.75')
+          .fromTo(mEls[3], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.75')
+          .fromTo(sub,     { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
         return
       }
 
