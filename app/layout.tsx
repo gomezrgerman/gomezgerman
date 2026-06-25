@@ -5,6 +5,7 @@ import Providers from '@/components/providers/Providers'
 import MotionProvider from '@/components/providers/MotionProvider'
 import Header from '@/components/Header'
 import CustomCursor from '@/components/ui/CustomCursor'
+import { Analytics } from '@vercel/analytics/next'
 
 const anybody = Anybody({
   subsets: ['latin'],
@@ -63,6 +64,7 @@ export default function RootLayout({
             {children}
           </MotionProvider>
         </Providers>
+        <Analytics />
       </body>
     </html>
   )

@@ -28,7 +28,7 @@ const steps = [
   {
     icon: FileText,
     label: 'PDF',
-    desc: '4 semanas + lista',
+    desc: '7 días sin repetir',
   },
   {
     icon: Mail,

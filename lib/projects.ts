@@ -92,9 +92,9 @@ export const PROJECTS: Project[] = [
     problem:
       'Cada cliente nuevo le costaba entre 2 y 3 horas antes de entregarle nada. Con la demanda que tenía, era insostenible seguir gestionando así. El tiempo limitaba el número de clientes y hacía el servicio imposible de escalar.',
     solution:
-      'El cliente paga la primera consulta por Stripe y recibe un enlace de bienvenida para completar su perfil (objetivos, alergias, preferencias). Claude API genera en menos de un minuto un plan rotativo de 4 semanas (menú A/B) con macros calculados y lista de la compra agrupada por categorías, y el PDF se crea al instante con branding propio. Lydia revisa y ajusta desde su panel de administración — y cada edición que hace alimenta un sistema de aprendizaje que mejora los planes que Claude genera después. Recordatorios automáticos a los 14 y 28 días mantienen el seguimiento sin que ella tenga que acordarse.',
+      'El cliente paga la primera consulta por Stripe y recibe un enlace de bienvenida para completar su perfil (objetivos, alergias, preferencias). Claude API genera en menos de un minuto un plan semanal de 7 días sin repetir plato, pensado para seguir igual durante todo el mes (lunes-lunes, martes-martes), con macros calculados y PDF con branding propio al instante. Lydia revisa y ajusta desde su panel de administración — y cada edición que hace alimenta un sistema de aprendizaje que mejora los planes que Claude genera después. Recordatorios automáticos a los 14 y 28 días mantienen el seguimiento sin que ella tenga que acordarse.',
     result:
-      'Lo que antes eran 2–3 horas se reduce a menos de un minuto de generación con IA. El plan llega con menú de 4 semanas, lista de la compra y una app instalable para el cliente. Cada edición que hace Lydia entrena al sistema — cuanto más lo usa, menos tiene que corregir.',
+      'Lo que antes eran 2–3 horas se reduce a menos de un minuto de generación con IA. El plan llega con una semana completa de menús sin repetir, lista para seguir todo el mes, y una app instalable para el cliente. Cada edición que hace Lydia entrena al sistema — cuanto más lo usa, menos tiene que corregir.',
     tags: ['Next.js', 'Claude API', 'Supabase', 'Stripe', 'PWA'],
     metrics: [
       { value: '-95%', label: 'tiempo por cliente' },
@@ -106,10 +106,10 @@ export const PROJECTS: Project[] = [
     homeSubtitle: 'Dietas a medida en minutos',
     homeMetric: '−95%',
     homeMetricLabel: 'tiempo por cliente',
-    homeDualImages: ['/img/nutri_app.png', '/img/nutri_app2.png'],
+    homeDualImages: ['/img/nutri-dieta-editor.png', '/img/nutri-cliente-detalle.png'],
     homeHasPipeline: true,
     homeProblem: '2–3 horas por paciente creando planes nutricionales a mano. Tiempo que no se puede escalar ni rentabilizar.',
-    homeSolution: 'Claude genera un plan de 4 semanas con lista de la compra en menos de un minuto. Lydia revisa desde su panel, ajusta si hace falta, y cada cambio entrena al sistema para la próxima vez.',
+    homeSolution: 'Claude genera una semana completa de menús, sin repetir plato, en menos de un minuto. Lydia revisa desde su panel, ajusta si hace falta, y cada cambio entrena al sistema para la próxima vez.',
     homeResult: 'De 2–3 horas a menos de un minuto de generación. Un sistema propio que aprende de cada edición, sin depender de herramientas externas.',
   },
   {
@@ -140,7 +140,7 @@ export const PROJECTS: Project[] = [
     homeMetricLabel: 'reservas automáticas',
     homeVideo: '/img/d-bonita-demo.mp4',
     homePosterImg: '/img/hero-dbonita.png',
-    homeDualImages: ['/img/dbonita-admin.png', '/img/dbonita-admin1.png'],
+    homeDualImages: ['/img/hero-dbonita.png', '/img/dbonita-admin.png'],
     homeProblem: 'Agenda de papel y WhatsApp como único sistema. Sin historial de clientes, sin pagos online, dependencia total del teléfono.',
     homeSolution: 'Web con identidad propia, reservas online, pagos integrados y PWA que actúa como CRM con historial completo de cada clienta.',
     homeResult: 'Reservas 24/7 sin intervención manual. CRM completo en el bolsillo de la propietaria.',
@@ -149,6 +149,70 @@ export const PROJECTS: Project[] = [
       { src: '/img/dbonita-admin.png',    type: 'image', label: 'Panel de gestión',    frame: 'browser' },
       { src: '/img/dbonita-admin1.png',   type: 'image', label: 'CRM de clientas',     frame: 'browser' },
     ],
+  },
+  {
+    number: '04',
+    slug: 'bensburger',
+    title: "Ben's Burger — Presencia Digital",
+    tagline: 'De boca en boca a marca con web propia',
+    shortDescription:
+      'Web bilingüe con identidad de marca, storytelling y carta digital completa para una hamburguesería de Dénia. Por debajo, un sistema completo de pedidos y reservas ya construido, listo para activar.',
+    context:
+      'Hamburguesería de gama alta en Dénia (Alicante): smash burgers con carne de vaca rubia gallega maduración 45-75 días. Buena reputación local — 180 reseñas en Google, 4.3/5 — pero sin web propia, dependiendo solo de redes sociales y del boca a boca.',
+    problem:
+      'Sin web, no había forma de mostrar la carta, el producto o la marca sin abrir Instagram. En el local, las mesas no tenían más que al camarero para explicar cada hamburguesa, los alérgenos o el precio. Cero presencia para quien buscara el sitio en Google.',
+    solution:
+      'Web bilingüe (ES/EN) con identidad propia: hero con fotografía de producto a medida, storytelling de marca, reseñas de Google integradas y carta digital completa con foto, alérgenos y precio de cada plato. Códigos QR en las mesas llevan directo a la carta desde el móvil. Por debajo, se construyó un sistema completo de pedido online y reservas — personalización de punto de cocción, pantalla de cocina con PIN, checkout — que el cliente decidió no lanzar todavía: queda listo para activarse cuando lo necesite.',
+    result:
+      'La hamburguesería tiene presencia digital propia por primera vez: una carta que cualquiera consulta desde la mesa o desde casa, en su idioma, con SEO local trabajado. Y el salto a pedidos online o reservas, cuando llegue, no exige construir nada nuevo — ya está hecho.',
+    tags: ['React', 'Vite', 'Framer Motion', 'SEO Local'],
+    metrics: [
+      { value: '22', label: 'platos en la carta · ES/EN' },
+      { value: '180+', label: 'reseñas en Google · 4.3★' },
+      { value: 'Listo', label: 'pedidos y reservas, listos para activar' },
+    ],
+    accentColor: '#D99A3B',
+    placeholderColor: '#20130a',
+    homeSubtitle: 'Web + Carta Digital',
+    homeMetric: '180+',
+    homeMetricLabel: 'reseñas en Google',
+    homeDualImages: ['/img/bensburger-hero.png', '/img/bensburger-carta.png'],
+    homeProblem: 'Sin web propia. Solo redes sociales y boca a boca para una marca con producto y reputación real (4.3★ en Google).',
+    homeSolution: 'Web bilingüe con identidad propia, storytelling y carta digital con QR en mesa. Sistema de pedidos y reservas ya construido, listo para activar.',
+    homeResult: 'Presencia digital propia por primera vez. El salto a pedidos online, cuando llegue, no exige construir nada nuevo.',
+    liveUrl: 'https://bensburger.es/',
+  },
+  {
+    number: '05',
+    slug: 'esclitec',
+    title: 'Esclitec — Web Corporativa',
+    tagline: 'Una empresa técnica con 8 años de obras y clientes de peso, por fin con una web a su altura',
+    shortDescription:
+      'Web de presencia premium para empresa de climatización e instalaciones técnicas en la Marina Alta. Tipografía editorial, galería de proyectos reales y captación directa por formulario y WhatsApp.',
+    context:
+      'Esclitec Systems lleva 8 años instalando climatización, aerotermia, suelo radiante y biomasa en la Comunidad Valenciana. Entre sus clientes: Bioparc Valencia, Hotel Boutique La Casita Jávea, Restaurante Flo y Tiendas Tezenis. CAT-I certificada, SAT oficial ECOFOREST. Con más de 100 proyectos ejecutados, la empresa funcionaba únicamente por reputación y boca a boca.',
+    problem:
+      'Una empresa con ese nivel de trabajo y esos clientes no tenía web. Los presupuestos llegaban solo por teléfono, no había forma de mostrar proyectos reales ni diferenciar la oferta técnica frente a la competencia local. Sin presencia digital, el crecimiento dependía exclusivamente del boca a boca.',
+    solution:
+      'Web corporativa de nivel premium con tipografía editorial Fraunces (serif de pantalla gigante), scroll cinematográfico para los 7 servicios con foto en movimiento, galería de obras reales con antes/después de aerotermia, sección de clientes con logos y formulario de captación que llega directamente a su email vía Resend. WhatsApp flotante para contacto inmediato. SEO local trabajado con sitemap y datos estructurados.',
+    result:
+      'Esclitec tiene por primera vez una presencia online que refleja su nivel real. La web posiciona en búsquedas locales de climatización en la Marina Alta y convierte visitas en presupuestos directamente.',
+    tags: ['Next.js', 'Framer Motion', 'Resend', 'SEO Local'],
+    metrics: [
+      { value: '+100', label: 'proyectos instalados · 8 años' },
+      { value: '7', label: 'servicios con scroll editorial' },
+      { value: 'CAT-I', label: 'instaladora certificada RITE' },
+    ],
+    accentColor: '#C9A227',
+    placeholderColor: '#051f3a',
+    homeSubtitle: 'Web Corporativa + SEO Local',
+    homeMetric: '+100',
+    homeMetricLabel: 'proyectos · 8 años',
+    homeDualImages: ['/img/esclitec-hero.png', '/img/esclitec-servicios.png'],
+    homeProblem: 'Empresa técnica con 8 años de proyectos reales y clientes de nivel (Bioparc Valencia, Tezenis) sin presencia digital.',
+    homeSolution: 'Web editorial con tipografía gigante, scroll cinematográfico de 7 servicios, galería de obras reales y captación por formulario y WhatsApp.',
+    homeResult: 'Posicionamiento local en Google y una presencia que por fin refleja el nivel real de la empresa.',
+    liveUrl: 'https://www.esclitec.com',
   },
 ]
 

@@ -78,8 +78,10 @@ export default function Projects() {
         <ScannerCardStream
           cardImages={[
             '/img/g2fit-mobile.jpg',
-            '/img/nutri_app.png',
+            '/img/nutri-dieta-editor.png',
             '/img/dbonita-admin.png',
+            '/img/bensburger-hero.png',
+            '/img/esclitec-hero.png',
           ]}
           repeat={4}
           cardGap={50}

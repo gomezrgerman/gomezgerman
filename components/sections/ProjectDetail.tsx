@@ -153,7 +153,7 @@ function buildNutricionSummary(accent: string): Record<string, { hook: string; s
       support: (
         <div className="font-cabinet">
           {rule}
-          <p style={sup}>El plan llega con menú de 4 semanas, lista de compra<br />y macros calculados, listo para el cliente.</p>
+          <p style={sup}>El plan llega con una semana sin repetir plato,<br />pensada para seguir todo el mes, macros incluidos.</p>
           <p style={gap}>Cada edición que hace Lydia entrena al sistema.<br />Cuanto más lo usa, menos tiene que corregir.</p>
         </div>
       ),
@@ -210,10 +210,110 @@ function buildDBOnitaSummary(accent: string): Record<string, { hook: string; sup
   }
 }
 
+function buildBensBurgerSummary(accent: string): Record<string, { hook: string; support: ReactNode }> {
+  const sup: React.CSSProperties = { fontSize: 'clamp(0.78rem, 0.88vw, 0.84rem)', lineHeight: 1.7, color: '#A89F8C' }
+  const gap: React.CSSProperties = { ...sup, marginTop: '0.85em' }
+  const rule = <div style={{ height: 1, backgroundColor: accent + '30', margin: '1rem 0' }} />
+
+  return {
+    context: {
+      hook: 'Hamburguesería de gama alta en Dénia. Sin web propia.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Smash burgers con carne madurada 45-75 días.<br />180 reseñas en Google, 4.3/5.</p>
+          <p style={gap}>Toda esa reputación, solo en redes sociales.</p>
+        </div>
+      ),
+    },
+    problem: {
+      hook: 'Sin web, todo pasaba por Instagram o por el camarero.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Sin forma de mostrar la carta, precios o alérgenos<br />sin abrir una app externa.</p>
+          <p style={gap}>Cero presencia para quien buscara el sitio en Google.</p>
+        </div>
+      ),
+    },
+    solution: {
+      hook: 'Web bilingüe con marca propia y carta en cada mesa.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Storytelling de marca, reseñas integradas<br />y carta digital completa con QR en mesa.</p>
+          <p style={gap}>Debajo: pedidos online y reservas, ya construidos.<br />El cliente decidió no lanzarlos todavía.</p>
+        </div>
+      ),
+    },
+    result: {
+      hook: 'Presencia digital propia, por primera vez.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Carta consultable desde la mesa o desde casa,<br />en el idioma de cada cliente.</p>
+          <p style={gap}>El salto a pedidos online no exige construir nada nuevo.<br />Ya está hecho.</p>
+        </div>
+      ),
+    },
+  }
+}
+
+function buildEsclitecSummary(accent: string): Record<string, { hook: string; support: ReactNode }> {
+  const sup: React.CSSProperties = { fontSize: 'clamp(0.78rem, 0.88vw, 0.84rem)', lineHeight: 1.7, color: '#A89F8C' }
+  const gap: React.CSSProperties = { ...sup, marginTop: '0.85em' }
+  const rule = <div style={{ height: 1, backgroundColor: accent + '30', margin: '1rem 0' }} />
+
+  return {
+    context: {
+      hook: 'Empresa técnica con 8 años de obras y clientes de peso en la Comunidad Valenciana.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Climatización, aerotermia, suelo radiante y biomasa.<br />CAT-I certificada · SAT oficial ECOFOREST.</p>
+          <p style={gap}>Clientes: Bioparc Valencia, Hotel La Casita Jávea,<br />Restaurante Flo, Tiendas Tezenis.</p>
+        </div>
+      ),
+    },
+    problem: {
+      hook: 'Una empresa con ese nivel de trabajo y esos clientes no tenía web.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Los presupuestos llegaban solo por teléfono.<br />Sin forma de mostrar proyectos reales.</p>
+          <p style={gap}>Sin presencia digital, el crecimiento dependía<br />exclusivamente del boca a boca.</p>
+        </div>
+      ),
+    },
+    solution: {
+      hook: 'Web editorial con 7 servicios, galería de obras y captación directa.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Tipografía Fraunces gigante, scroll cinematográfico por servicios<br />con foto de obra real en cada paso.</p>
+          <p style={gap}>Galería de proyectos con antes/después de aerotermia.<br />Formulario → email directo vía Resend · WhatsApp flotante.</p>
+        </div>
+      ),
+    },
+    result: {
+      hook: 'Antes: solo teléfono. Ahora: presencia local en Google y captación sin intermediarios.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Web indexada con SEO local · sitemap · datos estructurados.<br />Posicionamiento en búsquedas de climatización en la Marina Alta.</p>
+          <p style={gap}>Portfolio de obras accesible 24h · contacto directo<br />por formulario o WhatsApp desde cualquier dispositivo.</p>
+        </div>
+      ),
+    },
+  }
+}
+
 function getProjectSummary(slug: string, accent: string): Record<string, { hook: string; support: ReactNode }> | null {
   if (slug === 'g2fit')        return buildG2FitSummary(accent)
   if (slug === 'nutricion-ia') return buildNutricionSummary(accent)
   if (slug === 'd-bonita')     return buildDBOnitaSummary(accent)
+  if (slug === 'bensburger')   return buildBensBurgerSummary(accent)
+  if (slug === 'esclitec')     return buildEsclitecSummary(accent)
   return null
 }
 
@@ -303,27 +403,27 @@ function buildNutricionPages(accent: string): SplitPage[] {
   return [
     {
       leftBg: '#1a160e',
-      left: <PwaPanel src="/img/nutri_app.png" alt="NutriFlow app" />,
+      left: <PwaPanel src="/img/nutri-dashboard.png" alt="Panel de administración NutriFlow" />,
       rightBg: '#1f180e',
       right: <TextPanel num="01" label="El problema" heading="2-3 horas por paciente" body="Cada cliente nuevo costaba horas de trabajo: mensajes de ida y vuelta, cálculo de macros a mano, redacción del plan semanal y envío por email. Con la demanda creciendo, era insostenible." accent={accent} />,
     },
     {
       leftBg: '#1f180e',
-      left: <TextPanel num="02" label="Pipeline" heading="Automatización de extremo a extremo" body="Stripe gestiona el pago, un onboarding propio captura el perfil del cliente y Claude API genera el plan nutricional de 4 semanas con macros calculados. Todo el flujo vive en código propio, sin servicios externos de orquestación." accent={accent} />,
+      left: <TextPanel num="02" label="Pipeline" heading="Automatización de extremo a extremo" body="Stripe gestiona el pago, un onboarding propio captura el perfil del cliente y Claude API genera el plan nutricional semanal con macros calculados. Todo el flujo vive en código propio, sin servicios externos de orquestación." accent={accent} />,
       rightBg: '#1a160e',
-      right: <PwaPanel src="/img/pdf-nutri.png" alt="Plan generado por IA" />,
+      right: <PwaPanel src="/img/nutri-dieta-editor.png" alt="Editor de dieta generada por IA" />,
     },
     {
       leftBg: '#1a160e',
-      left: <PwaPanel src="/img/nutri_app.png" alt="PDF nutricional" />,
+      left: <PwaPanel src="/img/nutri-aprendizaje.png" alt="Sistema de aprendizaje" />,
       rightBg: '#1f180e',
-      right: <TextPanel num="03" label="PDF" heading="PDF profesional con branding" body="React-PDF genera un documento de 4 semanas (menú rotativo A/B) con macros calculados, lista de la compra y el branding de la nutricionista. El plan llega al cliente el mismo día, listo para usar." accent={accent} />,
+      right: <TextPanel num="03" label="Aprendizaje" heading="Un sistema que mejora solo" body="Cada vez que Lydia edita un plan generado, ese cambio queda guardado frente al original de Claude. La diferencia entre ambos alimenta unas pautas que la IA lee en cada nueva generación — así acierta más cada vez, sin que ella tenga que repetir la misma corrección dos veces." accent={accent} />,
     },
     {
       leftBg: '#1f180e',
       left: <TextPanel num="04" label="Resultado" heading="De horas a menos de un minuto" body="Lo que antes eran 2-3 horas se reduce a menos de un minuto de generación con IA. La nutricionista revisa, ajusta si hace falta, y cada edición entrena al sistema para mejorar el siguiente plan." accent={accent} />,
       rightBg: '#1a160e',
-      right: <PwaPanel src="/img/nutri_app2.png" alt="NutriFlow resultado" />,
+      right: <PwaPanel src="/img/nutri-generando.png" alt="Generación de dieta en tiempo real" />,
     },
   ]
 }
@@ -368,10 +468,81 @@ function buildDBonitaPages(accent: string): SplitPage[] {
   ]
 }
 
+function buildBensBurgerPages(accent: string): SplitPage[] {
+  return [
+    {
+      leftBg: '#1a0f06',
+      left: (
+        <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+            La marca
+          </p>
+          <div style={{ width: 'clamp(140px, 14vw, 195px)', borderRadius: 26, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
+            <video autoPlay muted loop playsInline poster="/img/bensburger-reel-poster.jpg" style={{ width: '100%', display: 'block' }}>
+              <source src="/img/bensburger-reel.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      ),
+      rightBg: '#20130a',
+      right: <TextPanel num="01" label="La marca" heading="Una identidad que no existía" body="Sin web propia, la marca vivía solo en redes sociales. Construimos una identidad digital a su altura: fotografía de producto a medida y storytelling propio, en vez de depender de Instagram para todo." accent={accent} />,
+    },
+    {
+      leftBg: '#20130a',
+      left: <TextPanel num="02" label="La web" heading="La web que faltaba" body="Hero con fotografía de producto, reseñas de Google integradas (180 reseñas, 4.3/5) y web completa en español e inglés. Quien busca «hamburguesería Dénia», ahora encuentra algo." accent={accent} />,
+      rightBg: '#1a0f06',
+      right: <PwaPanel src="/img/bensburger-hero.png" alt="Ben's Burger — home" />,
+    },
+    {
+      leftBg: '#1a0f06',
+      left: <PwaPanel src="/img/bensburger-carta-mobile.png" alt="Carta digital en el móvil" />,
+      rightBg: '#20130a',
+      right: <TextPanel num="03" label="La carta" heading="La carta, en la mesa y en el móvil" body="Códigos QR en cada mesa llevan directo a la carta digital: foto, alérgenos y precio de cada plato, en ES/EN. Sin preguntar al camarero, sin malentendidos." accent={accent} />,
+    },
+    {
+      leftBg: '#20130a',
+      left: <TextPanel num="04" label="Lo que viene" heading="Pedidos y reservas, ya construidos" body="Por debajo de la web se construyó un sistema completo: pedido online con personalización, pantalla de cocina con PIN y reservas de mesa. El cliente prefirió lanzar primero la versión informativa — el resto queda listo para activarse cuando lo decida." accent={accent} />,
+      rightBg: '#1a0f06',
+      right: <PwaPanel src="/img/bensburger-product.webp" alt="Producto Ben's Burger" />,
+    },
+  ]
+}
+
+function buildEsclitecPages(accent: string): SplitPage[] {
+  return [
+    {
+      leftBg: '#051f3a',
+      left: <PwaPanel src="/img/esclitec-hero.png" alt="Esclitec — hero editorial" />,
+      rightBg: '#0a2545',
+      right: <TextPanel num="01" label="El encargo" heading="Una empresa técnica sin web a su altura" body="Ocho años instalando climatización, aerotermia y biomasa por toda la Comunidad Valenciana. Bioparc Valencia, Hotel La Casita Jávea, Tezenis entre sus clientes. Todo llegaba por teléfono y boca a boca — sin web, sin posicionamiento, sin forma de demostrar el nivel." accent={accent} />,
+    },
+    {
+      leftBg: '#0a2545',
+      left: <TextPanel num="02" label="Servicios" heading="7 servicios en un scroll editorial" body="Cada servicio tiene su pantalla completa: nombre en tipografía Fraunces gigante, descripción técnica y fotografía de obra real que aparece en el fondo al hacer scroll. Un zipper animado recorre la lista de los 7 servicios — como una revista técnica, no un folleto." accent={accent} />,
+      rightBg: '#051f3a',
+      right: <PwaPanel src="/img/esclitec-servicios.png" alt="Servicios con scroll zipper" />,
+    },
+    {
+      leftBg: '#051f3a',
+      left: <PwaPanel src="/img/esclitec-proyectos.png" alt="Galería de proyectos reales" />,
+      rightBg: '#0a2545',
+      right: <TextPanel num="03" label="Proyectos" heading="Obras reales, galería propia" body="Antes/después de la sustitución a aerotermia Mitsubishi Ecodan, suelo radiante en obra nueva, climatización en hostelería y nave ganadera. Cada proyecto con localización y tipología. Lo que antes vivía solo en WhatsApp, ahora está documentado." accent={accent} />,
+    },
+    {
+      leftBg: '#0a2545',
+      left: <TextPanel num="04" label="Resultado" heading="La web que respalda 8 años de trabajo" body="Captación directa por formulario (email vía Resend) y WhatsApp flotante. SEO local con sitemap y datos estructurados — posicionamiento en búsquedas de climatización en la Marina Alta. La empresa que instaló en Bioparc Valencia ahora tiene una web que lo demuestra." accent={accent} />,
+      rightBg: '#051f3a',
+      right: <PwaPanel src="/img/esclitec-stats.png" alt="Métricas y confianza Esclitec" />,
+    },
+  ]
+}
+
 function getShowcasePages(slug: string, accent: string): SplitPage[] | null {
   if (slug === 'g2fit') return buildG2FitPages(accent)
   if (slug === 'nutricion-ia') return buildNutricionPages(accent)
   if (slug === 'd-bonita') return buildDBonitaPages(accent)
+  if (slug === 'bensburger') return buildBensBurgerPages(accent)
+  if (slug === 'esclitec') return buildEsclitecPages(accent)
   return null
 }
 
@@ -387,6 +558,14 @@ const PROJECT_CTA: Record<string, { heading: string; subtitle: string }> = {
   'd-bonita': {
     heading: '¿Cuántas citas perdiste esta semana?',
     subtitle: 'Las clientas que no encuentran disponibilidad online no esperan — reservan en otro sitio. Hay forma de evitarlo.',
+  },
+  'bensburger': {
+    heading: '¿Tu negocio solo existe en Instagram?',
+    subtitle: 'Si tienes producto y reputación pero no presencia digital propia, ese es el primer paso — y el resto puede esperar hasta que lo necesites.',
+  },
+  'esclitec': {
+    heading: '¿Tu empresa tiene más trayectoria que visibilidad?',
+    subtitle: 'Si llevas años ejecutando buen trabajo pero tu web no lo refleja — o directamente no existe — eso tiene solución directa. Cuéntame qué haces.',
   },
 }
 

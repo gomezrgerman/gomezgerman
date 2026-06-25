@@ -17,14 +17,26 @@ const PREVIEWS: Record<string, PreviewSet> = {
     liveUrl: 'https://g2fit.es/',
   },
   'nutricion-ia': {
-    main: '/img/nutri_app.png',
-    a:    '/img/flujo_n8n2.png',
-    b:    '/img/pdf-nutri.png',
+    main: '/img/nutri-dieta-editor.png',
+    a:    '/img/nutri-dashboard.png',
+    b:    '/img/nutri-progreso-mobile.png',
   },
   'd-bonita': {
     main: '/img/hero-dbonita.png',
     a:    '/img/dbonita-admin.png',
     b:    '/img/reservas-dbonita.png',
+  },
+  'bensburger': {
+    main:    '/img/bensburger-hero.png',
+    a:       '/img/bensburger-carta.png',
+    b:       '/img/bensburger-carta-mobile.png',
+    liveUrl: 'https://bensburger.es/',
+  },
+  'esclitec': {
+    main:    '/img/esclitec-hero.png',
+    a:       '/img/esclitec-servicios.png',
+    b:       '/img/esclitec-proyectos.png',
+    liveUrl: 'https://www.esclitec.com',
   },
 }
 
