@@ -495,15 +495,33 @@ function buildBensBurgerPages(accent: string): SplitPage[] {
     },
     {
       leftBg: '#1a0f06',
-      left: <PwaPanel src="/img/bensburger-carta-mobile.png" alt="Carta digital en el móvil" />,
+      left: (
+        <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+            La carta
+          </p>
+          <div style={{ width: 'clamp(160px, 16vw, 230px)', borderRadius: 28, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
+            <Image src="/img/bensburger-carta-mobile.png" alt="Carta digital en el móvil" width={390} height={844} style={{ width: '100%', display: 'block' }} />
+          </div>
+        </div>
+      ),
       rightBg: '#20130a',
       right: <TextPanel num="03" label="La carta" heading="La carta, en la mesa y en el móvil" body="Códigos QR en cada mesa llevan directo a la carta digital: foto, alérgenos y precio de cada plato, en ES/EN. Sin preguntar al camarero, sin malentendidos." accent={accent} />,
     },
     {
       leftBg: '#20130a',
-      left: <TextPanel num="04" label="Lo que viene" heading="Pedidos y reservas, ya construidos" body="Por debajo de la web se construyó un sistema completo: pedido online con personalización, pantalla de cocina con PIN y reservas de mesa. El cliente prefirió lanzar primero la versión informativa — el resto queda listo para activarse cuando lo decida." accent={accent} />,
+      left: <TextPanel num="04" label="Lo que viene" heading="Pedidos y reservas, ya construidos" body="Por debajo de la web se construyó un sistema completo: pedido online con personalización de punto de cocción, pantalla de cocina con PIN y reservas de mesa. El cliente prefirió lanzar primero la versión informativa — el resto queda listo para activarse cuando lo decida." accent={accent} />,
       rightBg: '#1a0f06',
-      right: <PwaPanel src="/img/bensburger-product.webp" alt="Producto Ben's Burger" />,
+      right: (
+        <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+            Sistema listo
+          </p>
+          <div style={{ width: 'clamp(180px, 18vw, 260px)', borderRadius: 16, overflow: 'hidden', backgroundColor: '#fff', padding: 'clamp(1rem, 1.5vw, 1.5rem)', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
+            <Image src="/img/bensburger-qr.png" alt="QR — Ben's Burger" width={600} height={600} style={{ width: '100%', display: 'block' }} />
+          </div>
+        </div>
+      ),
     },
   ]
 }
