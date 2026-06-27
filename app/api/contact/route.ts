@@ -1,22 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-
-const RATE_LIMIT = 5
-const WINDOW_MS = 10 * 60 * 1000
-
-const rateMap = new Map<string, { count: number; resetAt: number }>()
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateMap.get(ip)
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(ip, { count: 1, resetAt: now + WINDOW_MS })
-    return true
-  }
-  if (entry.count >= RATE_LIMIT) return false
-  entry.count++
-  return true
-}
+import { checkRateLimit } from '@/lib/rate-limit'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST ?? 'smtp.hostinger.com',
@@ -64,7 +48,7 @@ export async function POST(req: NextRequest) {
     ?? req.headers.get('x-real-ip')
     ?? 'unknown'
 
-  if (!checkRateLimit(ip)) {
+  if (!await checkRateLimit(ip)) {
     return NextResponse.json({ error: 'Demasiados intentos.' }, { status: 429 })
   }
 
