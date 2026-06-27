@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-const PRESUPUESTO_OPTIONS = ['Menos de 1.500€', '1.500€ – 3.000€', '3.000€ – 5.000€', '+5.000€']
+const PRESUPUESTO_OPTIONS = ['Menos de 1.500€', '1.500€ – 3.000€', '3.000€ – 5.000€', '+5.000€', 'Aún no lo sé']
 const TIMING_OPTIONS      = ['Esta semana', 'Este mes', 'Estoy valorándolo todavía']
 
 export default function ContactForm() {
