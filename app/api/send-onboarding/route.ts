@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { isAuthorized } from '@/lib/server-auth'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST ?? 'smtp.hostinger.com',
@@ -12,6 +13,7 @@ const transporter = nodemailer.createTransport({
 })
 
 export async function POST(req: NextRequest) {
+  if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { email, nombre } = await req.json()
 

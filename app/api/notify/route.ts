@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { isAuthorized } from '@/lib/server-auth'
 
 export async function POST(request: NextRequest) {
+  if (!isAuthorized(request)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { type, data } = await request.json()
 

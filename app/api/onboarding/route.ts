@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
     try {
       await fetch(`${process.env.SITE_URL || 'http://localhost:3000'}/api/notify`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.DASHBOARD_PASSWORD ?? ''}`,
+        },
         body: JSON.stringify({ type: 'onboarding', data }),
       }).catch(() => null)
     } catch {}

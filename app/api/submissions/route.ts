@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isAuthorized } from '@/lib/server-auth'
 
 interface Submission {
   id: string
@@ -8,7 +9,8 @@ interface Submission {
   data: Record<string, unknown>
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/submissions?order=created_at.desc`,
@@ -34,6 +36,7 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
+  if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { id, lead_status, deal_amount } = await req.json()
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isAuthorized } from '@/lib/server-auth'
 
 const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
 const SUPABASE_KEY  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
@@ -26,6 +27,7 @@ async function patchNotes(id: string, notes: unknown[]) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { submissionId, content } = await req.json()
     if (!submissionId || !content?.trim()) {
@@ -47,6 +49,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { submissionId, noteId } = await req.json()
     if (!submissionId || !noteId) {
