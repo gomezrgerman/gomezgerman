@@ -37,40 +37,6 @@ function useTypewriter(text: string, active: boolean, speed = 26, preDelay = 900
   return { phase, charCount }
 }
 
-// ── Counter hooks ────────────────────────────────────────────────────────────
-function useCounter(target: number, active: boolean, duration = 1500) {
-  const [value, setValue] = useState(0)
-  useEffect(() => {
-    if (!active) { setValue(0); return }
-    let rafId: number
-    const start = performance.now()
-    const tick  = (now: number) => {
-      const p = Math.min((now - start) / duration, 1)
-      setValue(Math.round(target * (1 - Math.pow(1 - p, 3))))
-      if (p < 1) rafId = requestAnimationFrame(tick)
-    }
-    const delay = setTimeout(() => { rafId = requestAnimationFrame(tick) }, 400)
-    return () => { clearTimeout(delay); cancelAnimationFrame(rafId) }
-  }, [active, target, duration])
-  return value
-}
-
-function useFloatCounter(target: number, active: boolean, duration = 1600) {
-  const [value, setValue] = useState(0)
-  useEffect(() => {
-    if (!active) { setValue(0); return }
-    let rafId: number
-    const start = performance.now()
-    const tick  = (now: number) => {
-      const p = Math.min((now - start) / duration, 1)
-      setValue(parseFloat((target * (1 - Math.pow(1 - p, 3))).toFixed(1)))
-      if (p < 1) rafId = requestAnimationFrame(tick)
-    }
-    const delay = setTimeout(() => { rafId = requestAnimationFrame(tick) }, 400)
-    return () => { clearTimeout(delay); cancelAnimationFrame(rafId) }
-  }, [active, target, duration])
-  return value
-}
 
 // ── Tarjeta 1: WhatsApp ──────────────────────────────────────────────────────
 function WhatsAppCard() {
@@ -225,43 +191,103 @@ function AIChatCard({ isActive }: { isActive: boolean }) {
   )
 }
 
-// ── Tarjeta 3: Dashboard ─────────────────────────────────────────────────────
-function DashboardCard({ isActive }: { isActive: boolean }) {
-  const reservas = useCounter(47,  isActive, 1400)
-  const mensajes = useCounter(183, isActive, 1900)
-  const horas    = useFloatCounter(2.4, isActive, 1600)
-  const barPct   = useCounter(94,  isActive, 2100)
+// ── Tarjeta 3: Live automation feed ─────────────────────────────────────────
+const FEED_EVENTS = [
+  { project: 'NutriFlow', color: '#C4A882', event: 'Dieta generada',           ago: 'ahora'  },
+  { project: 'D Bonita',  color: '#C17B5A', event: 'Recordatorio enviado',     ago: '12s'    },
+  { project: 'G2Fit',     color: '#7DB892', event: 'Bono registrado',          ago: '38s'    },
+  { project: 'NutriFlow', color: '#C4A882', event: 'PDF entregado al cliente', ago: '1 min'  },
+  { project: 'D Bonita',  color: '#C17B5A', event: 'Reserva confirmada',       ago: '2 min'  },
+  { project: 'G2Fit',     color: '#7DB892', event: 'Sesión completada',        ago: '3 min'  },
+  { project: 'NutriFlow', color: '#C4A882', event: 'Plan ajustado por Lydia',  ago: '4 min'  },
+  { project: 'D Bonita',  color: '#C17B5A', event: 'Pago procesado',           ago: '5 min'  },
+]
 
-  const rows = [
-    { v: String(reservas),             l: 'reservas automatizadas',  s: 'sin intervención manual',  c: '#7DB892' },
-    { v: `~${horas.toFixed(1)}h`,      l: 'tiempo recuperado / día', s: 'en coordinación y gestión', c: '#F5F0E8' },
-    { v: String(mensajes),             l: 'mensajes enviados',        s: 'este mes',                  c: '#7DB892' },
-  ]
+function AutoFeedCard({ isActive }: { isActive: boolean }) {
+  const [visibleCount, setVisibleCount] = useState(0)
+
+  useEffect(() => {
+    if (!isActive) { setVisibleCount(0); return }
+    let count = 0
+    const id = setInterval(() => {
+      count += 1
+      setVisibleCount(count)
+      if (count >= FEED_EVENTS.length) clearInterval(id)
+    }, 420)
+    return () => clearInterval(id)
+  }, [isActive])
 
   return (
-    <div style={{ width: CARD_W, borderRadius: 16, overflow: 'hidden', boxShadow: '0 16px 48px rgba(0,0,0,0.6)', backgroundColor: '#0d1f12', border: '1px solid rgba(125,184,146,0.2)', padding: '16px 18px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: '#7DB892', fontFamily: 'sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Esta semana</span>
-        <span style={{ fontSize: 10, color: 'rgba(168,159,140,0.55)', fontFamily: 'sans-serif' }}>automatización activa</span>
+    <div style={{
+      width: CARD_W,
+      borderRadius: 16,
+      overflow: 'hidden',
+      boxShadow: '0 16px 48px rgba(0,0,0,0.65)',
+      backgroundColor: '#0a0f0b',
+      border: '1px solid rgba(125,184,146,0.18)',
+    }}>
+      {/* Header */}
+      <div style={{ padding: '13px 18px', borderBottom: '1px solid rgba(125,184,146,0.12)', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <motion.span
+          style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: '#7DB892', display: 'inline-block', boxShadow: '0 0 7px #7DB892', flexShrink: 0 }}
+          animate={{ opacity: [1, 0.35, 1] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+        />
+        <span style={{ fontSize: 11, fontWeight: 700, color: '#7DB892', fontFamily: 'sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          Automatización activa
+        </span>
+        <span style={{ marginLeft: 'auto', fontSize: 10, color: 'rgba(168,159,140,0.45)', fontFamily: 'sans-serif', letterSpacing: '0.06em' }}>
+          LIVE
+        </span>
       </div>
-      <div style={{ height: 1, backgroundColor: 'rgba(125,184,146,0.15)', marginBottom: 14 }} />
-      {rows.map(({ v, l, s, c }) => (
-        <div key={l} style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 11 }}>
-          <span style={{ fontSize: 26, fontWeight: 800, color: c, fontFamily: 'sans-serif', lineHeight: 1, letterSpacing: '-0.03em', minWidth: 64, fontVariantNumeric: 'tabular-nums' } as React.CSSProperties}>{v}</span>
-          <div>
-            <div style={{ fontSize: 12, color: '#F5F0E8', fontFamily: 'sans-serif', lineHeight: 1.3 }}>{l}</div>
-            <div style={{ fontSize: 10, color: '#A89F8C', fontFamily: 'sans-serif', opacity: 0.65 }}>{s}</div>
-          </div>
-        </div>
-      ))}
-      <div style={{ marginTop: 8 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-          <span style={{ fontSize: 10, color: '#A89F8C', fontFamily: 'sans-serif' }}>procesos automatizados</span>
-          <span style={{ fontSize: 10, color: '#7DB892', fontFamily: 'sans-serif', fontWeight: 600 }}>{barPct}%</span>
-        </div>
-        <div style={{ height: 4, backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 2 }}>
-          <div style={{ width: `${barPct}%`, height: '100%', backgroundColor: '#7DB892', borderRadius: 2 }} />
-        </div>
+
+      {/* Feed */}
+      <div style={{ padding: '10px 0', minHeight: 440 }}>
+        {FEED_EVENTS.map((ev, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -10 }}
+            animate={i < visibleCount ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '10px 18px',
+              borderBottom: '1px solid rgba(255,255,255,0.04)',
+            }}
+          >
+            {/* Check */}
+            <span style={{ color: ev.color, fontSize: 13, flexShrink: 0, lineHeight: 1 }}>✓</span>
+
+            {/* Project badge */}
+            <span style={{
+              fontSize: 10,
+              fontWeight: 700,
+              color: ev.color,
+              fontFamily: 'sans-serif',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              backgroundColor: `${ev.color}14`,
+              border: `1px solid ${ev.color}30`,
+              borderRadius: 4,
+              padding: '2px 7px',
+              flexShrink: 0,
+            }}>
+              {ev.project}
+            </span>
+
+            {/* Event description */}
+            <span style={{ fontSize: 12, color: '#C8C0B0', fontFamily: 'sans-serif', flex: 1, lineHeight: 1.3 }}>
+              {ev.event}
+            </span>
+
+            {/* Timestamp */}
+            <span style={{ fontSize: 10, color: 'rgba(168,159,140,0.4)', fontFamily: 'sans-serif', flexShrink: 0 }}>
+              {ev.ago}
+            </span>
+          </motion.div>
+        ))}
       </div>
     </div>
   )
@@ -338,7 +364,7 @@ export default function HeroCardDeck() {
             >
               {i === 0 && <WhatsAppCard />}
               {i === 1 && <AIChatCard isActive={front === 1} />}
-              {i === 2 && <DashboardCard isActive={front === 2} />}
+              {i === 2 && <AutoFeedCard isActive={front === 2} />}
             </motion.div>
           )
         })}
