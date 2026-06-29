@@ -54,9 +54,18 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { nombre, email, telefono, negocio, problema, presupuesto, timing, _trap } = body
+    const { nombre, email, telefono, negocio, problema, presupuesto, timing, _trap, _ts } = body
 
+    // Honeypot
     if (_trap) return NextResponse.json({ ok: true })
+
+    // Time check: bots envían en milisegundos, humanos tardan al menos 5 segundos
+    if (_ts && Date.now() - Number(_ts) < 5000) return NextResponse.json({ ok: true })
+
+    // Gibberish check: texto sin espacios con menos del 20% de vocales = caracteres aleatorios
+    if (isGibberish(nombre) || isGibberish(negocio) || isGibberish(problema)) {
+      return NextResponse.json({ ok: true })
+    }
 
     if (!nombre?.trim() || !email?.trim() || !negocio?.trim() || !problema?.trim()) {
       return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 })
@@ -220,4 +229,23 @@ function sanitizeHeader(str: string): string {
 
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+function isGibberish(text: string): boolean {
+  if (!text) return false
+  const t = text.trim()
+  if (t.length < 10) return false
+  // Texto sin espacios: comprobamos ratio de vocales
+  if (!/\s/.test(t)) {
+    const vowels = (t.match(/[aeiouáéíóúüAEIOUÁÉÍÓÚÜ]/g) ?? []).length
+    if (vowels / t.length < 0.20) return true
+  }
+  // Entropía de Shannon: texto aleatorio tiene entropía muy alta
+  const freq: Record<string, number> = {}
+  for (const c of t.toLowerCase()) freq[c] = (freq[c] ?? 0) + 1
+  const entropy = -Object.values(freq).reduce((s, n) => {
+    const p = n / t.length
+    return s + p * Math.log2(p)
+  }, 0)
+  return t.length > 15 && entropy > 4.2
 }

@@ -8,10 +8,11 @@ const PRESUPUESTO_OPTIONS = ['Menos de 1.500€', '1.500€ – 3.000€', '3.00
 const TIMING_OPTIONS      = ['Esta semana', 'Este mes', 'Estoy valorándolo todavía']
 
 export default function ContactForm() {
-  const [status, setStatus]         = useState<Status>('idle')
-  const [errorMsg, setErrorMsg]     = useState('')
+  const [status, setStatus]           = useState<Status>('idle')
+  const [errorMsg, setErrorMsg]       = useState('')
   const [presupuesto, setPresupuesto] = useState('')
-  const [timing, setTiming]         = useState('')
+  const [timing, setTiming]           = useState('')
+  const [loadTs]                      = useState<number>(() => Date.now())
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -27,6 +28,7 @@ export default function ContactForm() {
       presupuesto,
       timing,
       _trap:       (form.elements.namedItem('_trap')    as HTMLInputElement).value,
+      _ts:         loadTs,
     }
 
     try {
