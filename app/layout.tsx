@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Anybody } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/providers/Providers'
@@ -14,6 +14,10 @@ const anybody = Anybody({
   display: 'swap',
 })
 
+export const viewport: Viewport = {
+  themeColor: '#152B1C',
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://german-gomez.es',
@@ -23,7 +27,7 @@ export const metadata: Metadata = {
     template: '%s · Germán Gómez',
   },
   description:
-    'Sistemas de automatización para negocios reales. Consultor de automatización digital y desarrollo web en la Marina Alta, Alicante.',
+    'Germán Gómez, consultor en automatización e IA. Diseño webs, pipelines y PWAs para PYMEs en la Marina Alta, Alicante. Ahorra tiempo desde el día uno.',
   keywords: [
     'automatización',
     'desarrollo web',
@@ -34,18 +38,22 @@ export const metadata: Metadata = {
     'Alicante',
     'chatbot',
     'Supabase',
+    'consultor digital',
+    'PYME',
   ],
   authors: [{ name: 'Germán Gómez' }],
   openGraph: {
     title: 'Germán Gómez — Automatización & Desarrollo Web',
-    description: 'Sistemas de automatización para negocios reales.',
+    description: 'Diseño webs, pipelines de IA y PWAs para PYMEs en la Marina Alta, Alicante.',
     locale: 'es_ES',
     type: 'website',
+    siteName: 'Germán Gómez',
+    url: 'https://german-gomez.es',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Germán Gómez — Automatización & Desarrollo Web',
-    description: 'Sistemas de automatización para negocios reales.',
+    description: 'Diseño webs, pipelines de IA y PWAs para PYMEs en la Marina Alta, Alicante.',
   },
 }
 

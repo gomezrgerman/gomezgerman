@@ -163,6 +163,7 @@ export default function Hero() {
       className="relative overflow-hidden"
       style={{ backgroundColor: '#152B1C' }}
     >
+      <h1 className="sr-only">Germán Gómez — Diseño sistemas para negocios reales</h1>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 
       {/* ── MOBILE LAYOUT ─── < 768px ──────────────────────────────────── */}
