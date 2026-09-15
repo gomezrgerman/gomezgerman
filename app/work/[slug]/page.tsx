@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProject(params.slug)
   if (!project) return {}
   return {
-    title: `${project.title} — Germán Gómez`,
+    title: project.title,
     description: project.shortDescription,
     alternates: {
       canonical: `/work/${params.slug}`,
@@ -28,6 +28,32 @@ export default function ProjectPage({ params }: Props) {
   if (!project) notFound()
 
   const next = getNextProject(params.slug)
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://german-gomez.es').replace(/\/$/, '')
 
-  return <ProjectDetail project={project} next={next} />
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    headline: project.title,
+    description: project.shortDescription,
+    creator: {
+      '@type': 'Person',
+      name: 'Germán Gómez',
+      url: base,
+    },
+    keywords: project.tags.join(', '),
+    url: `${base}/work/${project.slug}`,
+    image: `${base}/work/${project.slug}/opengraph-image`,
+    ...(project.liveUrl ? { mainEntityOfPage: project.liveUrl } : {}),
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ProjectDetail project={project} next={next} />
+    </>
+  )
 }

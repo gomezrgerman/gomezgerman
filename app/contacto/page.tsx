@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import ContactPage from '@/components/sections/ContactPage'
 
 export const metadata: Metadata = {
-  title: 'Contacto · Germán Gómez',
+  title: 'Contacto',
   description:
     'Sin reuniones de 2 horas. Sin PowerPoints. Cuéntame qué proceso te está costando tiempo o dinero y lo analizamos juntos.',
   alternates: {

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import AboutContent from '@/components/sections/AboutContent'
 
 export const metadata: Metadata = {
-  title: 'Sobre mí · Germán Gómez',
+  title: 'Sobre mí',
   description:
     'Consultor de automatización digital y desarrollo web. Trabajo con PYMEs en la Marina Alta, Alicante y en remoto. Stack: Next.js, Supabase, Claude API, n8n, Python.',
   openGraph: {

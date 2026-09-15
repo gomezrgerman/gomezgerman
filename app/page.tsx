@@ -33,7 +33,7 @@ const jsonLd = {
   jobTitle: 'Consultor de Automatización Digital',
   description: 'Consultor especializado en automatización con IA y desarrollo web para PYMEs en la Marina Alta, Alicante.',
   url: 'https://german-gomez.es',
-  email: 'germangomez1193@gmail.com',
+  email: 'contacto@german-gomez.es',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Marina Alta',

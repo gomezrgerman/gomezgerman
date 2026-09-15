@@ -3,7 +3,11 @@ import { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://german-gomez.es').replace(/\/$/, '')
   return {
-    rules: { userAgent: '*', allow: '/' },
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: ['/dashboard', '/onboarding', '/api'],
+    },
     sitemap: `${base}/sitemap.xml`,
   }
 }

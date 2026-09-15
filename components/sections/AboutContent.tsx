@@ -144,6 +144,7 @@ export default function AboutContent() {
                   alt="Germán Gómez"
                   fill
                   priority
+                  sizes="(max-width: 768px) 90vw, 460px"
                   style={{ objectFit: 'cover', objectPosition: 'center' }}
                 />
                 <div

@@ -23,6 +23,7 @@ export default function ContactForm() {
     const data = {
       nombre:      (form.elements.namedItem('nombre')   as HTMLInputElement).value,
       email:       (form.elements.namedItem('email')    as HTMLInputElement).value,
+      telefono:    (form.elements.namedItem('telefono') as HTMLInputElement).value,
       negocio:     (form.elements.namedItem('negocio')  as HTMLInputElement).value,
       problema:    (form.elements.namedItem('problema') as HTMLTextAreaElement).value,
       presupuesto,
