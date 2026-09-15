@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import WorkList from '@/components/sections/WorkList'
 
 export const metadata: Metadata = {
-  title: 'Proyectos · Germán Gómez',
+  title: 'Proyectos',
   description:
-    'Tres proyectos reales: G2Fit, NutriFlow y D Bonita. Sistemas de automatización y desarrollo web para negocios que funcionan.',
+    'Proyectos reales de automatización, gestión y desarrollo web para negocios que funcionan de verdad.',
   alternates: {
     canonical: '/work',
   },

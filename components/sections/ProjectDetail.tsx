@@ -308,12 +308,62 @@ function buildEsclitecSummary(accent: string): Record<string, { hook: string; su
   }
 }
 
+function buildElefitnessSummary(accent: string): Record<string, { hook: string; support: ReactNode }> {
+  const sup: React.CSSProperties = { fontSize: 'clamp(0.78rem, 0.88vw, 0.84rem)', lineHeight: 1.7, color: '#A89F8C' }
+  const gap: React.CSSProperties = { ...sup, marginTop: '0.85em' }
+  const rule = <div style={{ height: 1, backgroundColor: accent + '30', margin: '1rem 0' }} />
+
+  return {
+    context: {
+      hook: 'Centro de entrenamiento en Valencia. Grupos reducidos, aforo limitado.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Seguimiento individual dentro de cada clase grupal.</p>
+          <p style={gap}>Gestionado con un software de gestión genérico<br />pensado para cualquier gimnasio.</p>
+        </div>
+      ),
+    },
+    problem: {
+      hook: 'Recrear el horario a mano cada semana, sin más remedio.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Su software anterior no dejaba copiar horarios ni aplicar<br />la política de cancelación de 24h.</p>
+          <p style={gap}>Recuperaciones indebidas. Ingresos perdidos.<br />Cero margen para adaptar sus propias reglas.</p>
+        </div>
+      ),
+    },
+    solution: {
+      hook: 'Un sistema construido sobre sus reglas, no al revés.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>Aforo oculto, lista de espera, horario copiable.<br />Cuota mensual o bonos sueltos, como cada clienta necesite.</p>
+          <p style={gap}>Bono de recuperación con caducidad y tope propios.<br />Elena con control total, Iván con sus propios grupos.</p>
+        </div>
+      ),
+    },
+    result: {
+      hook: '153 clientas migradas. El sistema ya está en producción.',
+      support: (
+        <div className="font-cabinet">
+          {rule}
+          <p style={sup}>El horario ya no se recrea a mano.<br />La cancelación con 24h se aplica sola.</p>
+          <p style={gap}>Cada regla del negocio, antes imposible de configurar,<br />vive ahora en un sistema propio.</p>
+        </div>
+      ),
+    },
+  }
+}
+
 function getProjectSummary(slug: string, accent: string): Record<string, { hook: string; support: ReactNode }> | null {
   if (slug === 'g2fit')        return buildG2FitSummary(accent)
   if (slug === 'nutricion-ia') return buildNutricionSummary(accent)
   if (slug === 'd-bonita')     return buildDBOnitaSummary(accent)
   if (slug === 'bensburger')   return buildBensBurgerSummary(accent)
   if (slug === 'esclitec')     return buildEsclitecSummary(accent)
+  if (slug === 'elefitness')   return buildElefitnessSummary(accent)
   return null
 }
 
@@ -555,12 +605,42 @@ function buildEsclitecPages(accent: string): SplitPage[] {
   ]
 }
 
+function buildElefitnessPages(accent: string): SplitPage[] {
+  return [
+    {
+      leftBg: '#0f1817',
+      left: <PwaPanel src="/img/elefitness-hero.jpg" alt="Elefitness — web pública" />,
+      rightBg: '#152321',
+      right: <TextPanel num="01" label="La web" heading="Una presencia que por fin explica el centro" body="Web pública con identidad propia: filosofía de entrenamiento, modalidades y reserva directa. Antes, todo vivía solo en Instagram y en el boca a boca." accent={accent} />,
+    },
+    {
+      leftBg: '#152321',
+      left: <TextPanel num="02" label="El calendario" heading="El horario que ya no se recrea a mano" body="Aforo visible de un vistazo, lista de espera automática y copiar la semana con un clic. Antes había que reconstruir cada horario desde cero en el sistema anterior." accent={accent} />,
+      rightBg: '#0f1817',
+      right: <PwaPanel src="/img/elefitness-calendario.jpg" alt="Calendario semanal de clases" />,
+    },
+    {
+      leftBg: '#0f1817',
+      left: <PwaPanel src="/img/elefitness-clientes.jpg" alt="Gestión de clientas (datos reales difuminados)" />,
+      rightBg: '#152321',
+      right: <TextPanel num="03" label="Las clientas" heading="153 clientas migradas a un sistema propio" body="Ficha completa, plan, contacto y estado de cada clienta en un único lugar. Nada de exportar CSV ni de mirar dos sistemas a la vez." accent={accent} />,
+    },
+    {
+      leftBg: '#152321',
+      left: <TextPanel num="04" label="La app" heading="Un sistema construido sobre sus propias reglas" body="Bonos de recuperación con caducidad y tope propios. Elena con control total, Iván con sus propios grupos. Dominio, email y PWA propios, sin pasar por tiendas de apps." accent={accent} />,
+      rightBg: '#0f1817',
+      right: <PwaPanel src="/img/elefitness-login.jpg" alt="Acceso a la app de gestión" />,
+    },
+  ]
+}
+
 function getShowcasePages(slug: string, accent: string): SplitPage[] | null {
   if (slug === 'g2fit') return buildG2FitPages(accent)
   if (slug === 'nutricion-ia') return buildNutricionPages(accent)
   if (slug === 'd-bonita') return buildDBonitaPages(accent)
   if (slug === 'bensburger') return buildBensBurgerPages(accent)
   if (slug === 'esclitec') return buildEsclitecPages(accent)
+  if (slug === 'elefitness') return buildElefitnessPages(accent)
   return null
 }
 
@@ -584,6 +664,10 @@ const PROJECT_CTA: Record<string, { heading: string; subtitle: string }> = {
   'esclitec': {
     heading: '¿Tu empresa tiene más trayectoria que visibilidad?',
     subtitle: 'Si llevas años ejecutando buen trabajo pero tu web no lo refleja — o directamente no existe — eso tiene solución directa. Cuéntame qué haces.',
+  },
+  'elefitness': {
+    heading: '¿Tu negocio se adapta a un SaaS, en vez de al revés?',
+    subtitle: 'Si pagas por una herramienta genérica que casi encaja pero nunca del todo, hay una alternativa: un sistema construido sobre tus reglas reales. Cuéntame cómo trabajas.',
   },
 }
 

@@ -38,6 +38,11 @@ const PREVIEWS: Record<string, PreviewSet> = {
     b:       '/img/esclitec-proyectos.png',
     liveUrl: 'https://www.esclitec.com',
   },
+  'elefitness': {
+    main: '/img/elefitness-hero.jpg',
+    a:    '/img/elefitness-filosofia.jpg',
+    b:    '/img/elefitness-login.jpg',
+  },
 }
 
 export default function WorkList() {
@@ -310,7 +315,7 @@ export default function WorkList() {
                 >
                   <Image
                     src={preview.main}
-                    alt={project.title}
+                    alt={`${project.title} — vista principal`}
                     width={700}
                     height={460}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
@@ -330,7 +335,7 @@ export default function WorkList() {
                   >
                     <Image
                       src={preview.a}
-                      alt={`${project.title} — detalle`}
+                      alt={`${project.title} — captura 1`}
                       width={350}
                       height={280}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
@@ -347,7 +352,7 @@ export default function WorkList() {
                   >
                     <Image
                       src={preview.b}
-                      alt={`${project.title} — detalle`}
+                      alt={`${project.title} — captura 2`}
                       width={350}
                       height={280}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}

@@ -82,6 +82,7 @@ export default function Projects() {
             '/img/dbonita-admin.png',
             '/img/bensburger-hero.png',
             '/img/esclitec-hero.png',
+            '/img/elefitness-hero.jpg',
           ]}
           repeat={4}
           cardGap={50}
@@ -241,7 +242,7 @@ export default function Projects() {
                         >
                           <Image
                             src={src}
-                            alt={p.title}
+                            alt={`${p.title} — ${i === 0 ? 'vista principal' : 'detalle'}`}
                             width={800}
                             height={520}
                             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
@@ -278,7 +279,7 @@ export default function Projects() {
                       ) : (
                         <Image
                           src={p.homePosterImg}
-                          alt={p.title}
+                          alt={`${p.title}${p.homeSubtitle ? ` — ${p.homeSubtitle}` : ''}`}
                           width={390}
                           height={844}
                           style={{ width: '100%', height: 'auto', display: 'block' }}
