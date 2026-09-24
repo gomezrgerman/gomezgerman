@@ -82,6 +82,43 @@ export const PROJECTS: Project[] = [
   },
   {
     number: '02',
+    slug: 'elefitness',
+    title: 'Elefitness — Reservas y Gestión',
+    tagline: 'De un SaaS genérico que no encajaba a un sistema hecho a su medida',
+    shortDescription:
+      'Sistema de reservas, bonos y pagos a medida para un centro de entrenamiento en Valencia, migrado desde un SaaS genérico que no se adaptaba a sus reglas de negocio.',
+    context:
+      'Centro de entrenamiento personal y en grupos reducidos en Valencia. Clases con aforo limitado y seguimiento individual dentro de cada grupo, gestionado con un software de gestión genérico, pensado para cualquier gimnasio, no para las reglas propias del negocio.',
+    problem:
+      'Su software anterior no dejaba copiar el horario semanal: Elena lo recreaba a mano cada semana. No aplicaba la política de cancelación de 24h, así que las clientas recuperaban sesiones que no deberían y el negocio perdía ingresos. El calendario no mostraba nombres de clientes, y la lista de cancelados se llenaba de histórico irrelevante hasta hacerse inútil. Cero margen para adaptar el sistema a cómo funcionaba realmente el centro.',
+    solution:
+      'App propia sobre el mismo stack que G2Fit y NutriFlow. Calendario con aforo oculto al cliente (solo ve "Libre" o "Completo"), lista de espera automática y horario semanal copiable con un clic. Dos formas de pago conviven: cuota mensual recurrente por Stripe para horario fijo, bonos de sesiones sueltas (Stripe, efectivo o transferencia) para horario rotativo. Cancelar con 24h de antelación genera un bono de recuperación con caducidad y tope propios; cancelar tarde descuenta automáticamente del siguiente bono. Elena, la dueña, tiene control total; Iván, el entrenador, gestiona sus propios grupos sin tocar los del resto. Emails transaccionales con dominio propio verificado y PWA instalable, sin pasar por tiendas de apps.',
+    result:
+      'Sistema en producción real en app.elefitness.es, con las 153 clientas del centro ya migradas desde su sistema anterior. El horario semanal ya no se recrea a mano, la política de cancelación se aplica sola, y cada regla del negocio — antes imposible de configurar en un SaaS genérico — vive ahora en el propio sistema.',
+    tags: ['Next.js', 'Supabase', 'Stripe', 'PWA'],
+    metrics: [
+      { value: '153', label: 'clientas migradas al nuevo sistema' },
+      { value: '5,0★', label: '32 reseñas en Google' },
+      { value: '0', label: 'horarios recreados a mano cada semana' },
+    ],
+    accentColor: '#7AB0A8',
+    placeholderColor: '#0f1817',
+    homeSubtitle: 'Reservas y Gestión',
+    homeMetric: '153',
+    homeMetricLabel: 'clientas migradas',
+    homeDualImages: ['/img/elefitness-hero.jpg', '/img/elefitness-filosofia.jpg'],
+    homeProblem: 'Su software anterior no dejaba copiar el horario semanal ni aplicar su política de cancelación de 24h. Recreación manual cada semana, ingresos perdidos por recuperaciones indebidas.',
+    homeSolution: 'App propia con aforo oculto, lista de espera, bono de recuperación con reglas automáticas y dos roles de staff con permisos propios — cada regla del negocio, ahora configurable de verdad.',
+    homeResult: 'En producción real, con las 153 clientas del centro ya migradas al nuevo sistema.',
+    media: [
+      { src: '/img/elefitness-hero.jpg',       type: 'image', label: 'Web pública',        frame: 'browser' },
+      { src: '/img/elefitness-calendario.jpg', type: 'image', label: 'Calendario semanal',  frame: 'browser' },
+      { src: '/img/elefitness-clientes.jpg',   type: 'image', label: 'Gestión de clientas', frame: 'browser' },
+      { src: '/img/elefitness-login.jpg',      type: 'image', label: 'Acceso a la app',     frame: 'browser' },
+    ],
+  },
+  {
+    number: '03',
     slug: 'nutricion-ia',
     title: 'NutriFlow — Dietas a medida en minutos',
     tagline: 'De 3 horas por paciente a minutos de revisión',
@@ -113,7 +150,7 @@ export const PROJECTS: Project[] = [
     homeResult: 'De 2–3 horas a menos de un minuto de generación. Un sistema propio que aprende de cada edición, sin depender de herramientas externas.',
   },
   {
-    number: '03',
+    number: '04',
     slug: 'd-bonita',
     title: 'D Bonita — Reservas + CRM',
     tagline: 'De WhatsApp y papel a reservas 24/7 con CRM en el bolsillo',
@@ -151,7 +188,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    number: '04',
+    number: '05',
     slug: 'bensburger',
     title: "Ben's Burger — Presencia Digital",
     tagline: 'De boca en boca a marca con web propia',
@@ -183,7 +220,7 @@ export const PROJECTS: Project[] = [
     liveUrl: 'https://bensburger.es/',
   },
   {
-    number: '05',
+    number: '06',
     slug: 'esclitec',
     title: 'Esclitec — Web Corporativa',
     tagline: 'Una empresa técnica con 8 años de obras y clientes de peso, por fin con una web a su altura',
@@ -213,43 +250,6 @@ export const PROJECTS: Project[] = [
     homeSolution: 'Web editorial con tipografía gigante, scroll cinematográfico de 7 servicios, galería de obras reales y captación por formulario y WhatsApp.',
     homeResult: 'Posicionamiento local en Google y una presencia que por fin refleja el nivel real de la empresa.',
     liveUrl: 'https://www.esclitec.com',
-  },
-  {
-    number: '06',
-    slug: 'elefitness',
-    title: 'Elefitness — Reservas y Gestión',
-    tagline: 'De un SaaS genérico que no encajaba a un sistema hecho a su medida',
-    shortDescription:
-      'Sistema de reservas, bonos y pagos a medida para un centro de entrenamiento en Valencia, migrado desde un SaaS genérico que no se adaptaba a sus reglas de negocio.',
-    context:
-      'Centro de entrenamiento personal y en grupos reducidos en Valencia. Clases con aforo limitado y seguimiento individual dentro de cada grupo, gestionado con un software de gestión genérico, pensado para cualquier gimnasio, no para las reglas propias del negocio.',
-    problem:
-      'Su software anterior no dejaba copiar el horario semanal: Elena lo recreaba a mano cada semana. No aplicaba la política de cancelación de 24h, así que las clientas recuperaban sesiones que no deberían y el negocio perdía ingresos. El calendario no mostraba nombres de clientes, y la lista de cancelados se llenaba de histórico irrelevante hasta hacerse inútil. Cero margen para adaptar el sistema a cómo funcionaba realmente el centro.',
-    solution:
-      'App propia sobre el mismo stack que G2Fit y NutriFlow. Calendario con aforo oculto al cliente (solo ve "Libre" o "Completo"), lista de espera automática y horario semanal copiable con un clic. Dos formas de pago conviven: cuota mensual recurrente por Stripe para horario fijo, bonos de sesiones sueltas (Stripe, efectivo o transferencia) para horario rotativo. Cancelar con 24h de antelación genera un bono de recuperación con caducidad y tope propios; cancelar tarde descuenta automáticamente del siguiente bono. Elena, la dueña, tiene control total; Iván, el entrenador, gestiona sus propios grupos sin tocar los del resto. Emails transaccionales con dominio propio verificado y PWA instalable, sin pasar por tiendas de apps.',
-    result:
-      'Sistema en producción real en app.elefitness.es, con las 153 clientas del centro ya migradas desde su sistema anterior. El horario semanal ya no se recrea a mano, la política de cancelación se aplica sola, y cada regla del negocio — antes imposible de configurar en un SaaS genérico — vive ahora en el propio sistema.',
-    tags: ['Next.js', 'Supabase', 'Stripe', 'PWA'],
-    metrics: [
-      { value: '153', label: 'clientas migradas al nuevo sistema' },
-      { value: '5,0★', label: '32 reseñas en Google' },
-      { value: '0', label: 'horarios recreados a mano cada semana' },
-    ],
-    accentColor: '#7AB0A8',
-    placeholderColor: '#0f1817',
-    homeSubtitle: 'Reservas y Gestión',
-    homeMetric: '153',
-    homeMetricLabel: 'clientas migradas',
-    homeDualImages: ['/img/elefitness-hero.jpg', '/img/elefitness-filosofia.jpg'],
-    homeProblem: 'Su software anterior no dejaba copiar el horario semanal ni aplicar su política de cancelación de 24h. Recreación manual cada semana, ingresos perdidos por recuperaciones indebidas.',
-    homeSolution: 'App propia con aforo oculto, lista de espera, bono de recuperación con reglas automáticas y dos roles de staff con permisos propios — cada regla del negocio, ahora configurable de verdad.',
-    homeResult: 'En producción real, con las 153 clientas del centro ya migradas al nuevo sistema.',
-    media: [
-      { src: '/img/elefitness-hero.jpg',       type: 'image', label: 'Web pública',        frame: 'browser' },
-      { src: '/img/elefitness-calendario.jpg', type: 'image', label: 'Calendario semanal',  frame: 'browser' },
-      { src: '/img/elefitness-clientes.jpg',   type: 'image', label: 'Gestión de clientas', frame: 'browser' },
-      { src: '/img/elefitness-login.jpg',      type: 'image', label: 'Acceso a la app',     frame: 'browser' },
-    ],
   },
 ]
 
