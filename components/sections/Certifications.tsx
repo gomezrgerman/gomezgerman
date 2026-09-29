@@ -74,8 +74,8 @@ export default function Certifications() {
           className="cert-grid grid gap-5 md:gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))' }}
         >
-          {CERTIFICATIONS.map((cert, i) => (
-            <CertCard key={cert.verifyUrl} cert={cert} index={i} />
+          {CERTIFICATIONS.map((cert) => (
+            <CertCard key={cert.verifyUrl} cert={cert} />
           ))}
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function Certifications() {
   )
 }
 
-function CertCard({ cert, index }: { readonly cert: Certification; readonly index: number }) {
+function CertCard({ cert }: { readonly cert: Certification }) {
   const projects = resolveAppliedProjects(cert.appliedIn)
   const hasApplied = projects.length > 0 || Boolean(cert.appliedNote)
 
@@ -106,23 +106,15 @@ function CertCard({ cert, index }: { readonly cert: Certification; readonly inde
           ✓ VERIFICADO
         </span>
 
-        <div className="relative flex items-start justify-between gap-4">
-          <span
-            className="font-anybody"
-            style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', fontWeight: 100, letterSpacing: '-0.04em', lineHeight: 1, color: 'rgba(125, 184, 146, 0.35)' }}
-          >
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <span
-            className="font-cabinet text-cream-dim transition-opacity duration-300 group-hover:opacity-0"
-            style={{ fontSize: '0.6875rem', letterSpacing: '0.12em', textTransform: 'uppercase', paddingTop: '0.4rem' }}
-          >
-            {cert.issuer}
-          </span>
-        </div>
+        <span
+          className="relative font-cabinet text-cream-dim"
+          style={{ fontSize: '0.6875rem', letterSpacing: '0.12em', textTransform: 'uppercase', paddingTop: '0.4rem' }}
+        >
+          {cert.issuer}
+        </span>
 
         <h3
-          className="relative mt-6 font-anybody text-cream"
+          className="relative mt-5 font-anybody text-cream"
           style={{ fontSize: 'clamp(1.25rem, 1.8vw, 1.6rem)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1 }}
         >
           {cert.title}

@@ -3,7 +3,7 @@ import { PROJECTS } from '@/lib/projects'
 /**
  * Credenciales mostradas en /about.
  * Para añadir una nueva: añade un objeto a CERTIFICATIONS. El orden del array
- * es el orden en pantalla (numeración automática) y el grid se adapta solo.
+ * es el orden en pantalla y el grid se adapta solo.
  */
 export interface Certification {
   readonly title: string
