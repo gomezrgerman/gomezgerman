@@ -6,6 +6,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ContactCTA from '@/components/sections/ContactCTA'
 import MeshCanvas from '@/components/ui/MeshCanvas'
+import Certifications from '@/components/sections/Certifications'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -249,6 +250,9 @@ export default function AboutContent() {
             ))}
           </div>
         </section>
+
+        {/* ─── FORMACIÓN ─── */}
+        <Certifications />
 
         {/* ─── CTA ─── */}
         <ContactCTA
