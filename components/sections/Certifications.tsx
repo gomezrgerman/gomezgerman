@@ -105,7 +105,7 @@ function CertCard({ cert }: { readonly cert: Certification }) {
             alt={cert.badge.alt}
             width={64}
             height={64}
-            className="pointer-events-none absolute right-6 top-6 h-14 w-14 opacity-90 transition-all duration-500 group-hover:rotate-[-8deg] group-hover:opacity-100 md:h-16 md:w-16"
+            className="pointer-events-none absolute right-6 top-6 h-14 w-14 opacity-80 saturate-[0.35] transition-all duration-500 group-hover:rotate-[-8deg] group-hover:opacity-100 group-hover:saturate-100 md:h-16 md:w-16"
           />
         ) : (
           <span

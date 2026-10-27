@@ -2,9 +2,9 @@ import { PROJECTS } from '@/lib/projects'
 
 /**
  * Credenciales mostradas en /about.
- * Para añadir una nueva: añade un objeto al PRINCIPIO de CERTIFICATIONS (la más
- * reciente va primero). El orden del array es el orden en pantalla y el grid
- * se adapta solo.
+ * Para añadir una nueva: añade un objeto en CERTIFICATIONS justo después del
+ * máster (que va siempre primero); el resto, de la más reciente a la más
+ * antigua. El orden del array es el orden en pantalla y el grid se adapta solo.
  */
 export interface Certification {
   readonly title: string
@@ -21,6 +21,14 @@ export interface Certification {
 }
 
 export const CERTIFICATIONS: readonly Certification[] = [
+  {
+    title: 'Máster de Inteligencia Artificial',
+    issuer: 'BIG school · 240 horas',
+    verifyUrl: 'https://credsverse.com/credentials/1104c384-4210-4bf1-b42d-88c0df64218e',
+    skills: ['LLMs y agentes', 'Automatización (n8n, Make)', 'Vibe coding', 'Chatbots', 'IA generativa'],
+    appliedIn: ['nutricion-ia', 'g2fit', 'elefitness', 'd-bonita', 'bensburger', 'esclitec'],
+    badge: { src: '/img/certs/big-school.webp', alt: 'Logo de BIG school' },
+  },
   {
     title: 'Especialista en TI: Python',
     issuer: 'Certiport · Pearson VUE',
