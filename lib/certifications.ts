@@ -2,8 +2,9 @@ import { PROJECTS } from '@/lib/projects'
 
 /**
  * Credenciales mostradas en /about.
- * Para añadir una nueva: añade un objeto a CERTIFICATIONS. El orden del array
- * es el orden en pantalla y el grid se adapta solo.
+ * Para añadir una nueva: añade un objeto al PRINCIPIO de CERTIFICATIONS (la más
+ * reciente va primero). El orden del array es el orden en pantalla y el grid
+ * se adapta solo.
  */
 export interface Certification {
   readonly title: string
@@ -15,9 +16,20 @@ export interface Certification {
   readonly appliedIn: readonly string[]
   /** Aplicación que no es un proyecto del portfolio (p. ej. "Este portfolio") */
   readonly appliedNote?: string
+  /** Insignia oficial del emisor (WebP cuadrado en /public/img/certs/) */
+  readonly badge?: { readonly src: string; readonly alt: string }
 }
 
 export const CERTIFICATIONS: readonly Certification[] = [
+  {
+    title: 'Especialista en TI: Python',
+    issuer: 'Certiport · Pearson VUE',
+    verifyUrl: 'https://www.credly.com/badges/e26b2531-7843-4afc-99e1-b598a31318e1/public_url',
+    skills: ['Python', 'Estructuras de datos', 'Control de flujo', 'Manejo de errores'],
+    appliedIn: ['nutricion-ia'],
+    appliedNote: 'CRM de prospección propio',
+    badge: { src: '/img/certs/it-specialist-python.webp', alt: 'Insignia IT Specialist Python de Pearson' },
+  },
   {
     title: 'Building with the Claude API',
     issuer: 'Anthropic Academy',

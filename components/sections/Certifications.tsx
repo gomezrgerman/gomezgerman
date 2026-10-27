@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -97,14 +98,24 @@ function CertCard({ cert }: { readonly cert: Certification }) {
           style={{ background: 'radial-gradient(420px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(125,184,146,0.08), transparent 60%)' }}
         />
 
-        {/* Sello verificado */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute right-5 top-5 -rotate-[8deg] scale-125 border px-2 py-1 font-cabinet opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
-          style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.16em', color: 'var(--color-green-light)', borderColor: 'var(--color-green-light)' }}
-        >
-          ✓ VERIFICADO
-        </span>
+        {/* Insignia oficial; si no hay, sello verificado al hover */}
+        {cert.badge ? (
+          <Image
+            src={cert.badge.src}
+            alt={cert.badge.alt}
+            width={64}
+            height={64}
+            className="pointer-events-none absolute right-6 top-6 h-14 w-14 opacity-90 transition-all duration-500 group-hover:rotate-[-8deg] group-hover:opacity-100 md:h-16 md:w-16"
+          />
+        ) : (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute right-5 top-5 -rotate-[8deg] scale-125 border px-2 py-1 font-cabinet opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
+            style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.16em', color: 'var(--color-green-light)', borderColor: 'var(--color-green-light)' }}
+          >
+            ✓ VERIFICADO
+          </span>
+        )}
 
         <span
           className="relative font-cabinet text-cream-dim"
@@ -115,7 +126,7 @@ function CertCard({ cert }: { readonly cert: Certification }) {
 
         <h3
           className="relative mt-5 font-anybody text-cream"
-          style={{ fontSize: 'clamp(1.25rem, 1.8vw, 1.6rem)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1 }}
+          style={{ fontSize: 'clamp(1.25rem, 1.8vw, 1.6rem)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1, paddingRight: cert.badge ? '4.5rem' : undefined }}
         >
           {cert.title}
         </h3>
