@@ -1,10 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import gsap from 'gsap'
 import HeroCardDeck from '@/components/ui/HeroCardDeck'
-import HeroLogoReveal from '@/components/ui/HeroLogoReveal'
-import ScrollStroke from '@/components/ui/ScrollStroke'
 import SplitChars from '@/components/ui/SplitChars'
 import { prefersReducedMotion } from '@/lib/motion'
 import { INTRO_DELAY, animateHeroDesktop, animateHeroMobile } from '@/components/sections/heroMotion'
@@ -32,6 +31,13 @@ const titleStyleMobile = {
   opacity: 0,
 }
 
+/**
+ * Piezas decorativas solo de escritorio (usan framer-motion). Se cargan bajo demanda y
+ * solo en pantallas grandes: en móvil no se descarga framer-motion.
+ */
+const HeroLogoReveal = dynamic(() => import('@/components/ui/HeroLogoReveal'), { ssr: false })
+const ScrollStroke = dynamic(() => import('@/components/ui/ScrollStroke'), { ssr: false })
+
 /** La cortina "GG" solo se muestra en la primera carga, no al volver a la home navegando. */
 let introPlayed = false
 
@@ -40,6 +46,15 @@ export default function Hero() {
   const sectionRef  = useRef<HTMLElement>(null)
   const canvasRef   = useRef<HTMLCanvasElement>(null)
   const logoWrapRef = useRef<HTMLDivElement>(null)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   // Escala dinámica del CardDeck en mobile
   const [cardScale, setCardScale] = useState(0.62)
@@ -210,7 +225,8 @@ export default function Hero() {
           <SplitChars text="REALES" charClassName="hero-ch" />
         </span>
 
-        <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2" style={{ opacity: 0 }}>
+        {/* Visible desde el HTML: es el contenido principal (LCP) en móvil; la animación solo lo desplaza */}
+        <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2">
           <p
             className="font-cabinet text-cream"
             style={{ fontSize: 'clamp(0.875rem, 3.8vw, 1rem)', maxWidth: '32ch', lineHeight: 1.75, letterSpacing: '0.01em' }}
@@ -236,7 +252,7 @@ export default function Hero() {
       {/* ── DESKTOP LAYOUT ─── >= 768px ────────────────────────────────── */}
       <div className="hidden md:block" style={{ height: 'calc(20vh + 150vw)', position: 'relative' }}>
 
-        <ScrollStroke />
+        {isDesktop && <ScrollStroke />}
 
         {/* DISEÑO */}
         <span
@@ -281,7 +297,7 @@ export default function Hero() {
           className="absolute"
           style={{ top: 'calc(7vh + 67vw)', left: '8.5vw', zIndex: 0 }}
         >
-          <HeroLogoReveal />
+          {isDesktop && <HeroLogoReveal />}
         </div>
 
         {/* -MAS */}

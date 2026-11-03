@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -24,7 +25,7 @@ const TILES = [
 export default function ZoomShowcase() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const section = sectionRef.current
     if (!section || prefersReducedMotion()) return
 

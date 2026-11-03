@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,7 +21,7 @@ const STAIR_OFFSETS = [0, 0.3, 0.45, 0.6] as const
 export default function ProcessSteps() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const section = sectionRef.current
     if (!section || prefersReducedMotion()) return
 

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -59,7 +60,7 @@ export default function FlowArt({ children, className }: FlowArtProps) {
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (!containerRef.current || reducedMotion) return
 
     const sections = Array.from(

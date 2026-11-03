@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 
 const CARD_W = 420
 
@@ -47,29 +46,30 @@ export default function HeroCardDeck() {
     <div style={{ position: 'relative' }}>
 
       {/* Label */}
-      <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={triggered ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
-        transition={{ duration: 0.6, delay: 0.9 }}
-        style={{ position: 'absolute', top: -30, left: 4, display: 'flex', alignItems: 'center', gap: 7 }}
+      <div
+        style={{
+          position: 'absolute', top: -30, left: 4, display: 'flex', alignItems: 'center', gap: 7,
+          opacity: triggered ? 1 : 0,
+          transform: `translateY(${triggered ? 0 : -8}px)`,
+          transition: 'opacity 0.6s ease 0.9s, transform 0.6s ease 0.9s',
+        }}
       >
-        <motion.span
+        <span
+          className="deck-pulse"
           style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: '#7DB892', display: 'inline-block', boxShadow: '0 0 8px #7DB892' }}
-          animate={{ opacity: [1, 0.3, 1], scale: [1, 1.4, 1] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <span style={{ fontSize: 11, color: '#7DB892', fontFamily: 'sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
+        <span style={{ fontSize: 11, color: '#7DB892', fontFamily: 'var(--font-cabinet)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
           Sistemas activos
         </span>
-      </motion.div>
+      </div>
 
       {/* Card */}
-      <motion.div
+      <div
         ref={ref}
-        initial={{ opacity: 0, y: 28 }}
-        animate={triggered ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-        transition={{ duration: 0.65, ease: 'easeOut' }}
         style={{
+          opacity: triggered ? 1 : 0,
+          transform: `translateY(${triggered ? 0 : 28}px)`,
+          transition: 'opacity 0.65s ease-out, transform 0.65s ease-out',
           width: CARD_W,
           borderRadius: 14,
           overflow: 'hidden',
@@ -80,15 +80,14 @@ export default function HeroCardDeck() {
       >
         {/* Header */}
         <div style={{ padding: '11px 16px', borderBottom: '1px solid rgba(125,184,146,0.1)', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <motion.span
+          <span
+            className="deck-blink"
             style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#7DB892', display: 'inline-block', boxShadow: '0 0 6px #7DB892', flexShrink: 0 }}
-            animate={{ opacity: [1, 0.35, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
           />
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#7DB892', fontFamily: 'sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#7DB892', fontFamily: 'var(--font-cabinet)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Automatización activa
           </span>
-          <span style={{ marginLeft: 'auto', fontSize: 9, color: 'rgba(168,159,140,0.4)', fontFamily: 'sans-serif', letterSpacing: '0.08em' }}>
+          <span style={{ marginLeft: 'auto', fontSize: 9, color: '#A89F8C', fontFamily: 'var(--font-cabinet)', letterSpacing: '0.08em' }}>
             LIVE
           </span>
         </div>
@@ -96,12 +95,12 @@ export default function HeroCardDeck() {
         {/* Feed */}
         <div style={{ padding: '4px 0' }}>
           {FEED_EVENTS.map((ev, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, x: -8 }}
-              animate={i < visibleCount ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
               style={{
+                opacity: i < visibleCount ? 1 : 0,
+                transform: `translateX(${i < visibleCount ? 0 : -8}px)`,
+                transition: 'opacity 0.25s ease-out, transform 0.25s ease-out',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
@@ -115,7 +114,7 @@ export default function HeroCardDeck() {
                 fontSize: 9,
                 fontWeight: 700,
                 color: ev.color,
-                fontFamily: 'sans-serif',
+                fontFamily: 'var(--font-cabinet)',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 backgroundColor: `${ev.color}14`,
@@ -127,17 +126,17 @@ export default function HeroCardDeck() {
                 {ev.project}
               </span>
 
-              <span style={{ fontSize: 11, color: '#C8C0B0', fontFamily: 'sans-serif', flex: 1, lineHeight: 1.3 }}>
+              <span style={{ fontSize: 11, color: '#C8C0B0', fontFamily: 'var(--font-cabinet)', flex: 1, lineHeight: 1.3 }}>
                 {ev.event}
               </span>
 
-              <span style={{ fontSize: 9, color: 'rgba(168,159,140,0.38)', fontFamily: 'sans-serif', flexShrink: 0 }}>
+              <span style={{ fontSize: 9, color: '#A89F8C', fontFamily: 'var(--font-cabinet)', flexShrink: 0 }}>
                 {ev.ago}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }
