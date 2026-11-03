@@ -8,7 +8,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import FlowArt, { FlowSection } from '@/components/ui/FlowArt'
 import ProjectsMarquee from '@/components/ui/ProjectsMarquee'
 import AutomationPipeline from '@/components/ui/AutomationPipeline'
-import { ScannerCardStream } from '@/components/ui/scanner-card-stream'
+import ZoomShowcase from '@/components/sections/ZoomShowcase'
+import SplitChars from '@/components/ui/SplitChars'
+import CountUp from '@/components/ui/CountUp'
+import { prefersReducedMotion } from '@/lib/motion'
 import { PROJECTS } from '@/lib/projects'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -32,123 +35,46 @@ function Label({ children, color }: { children: string; color: string }) {
 }
 
 export default function Projects() {
-  const headerRef    = useRef<HTMLDivElement>(null)
-  const sistemasRef  = useRef<HTMLSpanElement>(null)
-  const digitalesRef = useRef<HTMLSpanElement>(null)
+  const slidesRef = useRef<HTMLDivElement>(null)
 
+  // Nombre de cada proyecto: las letras suben desde una máscara. Las capturas entran desde abajo.
   useEffect(() => {
-    const header = headerRef.current
-    const sis    = sistemasRef.current
-    const dig    = digitalesRef.current
-    if (!header || !sis || !dig) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const slides = slidesRef.current
+    if (!slides || prefersReducedMotion()) return
 
-    const vw = window.innerWidth / 100
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('[data-flow-section]').forEach((section) => {
+        gsap.from(section.querySelectorAll('.project-title-ch'), {
+          yPercent: 105,
+          duration: 1,
+          ease: 'power4.out',
+          stagger: 0.035,
+          clearProps: 'transform',
+          scrollTrigger: { trigger: section, start: 'top 60%' },
+        })
+        const shots = section.querySelectorAll('.project-shot')
+        if (shots.length > 0) {
+          gsap.from(shots, {
+            y: 90,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out',
+            stagger: 0.12,
+            scrollTrigger: { trigger: shots[0], start: 'top 90%' },
+          })
+        }
+      })
+    }, slides)
 
-    gsap.set(sis, { x: -vw * 20, opacity: 0 })
-    gsap.set(dig, { x:  vw * 20, opacity: 0 })
-
-    const st = ScrollTrigger.create({
-      trigger: header,
-      start: 'top 65%',
-      once: true,
-      onEnter: () => {
-        gsap.to(sis, { x: -vw * 6, opacity: 1, duration: 1.2, ease: 'power3.out' })
-        gsap.to(dig, { x:  vw * 6, opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.12 })
-      },
-    })
-
-    return () => { st.kill() }
+    return () => ctx.revert()
   }, [])
 
   return (
     <div>
-      {/* ── Header sticky ── */}
-      <div
-        ref={headerRef}
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 0,
-          height: '100vh',
-          overflow: 'hidden',
-          backgroundColor: '#0a0a0a',
-        }}
-      >
-        <ScannerCardStream
-          cardImages={[
-            '/img/g2fit-mobile.jpg',
-            '/img/nutri-dieta-editor.png',
-            '/img/dbonita-admin.png',
-            '/img/bensburger-hero.png',
-            '/img/esclitec-hero.png',
-            '/img/elefitness-hero.jpg',
-          ]}
-          repeat={4}
-          cardGap={50}
-          initialSpeed={120}
-          showControls={false}
-          showSpeed={false}
-        />
-
-        <div
-          className="absolute inset-0 z-10 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.7) 100%)',
-          }}
-        />
-
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 20,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 'clamp(2rem, 5vw, 4rem)',
-            pointerEvents: 'none',
-          }}
-        >
-          <h2
-            className="font-anybody"
-            style={{
-              fontSize: 'clamp(2.5rem, 7vw, 6.5rem)',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              lineHeight: 1,
-              textAlign: 'center',
-              marginBottom: '1.5rem',
-              width: '100%',
-              color: '#F5F0E8',
-            }}
-          >
-            <span ref={sistemasRef} style={{ display: 'block' }}>
-              Esto ya
-            </span>
-            <span ref={digitalesRef} style={{ display: 'block' }}>
-              Funciona
-            </span>
-          </h2>
-
-          <p
-            className="font-cabinet"
-            style={{
-              fontSize: 'clamp(0.875rem, 1.15vw, 1rem)',
-              lineHeight: 1.75,
-              maxWidth: '44ch',
-              textAlign: 'center',
-              color: '#A89F8C',
-            }}
-          >
-            Cada proyecto aquí eliminó trabajo manual real. No demos, no prototipos.
-          </p>
-        </div>
-      </div>
+      <ZoomShowcase />
 
       {/* ── Slides ── */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <div ref={slidesRef} style={{ position: 'relative', zIndex: 1 }}>
         <FlowArt>
           {PROJECTS.map((p) => (
             <FlowSection key={p.slug} style={{ backgroundColor: p.placeholderColor }}>
@@ -197,10 +123,12 @@ export default function Projects() {
                       fontWeight: 800,
                       letterSpacing: '-0.04em',
                       lineHeight: 0.88,
-                      marginBottom: '0.25em',
+                      marginBottom: '0.15em',
+                      overflow: 'hidden',
+                      paddingBlock: '0.06em 0.1em',
                     }}
                   >
-                    {p.title.split('—')[0].trim()}
+                    <SplitChars text={p.title.split('—')[0].trim()} charClassName="project-title-ch" />
                   </h3>
                   {p.homeSubtitle && (
                     <p
@@ -226,6 +154,7 @@ export default function Projects() {
                       {p.homeDualImages.map((src, i) => (
                         <div
                           key={src}
+                          className="project-shot"
                           style={{
                             flex: 1,
                             minWidth: 0,
@@ -254,6 +183,7 @@ export default function Projects() {
 
                   {p.homePosterImg && !p.homeDualImages && (
                     <div
+                      className="project-shot"
                       style={{
                         marginLeft: 'auto',
                         width: 'clamp(200px, 22vw, 420px)',
@@ -331,7 +261,7 @@ export default function Projects() {
                           fontVariantNumeric: 'tabular-nums',
                         }}
                       >
-                        {p.homeMetric}
+                        <CountUp value={p.homeMetric} />
                       </p>
                     )}
                     {p.homeMetricLabel && (
