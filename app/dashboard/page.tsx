@@ -39,10 +39,19 @@ export default function DashboardPage() {
   const [proposalIntro, setProposalIntro]   = useState('')
   const [proposalKey, setProposalKey]       = useState('default')
 
+  // La sesión vive en una cookie httpOnly: se pregunta al servidor si sigue abierta
   useEffect(() => {
-    const stored = sessionStorage.getItem('dashboard_auth')
-    if (stored === 'true') setAuthenticated(true)
+    fetch('/api/auth', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : { authenticated: false }))
+      .then((body) => setAuthenticated(body.authenticated === true))
+      .catch(() => setAuthenticated(false))
   }, [])
+
+  /** Si una petición vuelve 401, la sesión caducó: volver al login. */
+  const guard = (res: Response) => {
+    if (res.status === 401) setAuthenticated(false)
+    return res
+  }
 
   useEffect(() => {
     if (authenticated) {
@@ -53,7 +62,7 @@ export default function DashboardPage() {
   const loadSubmissions = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/submissions')
+      const res = guard(await fetch('/api/submissions', { cache: 'no-store' }))
       if (res.ok) {
         const data = await res.json()
         setSubmissions(data.data || [])
@@ -66,11 +75,12 @@ export default function DashboardPage() {
 
   const updateStatus = async (id: string, status: Submission['lead_status']) => {
     try {
-      await fetch('/api/submissions', {
+      const res = guard(await fetch('/api/submissions', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, lead_status: status }),
-      })
+      }))
+      if (!res.ok) throw new Error(`Status ${res.status}`)
       setSubmissions((prev) =>
         prev.map((s) => (s.id === id ? { ...s, lead_status: status } : s))
       )
@@ -81,11 +91,12 @@ export default function DashboardPage() {
 
   const updateDealAmount = async (id: string, amount: number | null) => {
     try {
-      await fetch('/api/submissions', {
+      const res = guard(await fetch('/api/submissions', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, deal_amount: amount }),
-      })
+      }))
+      if (!res.ok) throw new Error(`Status ${res.status}`)
       setSubmissions(prev => prev.map(s => s.id === id ? { ...s, deal_amount: amount } : s))
     } catch (e) {
       console.error('Failed to update deal amount:', e)
@@ -101,11 +112,12 @@ export default function DashboardPage() {
     const nombre = submission.data.nombre as string
 
     try {
-      await fetch('/api/send-onboarding', {
+      const res = guard(await fetch('/api/send-onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, nombre }),
-      })
+      }))
+      if (!res.ok) throw new Error(`Status ${res.status}`)
       await updateStatus(id, 'onboarding_sent')
     } catch (e) {
       console.error('Failed to send onboarding:', e)
@@ -124,7 +136,7 @@ export default function DashboardPage() {
       })
       if (res.ok) {
         setAuthenticated(true)
-        sessionStorage.setItem('dashboard_auth', 'true')
+        setPassword('')
         setError(false)
       } else {
         setError(true)
@@ -134,9 +146,9 @@ export default function DashboardPage() {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await fetch('/api/auth', { method: 'DELETE' }).catch(() => null)
     setAuthenticated(false)
-    sessionStorage.removeItem('dashboard_auth')
     setPassword('')
   }
 

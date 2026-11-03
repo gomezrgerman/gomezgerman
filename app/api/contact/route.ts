@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-import { checkRateLimit } from '@/lib/rate-limit'
+import { checkRateLimit, clientIp } from '@/lib/rate-limit'
+import { submissionsUrl, supabaseConfigured, supabaseHeaders } from '@/lib/supabase-rest'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST ?? 'smtp.hostinger.com',
@@ -13,21 +14,14 @@ const transporter = nodemailer.createTransport({
 })
 
 async function saveToSupabase(data: Record<string, unknown>) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabaseConfigured()) {
     console.log('Supabase not configured - skipping save')
     return
   }
 
-  const response = await fetch(`${supabaseUrl}/rest/v1/submissions`, {
+  const response = await fetch(submissionsUrl(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
-    },
+    headers: supabaseHeaders(),
     body: JSON.stringify({
       type: 'contact',
       lead_status: 'new',
@@ -35,20 +29,14 @@ async function saveToSupabase(data: Record<string, unknown>) {
       data,
     }),
   })
-  const responseText = await response.text()
-  console.log('Supabase response status:', response.status)
-  console.log('Supabase response body:', responseText)
   if (!response.ok) {
-    throw new Error(`Supabase error ${response.status}: ${responseText}`)
+    // Solo el estado: el cuerpo de respuesta puede contener datos personales del contacto
+    throw new Error(`Supabase error ${response.status}`)
   }
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-    ?? req.headers.get('x-real-ip')
-    ?? 'unknown'
-
-  if (!await checkRateLimit(ip)) {
+  if (!await checkRateLimit(clientIp(req))) {
     return NextResponse.json({ error: 'Demasiados intentos.' }, { status: 429 })
   }
 

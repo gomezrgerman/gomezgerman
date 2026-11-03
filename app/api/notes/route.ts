@@ -1,36 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthorized } from '@/lib/server-auth'
+import { isRowId, submissionsUrl, supabaseHeaders } from '@/lib/supabase-rest'
 
-const SUPABASE_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-const SUPABASE_KEY  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-const headers = {
-  apikey: SUPABASE_KEY,
-  Authorization: `Bearer ${SUPABASE_KEY}`,
-  'Content-Type': 'application/json',
-}
-
-async function getSubmissionNotes(id: string): Promise<unknown[]> {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/submissions?id=eq.${id}&select=notes`,
-    { headers, cache: 'no-store' },
-  )
+async function getSubmissionNotes(id: string | number): Promise<unknown[]> {
+  const res = await fetch(submissionsUrl({ id: `eq.${id}`, select: 'notes' }), {
+    headers: supabaseHeaders(),
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`Supabase error: ${res.status}`)
   const [row] = await res.json()
   return Array.isArray(row?.notes) ? row.notes : []
 }
 
-async function patchNotes(id: string, notes: unknown[]) {
-  await fetch(`${SUPABASE_URL}/rest/v1/submissions?id=eq.${id}`, {
+async function patchNotes(id: string | number, notes: unknown[]) {
+  const res = await fetch(submissionsUrl({ id: `eq.${id}` }), {
     method: 'PATCH',
-    headers: { ...headers, Prefer: 'return=representation' },
+    headers: supabaseHeaders({ Prefer: 'return=representation' }),
     body: JSON.stringify({ notes }),
   })
+  if (!res.ok) throw new Error(`Supabase error: ${res.status}`)
 }
 
 export async function POST(req: NextRequest) {
   if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { submissionId, content } = await req.json()
-    if (!submissionId || !content?.trim()) {
+    if (!isRowId(submissionId) || typeof content !== 'string' || !content.trim()) {
       return NextResponse.json({ error: 'Missing data' }, { status: 400 })
     }
 
@@ -52,7 +47,7 @@ export async function DELETE(req: NextRequest) {
   if (!isAuthorized(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const { submissionId, noteId } = await req.json()
-    if (!submissionId || !noteId) {
+    if (!isRowId(submissionId) || !noteId) {
       return NextResponse.json({ error: 'Missing data' }, { status: 400 })
     }
 
