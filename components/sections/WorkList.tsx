@@ -6,6 +6,7 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { PROJECTS } from '@/lib/projects'
 import MeshCanvas from '@/components/ui/MeshCanvas'
+import MaskedTitle from '@/components/ui/MaskedTitle'
 
 type PreviewSet = { main: string; a: string; b: string; liveUrl?: string }
 
@@ -54,9 +55,9 @@ export default function WorkList() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        '.wl-header',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.0, ease: 'power3.out', delay: 0.1 },
+        '.wl-header p',
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.6 },
       )
       gsap.fromTo(
         '.wl-row',
@@ -83,12 +84,11 @@ export default function WorkList() {
 
       {/* Header — ancho completo */}
       <div className="wl-header mb-12 md:mb-20" style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
-        <h1
+        <MaskedTitle
+          lines={['Proyectos que ya', 'trabajan solos']}
           className="font-anybody text-cream"
           style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}
-        >
-          Proyectos que ya<br />trabajan solos
-        </h1>
+        />
         <p
           className="font-cabinet text-cream-dim mt-4"
           style={{ fontSize: 'clamp(0.875rem, 1.1vw, 1rem)', maxWidth: '52ch', lineHeight: 1.75 }}
@@ -148,13 +148,13 @@ export default function WorkList() {
                     className="font-anybody hidden shrink-0 md:block"
                     style={{
                       fontSize: 'clamp(2rem, 3.2vw, 3.2rem)',
-                      fontWeight: 100,
+                      fontWeight: active ? 800 : 100,
                       letterSpacing: '-0.03em',
                       lineHeight: 1,
                       width: '4rem',
                       textAlign: 'right',
                       color: active ? accent : 'rgba(245, 240, 232, 0.16)',
-                      transition: 'color 0.3s ease',
+                      transition: 'color 0.3s ease, font-weight 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                       flexShrink: 0,
                     }}
                   >
@@ -167,11 +167,11 @@ export default function WorkList() {
                       className="font-anybody"
                       style={{
                         fontSize: 'clamp(1.5rem, 2.8vw, 2.8rem)',
-                        fontWeight: 700,
+                        fontWeight: active ? 800 : 400,
                         letterSpacing: '-0.03em',
                         lineHeight: 1.05,
                         color: active ? '#F5F0E8' : '#C8C0B0',
-                        transition: 'color 0.25s ease',
+                        transition: 'color 0.25s ease, font-weight 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     >
                       {project.title}

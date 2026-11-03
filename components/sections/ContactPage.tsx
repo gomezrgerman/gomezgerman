@@ -5,6 +5,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { hexAlpha } from '@/lib/utils'
 import ContactForm from '@/components/sections/ContactForm'
+import MaskedTitle from '@/components/ui/MaskedTitle'
+import Magnetic from '@/components/ui/Magnetic'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,7 +77,6 @@ export default function ContactPage() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo('.cp-badge',   { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.2 })
-      gsap.fromTo('.cp-heading', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out', delay: 0.35 })
       gsap.fromTo(
         '.cp-divider',
         { scaleX: 0, opacity: 0, transformOrigin: 'left center' },
@@ -181,7 +182,9 @@ export default function ContactPage() {
       </div>
 
       {/* Heading */}
-      <h1
+      <MaskedTitle
+        lines={['Sin reuniones de 2 horas.', 'Sin PowerPoints.', 'Solo: cuéntame qué duele.']}
+        delay={0.35}
         className="cp-heading font-anybody text-cream relative z-10"
         style={{
           fontSize: 'clamp(2.8rem, 6.5vw, 7rem)',
@@ -190,11 +193,7 @@ export default function ContactPage() {
           lineHeight: 0.95,
           marginBottom: 'clamp(2.5rem, 5vw, 4rem)',
         }}
-      >
-        Sin reuniones de 2 horas.<br />
-        Sin PowerPoints.<br />
-        Solo: cuéntame qué duele.
-      </h1>
+      />
 
       {/* Divider */}
       <div
@@ -242,6 +241,7 @@ export default function ContactPage() {
           >
             O escríbeme directamente
           </p>
+          <Magnetic>
           <a
             href="mailto:contacto@german-gomez.es"
             className="group relative inline-block font-anybody"
@@ -255,6 +255,7 @@ export default function ContactPage() {
               style={{ width: 0, backgroundColor: '#DDD0BC' }}
             />
           </a>
+          </Magnetic>
           <div
             className="flex flex-col gap-2 font-cabinet"
             style={{ borderTop: '1px solid rgba(125, 184, 146, 0.18)', paddingTop: '1.25rem', marginTop: '0.25rem' }}
