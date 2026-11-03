@@ -30,7 +30,7 @@ export default function RouteWipe() {
   const pathname = usePathname()
   const router = useRouter()
   const covering = useRef(false)
-  const safety = useRef<ReturnType<typeof setTimeout>>()
+  const safety = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   // Interceptar clics en enlaces internos
   useEffect(() => {

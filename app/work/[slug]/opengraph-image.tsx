@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { PROJECTS, getProject } from '@/lib/projects'
 
-export const runtime     = 'edge'
 export const alt         = 'Proyecto — Germán Gómez'
 export const size        = { width: 1200, height: 630 }
 export const contentType = 'image/png'
@@ -11,11 +10,12 @@ export function generateStaticParams() {
 }
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
-export default function Image({ params }: Props) {
-  const project = getProject(params.slug)
+export default async function Image({ params }: Props) {
+  const { slug } = await params
+  const project = getProject(slug)
 
   const number  = project?.number ?? ''
   const title   = project?.title ?? 'Germán Gómez'

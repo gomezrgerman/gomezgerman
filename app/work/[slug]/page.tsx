@@ -4,7 +4,7 @@ import { PROJECTS, getProject, getNextProject } from '@/lib/projects'
 import ProjectDetail from '@/components/sections/ProjectDetail'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export function generateStaticParams() {
@@ -12,22 +12,24 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = getProject(params.slug)
+  const { slug } = await params
+  const project = getProject(slug)
   if (!project) return {}
   return {
     title: project.title,
     description: project.shortDescription,
     alternates: {
-      canonical: `/work/${params.slug}`,
+      canonical: `/work/${slug}`,
     },
   }
 }
 
-export default function ProjectPage({ params }: Props) {
-  const project = getProject(params.slug)
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params
+  const project = getProject(slug)
   if (!project) notFound()
 
-  const next = getNextProject(params.slug)
+  const next = getNextProject(slug)
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://german-gomez.es').replace(/\/$/, '')
 
   const jsonLd = {
