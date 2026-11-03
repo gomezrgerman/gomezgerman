@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Anybody } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import Providers from '@/components/providers/Providers'
 import MotionProvider from '@/components/providers/MotionProvider'
@@ -11,6 +12,20 @@ const anybody = Anybody({
   subsets: ['latin'],
   axes: ['wdth'],
   variable: '--font-anybody',
+  display: 'swap',
+})
+
+/**
+ * Cabinet Grotesk con next/font: se precarga y genera una fuente de reserva con
+ * las mismas medidas, así el texto no salta cuando llega la fuente real.
+ */
+const cabinet = localFont({
+  src: [
+    { path: '../public/fonts/CabinetGrotesk-Regular.otf', weight: '400', style: 'normal' },
+    { path: '../public/fonts/CabinetGrotesk-Medium.otf', weight: '500', style: 'normal' },
+    { path: '../public/fonts/CabinetGrotesk-Bold.otf', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-cabinet',
   display: 'swap',
 })
 
@@ -63,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={anybody.variable}>
+    <html lang="es" className={`${anybody.variable} ${cabinet.variable}`}>
       <body>
         <CustomCursor />
         <Header />

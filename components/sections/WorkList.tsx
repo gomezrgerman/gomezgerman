@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import gsap from 'gsap'
+import { revealUp, slideIn } from '@/lib/reveal'
 import { PROJECTS } from '@/lib/projects'
 import MeshCanvas from '@/components/ui/MeshCanvas'
 import MaskedTitle from '@/components/ui/MaskedTitle'
@@ -54,16 +55,9 @@ export default function WorkList() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.wl-header p',
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.6 },
-      )
-      gsap.fromTo(
-        '.wl-row',
-        { y: 48, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.11, duration: 0.85, ease: 'power3.out', delay: 0.3 },
-      )
+      slideIn('.wl-header p', { y: 24, delay: 0.3 })
+      // Las filas visibles al cargar no se ocultan; las de más abajo entran con fundido
+      gsap.utils.toArray<HTMLElement>('.wl-row').forEach((row) => revealUp(row, 48))
     }, containerRef)
     return () => ctx.revert()
   }, [])

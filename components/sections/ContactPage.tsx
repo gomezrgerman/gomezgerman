@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { revealUp, slideIn } from '@/lib/reveal'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { hexAlpha } from '@/lib/utils'
 import ContactForm from '@/components/sections/ContactForm'
@@ -82,8 +83,8 @@ export default function ContactPage() {
         { scaleX: 0, opacity: 0, transformOrigin: 'left center' },
         { scaleX: 1, opacity: 1, duration: 1.0, ease: 'power3.out', delay: 0.75 },
       )
-      gsap.fromTo('.cp-form',    { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.9 })
-      gsap.fromTo('.cp-contact', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 1.05 })
+      slideIn('.cp-form', { y: 30, delay: 0.4 })
+      revealUp(document.querySelector<HTMLElement>('.cp-contact')!, 30)
 
       gsap.fromTo(
         '.cp-faq-label',
@@ -183,7 +184,8 @@ export default function ContactPage() {
 
       {/* Heading */}
       <MaskedTitle
-        lines={['Sin reuniones de 2 horas.', 'Sin PowerPoints.', 'Solo: cuéntame qué duele.']}
+        lines={['Sin reuniones de 2 horas.', 'Sin PowerPoints.', 'Solo: cuéntame', 'qué duele.']}
+        fit="min(6.5vw, 7rem)"
         delay={0.35}
         className="cp-heading font-anybody text-cream relative z-10"
         style={{
