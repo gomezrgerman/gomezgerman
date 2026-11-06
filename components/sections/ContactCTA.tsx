@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { hexAlpha } from '@/lib/utils'
 import ProximityText from '@/components/ui/ProximityText'
 import Magnetic from '@/components/ui/Magnetic'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -21,7 +22,7 @@ export default function ContactCTA({
   const sectionRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -64,7 +65,7 @@ export default function ContactCTA({
     return () => { cancelAnimationFrame(rafId); resizeObs.disconnect(); visibilityObs.disconnect() }
   }, [])
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {

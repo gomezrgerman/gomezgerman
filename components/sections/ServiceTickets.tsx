@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { barcodeBars, prefersReducedMotion } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,7 +23,7 @@ const FOREST = '#152B1C'
 export default function ServiceTickets() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const section = sectionRef.current
     if (!section || prefersReducedMotion()) return
 

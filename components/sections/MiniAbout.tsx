@@ -1,18 +1,19 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import BlurWords from '@/components/ui/BlurWords'
 import CountUp from '@/components/ui/CountUp'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function MiniAbout() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {

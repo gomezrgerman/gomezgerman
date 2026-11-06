@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useRef, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion, splitNumber } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,7 +18,7 @@ interface CountUpProps {
 export default function CountUp({ value, className, style }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const el = ref.current
     const parts = splitNumber(value)
     if (!el || !parts || prefersReducedMotion()) return

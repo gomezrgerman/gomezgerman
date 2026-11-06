@@ -8,6 +8,7 @@ import {
   FileText,
   Mail,
 } from 'lucide-react'
+import { readableColor } from '@/lib/utils'
 
 const steps = [
   {
@@ -113,8 +114,7 @@ export default function AutomationPipeline({ accent }: { accent: string }) {
                 className="font-cabinet"
                 style={{
                   fontSize: 'clamp(0.65rem, 0.65vw, 0.7rem)',
-                  color: accent,
-                  opacity: 0.65,
+                  color: readableColor(accent, '#393939'),
                   lineHeight: 1,
                 }}
               >

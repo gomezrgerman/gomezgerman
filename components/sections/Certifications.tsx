@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
@@ -11,13 +11,14 @@ import {
   resolveAppliedProjects,
   type Certification,
 } from '@/lib/certifications'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Certifications() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {

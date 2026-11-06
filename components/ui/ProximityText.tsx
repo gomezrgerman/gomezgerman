@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useRef, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import SplitChars from '@/components/ui/SplitChars'
 import { hasFinePointer, prefersReducedMotion } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 interface ProximityTextProps {
   text: string
@@ -30,7 +31,7 @@ const EASE = 0.14
 export default function ProximityText({ text, className, style, radius = 260, lift = 14 }: ProximityTextProps) {
   const ref = useRef<HTMLHeadingElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const el = ref.current
     if (!el || !hasFinePointer() || prefersReducedMotion()) return
 

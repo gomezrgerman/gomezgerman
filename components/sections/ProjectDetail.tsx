@@ -4,12 +4,15 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
+import { revealUp } from '@/lib/reveal'
+import { readableColor } from '@/lib/utils'
+import LazyVideo from '@/components/ui/LazyVideo'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { Project } from '@/lib/projects'
 import ContactCTA from '@/components/sections/ContactCTA'
 import SplitScrollShowcase, { type SplitPage } from '@/components/ui/SplitScrollShowcase'
 import MeshCanvas from '@/components/ui/MeshCanvas'
-import MaskedTitle from '@/components/ui/MaskedTitle'
+import MaskedTitle, { titleLines } from '@/components/ui/MaskedTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -39,7 +42,7 @@ function PwaPanel({ src, alt }: { src: string; alt: string }) {
 function TextPanel({ num, label, heading, body, accent }: { num: string; label: string; heading: string; body: string; accent: string }) {
   return (
     <div style={{ padding: 'clamp(1rem, 4vw, 4rem)', maxWidth: 440, width: '100%' }}>
-      <p className="font-cabinet" style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6, marginBottom: '1.25rem' }}>
+      <p className="font-cabinet" style={{ fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent), marginBottom: '1.25rem' }}>
         {num} — {label}
       </p>
       <h3 className="font-anybody" style={{ fontSize: 'clamp(1.8rem, 3.2vw, 2.8rem)', fontWeight: 800, color: '#DDD0BC', letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '1.25rem' }}>
@@ -389,11 +392,11 @@ function SummaryCell({
     >
       <p
         className="font-cabinet"
-        style={{ fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.75, marginBottom: '0.75rem' }}
+        style={{ fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent), marginBottom: '0.75rem' }}
       >
         {label}
       </p>
-      <h3
+      <h2
         className="font-anybody"
         style={{
           fontSize: 'clamp(1.1rem, 1.5vw, 1.4rem)',
@@ -404,7 +407,7 @@ function SummaryCell({
         }}
       >
         {hook}
-      </h3>
+      </h2>
       {children}
     </div>
   )
@@ -416,13 +419,11 @@ function buildG2FitPages(accent: string): SplitPage[] {
       leftBg: '#0a1a0e',
       left: (
         <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent) }}>
             Web pública
           </p>
           <div style={{ width: 'clamp(140px, 14vw, 195px)', borderRadius: 26, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
-            <video autoPlay muted loop playsInline poster="/img/g2fit-mobile.jpg" style={{ width: '100%', display: 'block' }}>
-              <source src="/img/g2fit-demo-web.mp4" type="video/mp4" />
-            </video>
+            <LazyVideo src="/img/g2fit-demo-web.mp4" poster="/img/g2fit-mobile.jpg" label="Demo en vídeo" style={{ width: '100%', display: 'block' }} />
           </div>
         </div>
       ),
@@ -485,13 +486,11 @@ function buildDBonitaPages(accent: string): SplitPage[] {
       leftBg: '#1f1212',
       left: (
         <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent) }}>
             Web pública
           </p>
           <div style={{ width: 'clamp(280px, 30vw, 420px)', borderRadius: 26, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
-            <video autoPlay muted loop playsInline poster="/img/hero-dbonita.png" style={{ width: '100%', display: 'block' }}>
-              <source src="/img/d-bonita-demo.mp4" type="video/mp4" />
-            </video>
+            <LazyVideo src="/img/d-bonita-demo.mp4" poster="/img/hero-dbonita.png" label="Demo en vídeo" style={{ width: '100%', display: 'block' }} />
           </div>
         </div>
       ),
@@ -525,13 +524,11 @@ function buildBensBurgerPages(accent: string): SplitPage[] {
       leftBg: '#1a0f06',
       left: (
         <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent) }}>
             La marca
           </p>
           <div style={{ width: 'clamp(140px, 14vw, 195px)', borderRadius: 26, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
-            <video autoPlay muted loop playsInline poster="/img/bensburger-reel-poster.jpg" style={{ width: '100%', display: 'block' }}>
-              <source src="/img/bensburger-reel.mp4" type="video/mp4" />
-            </video>
+            <LazyVideo src="/img/bensburger-reel.mp4" poster="/img/bensburger-reel-poster.jpg" label="Demo en vídeo" style={{ width: '100%', display: 'block' }} />
           </div>
         </div>
       ),
@@ -548,7 +545,7 @@ function buildBensBurgerPages(accent: string): SplitPage[] {
       leftBg: '#1a0f06',
       left: (
         <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent) }}>
             La carta
           </p>
           <div style={{ width: 'clamp(160px, 16vw, 230px)', borderRadius: 28, overflow: 'hidden', backgroundColor: '#000', border: '5px solid #1c1c1e', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
@@ -565,7 +562,7 @@ function buildBensBurgerPages(accent: string): SplitPage[] {
       rightBg: '#1a0f06',
       right: (
         <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, opacity: 0.6 }}>
+          <p className="font-cabinet" style={{ fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: readableColor(accent) }}>
             Sistema listo
           </p>
           <div style={{ width: 'clamp(180px, 18vw, 260px)', borderRadius: 16, overflow: 'hidden', backgroundColor: '#fff', padding: 'clamp(1rem, 1.5vw, 1.5rem)', boxShadow: '0 32px 64px rgba(0,0,0,0.6)' }}>
@@ -686,8 +683,9 @@ export default function ProjectDetail({ project, next }: Props) {
     const ctx = gsap.context(() => {
       // Hero: entra en mount sin scroll
       gsap.timeline({ delay: 0.15 })
-        .from('.ph-number', { opacity: 0, duration: 1.2, ease: 'power2.out' })
-        .from('.ph-tagline', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        // El número es el LCP en móvil: no se oculta, solo se desliza
+        .from('.ph-number', { xPercent: -6, duration: 1.2, ease: 'power2.out' })
+        .from('.ph-tagline', { y: 20, duration: 0.7, ease: 'power3.out' }, '-=0.5')
         .from('.ph-tag', { y: 12, opacity: 0, stagger: 0.06, duration: 0.5, ease: 'power2.out' }, '-=0.4')
 
       // Al bajar, el número de fondo gana peso y se desplaza; el titular se aleja
@@ -701,19 +699,7 @@ export default function ProjectDetail({ project, next }: Props) {
       })
 
       // Resto de secciones: ScrollTrigger
-      gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' },
-          },
-        )
-      })
+      gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((el) => revealUp(el))
 
     }, containerRef)
 
@@ -748,7 +734,8 @@ export default function ProjectDetail({ project, next }: Props) {
         {/* Contenido principal */}
         <div className="ph-content relative z-10">
           <MaskedTitle
-            lines={[project.title]}
+            lines={titleLines(project.title)}
+            fit="min(9vw, 9rem)"
             delay={0.35}
             className="ph-title font-anybody text-cream"
             style={{

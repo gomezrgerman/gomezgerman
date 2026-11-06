@@ -106,12 +106,13 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
   return (
     <Link
       href={href}
-      className="group relative font-cabinet font-medium transition-colors duration-200 hover:text-cream"
+      // py-3/-my-3: zona de clic de 44px de alto sin mover el diseño
+      className="group relative -my-3 py-3 font-cabinet font-medium transition-colors duration-200 hover:text-cream"
       style={{ fontSize: '0.9375rem', color: isActive ? '#F5F0E8' : '#A89F8C' }}
     >
       {label}
       <span
-        className="absolute -bottom-0.5 left-0 h-px transition-all duration-300 ease-out group-hover:w-full"
+        className="absolute bottom-2.5 left-0 h-px transition-all duration-300 ease-out group-hover:w-full"
         style={{ backgroundColor: '#4A7C59', width: isActive ? '100%' : '0' }}
       />
     </Link>

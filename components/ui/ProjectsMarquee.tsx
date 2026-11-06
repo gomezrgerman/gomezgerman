@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '@/lib/motion'
 import Link from 'next/link'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,14 +19,14 @@ export default function ProjectsMarquee() {
   const trackRef     = useRef<HTMLDivElement>(null)
   const targetSpeed  = useRef(1)
   const mouseRef     = useRef({ x: 0, y: 0, time: Date.now() })
-  const decayTimer   = useRef<ReturnType<typeof setTimeout>>()
+  const decayTimer   = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   const [hovered,  setHovered]  = useState(false)
   const [cursor,   setCursor]   = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState(0)
 
   // Avance continuo: velocidad del ratón + velocidad y sentido del scroll
-  useEffect(() => {
+  useDeferredEffect(() => {
     const track = trackRef.current
     if (!track || prefersReducedMotion()) return
 

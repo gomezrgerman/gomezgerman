@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
@@ -13,8 +13,14 @@ import SplitChars from '@/components/ui/SplitChars'
 import CountUp from '@/components/ui/CountUp'
 import { prefersReducedMotion } from '@/lib/motion'
 import { PROJECTS } from '@/lib/projects'
+import { readableColor } from '@/lib/utils'
+import LazyVideo from '@/components/ui/LazyVideo'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/** Fondo de referencia para el contraste: el tono más claro que alcanzan las tarjetas de los paneles. */
+const PANEL_BG = '#393939'
 
 function Label({ children, color }: { children: string; color: string }) {
   return (
@@ -22,11 +28,10 @@ function Label({ children, color }: { children: string; color: string }) {
       className="font-cabinet"
       style={{
         fontSize: 'clamp(0.7rem, 0.75vw, 0.75rem)',
-        color,
+        color: readableColor(color, PANEL_BG),
         letterSpacing: '0.14em',
         textTransform: 'uppercase',
         marginBottom: '0.6em',
-        opacity: 0.55,
       }}
     >
       {children}
@@ -38,7 +43,7 @@ export default function Projects() {
   const slidesRef = useRef<HTMLDivElement>(null)
 
   // Nombre de cada proyecto: las letras suben desde una máscara. Las capturas entran desde abajo.
-  useEffect(() => {
+  useDeferredEffect(() => {
     const slides = slidesRef.current
     if (!slides || prefersReducedMotion()) return
 
@@ -85,7 +90,7 @@ export default function Projects() {
                   className="font-anybody"
                   style={{
                     fontSize: 'clamp(0.65rem, 0.9vw, 0.8rem)',
-                    color: 'rgba(168,159,140,0.4)',
+                    color: 'var(--color-cream-dim)',
                     letterSpacing: '0.18em',
                   }}
                 >
@@ -96,13 +101,9 @@ export default function Projects() {
                   className="group font-cabinet flex items-center gap-1.5"
                   style={{
                     fontSize: 'clamp(0.8rem, 0.85vw, 0.9rem)',
-                    color: p.accentColor,
+                    color: readableColor(p.accentColor, PANEL_BG),
                     letterSpacing: '0.06em',
-                    opacity: 0.8,
-                    transition: 'opacity 0.2s ease',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = '0.8')}
                 >
                   Ver proyecto
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
@@ -196,16 +197,12 @@ export default function Projects() {
                       }}
                     >
                       {p.homeVideo ? (
-                        <video
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
+                        <LazyVideo
+                          src={p.homeVideo}
                           poster={p.homePosterImg}
+                          label={`${p.title}: demo en vídeo`}
                           style={{ width: '100%', height: 'auto', display: 'block' }}
-                        >
-                          <source src={p.homeVideo} type="video/mp4" />
-                        </video>
+                        />
                       ) : (
                         <Image
                           src={p.homePosterImg}
@@ -265,7 +262,7 @@ export default function Projects() {
                       </p>
                     )}
                     {p.homeMetricLabel && (
-                      <p className="font-cabinet" style={{ fontSize: 'clamp(0.7rem, 0.75vw, 0.75rem)', color: p.accentColor, opacity: 0.6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      <p className="font-cabinet" style={{ fontSize: 'clamp(0.7rem, 0.75vw, 0.75rem)', color: readableColor(p.accentColor, PANEL_BG), letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                         {p.homeMetricLabel}
                       </p>
                     )}
@@ -282,7 +279,7 @@ export default function Projects() {
                       className="font-cabinet"
                       style={{
                         fontSize: 'clamp(0.65rem, 0.7vw, 0.75rem)',
-                        color: p.accentColor,
+                        color: readableColor(p.accentColor, PANEL_BG),
                         border: `1px solid ${p.accentColor}35`,
                         borderRadius: 3,
                         padding: '4px 10px',

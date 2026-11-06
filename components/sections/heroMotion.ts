@@ -47,5 +47,6 @@ export function animateHeroMobile(lines: HTMLElement[], subtitle: HTMLElement, d
   gsap.set(lines, { opacity: 1 })
   const chars = lines.flatMap((line) => Array.from(line.querySelectorAll('.hero-ch')))
   gsap.fromTo(chars, CHAR_FROM, { ...CHAR_TO, duration: 1, stagger: 0.03, delay })
-  gsap.fromTo(subtitle, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: delay + 0.8 })
+  // Es el contenido principal (LCP) en móvil: visible desde el primer frame, solo se desplaza
+  gsap.fromTo(subtitle, { opacity: 1, y: 16 }, { y: 0, duration: 0.8, ease: 'power2.out', delay })
 }

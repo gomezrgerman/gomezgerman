@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
+import { revealUp, slideIn } from '@/lib/reveal'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ContactCTA from '@/components/sections/ContactCTA'
 import MeshCanvas from '@/components/ui/MeshCanvas'
@@ -43,7 +44,7 @@ export default function AboutContent() {
     const ctx = gsap.context(() => {
       // Hero: entra en mount
       // El titular tiene su propia entrada (letras desde máscara); aquí solo los textos de apoyo
-      gsap.from('.about-sub', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
+      slideIn('.about-sub', { delay: 0.3, stagger: 0.1 })
 
       // Foto: se descubre de abajo arriba mientras la imagen se asienta
       gsap.fromTo('.about-photo', { clipPath: 'inset(100% 0% 0% 0%)' }, {
@@ -72,19 +73,7 @@ export default function AboutContent() {
       })
 
       // Secciones de contenido
-      gsap.utils.toArray<HTMLElement>('.reveal-up:not(.about-step)').forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' },
-          },
-        )
-      })
+      gsap.utils.toArray<HTMLElement>('.reveal-up:not(.about-step)').forEach((el) => revealUp(el))
 
     }, containerRef)
 
@@ -107,7 +96,8 @@ export default function AboutContent() {
             Germán Gómez · Marina Alta, Alicante
           </p>
           <MaskedTitle
-            lines={['No vengo del código.', 'Vengo del mostrador.']}
+            lines={['No vengo', 'del código.', 'Vengo del', 'mostrador.']}
+            fit="min(8vw, 8rem)"
             className="about-heading font-anybody text-cream"
             style={{
               fontSize: 'clamp(2.4rem, 8vw, 8rem)',

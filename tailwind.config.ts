@@ -18,7 +18,7 @@ const config: Config = {
       },
       fontFamily: {
         anybody: ['var(--font-anybody)', 'sans-serif'],
-        cabinet: ['"Cabinet Grotesk"', 'sans-serif'],
+        cabinet: ['var(--font-cabinet)', 'sans-serif'],
       },
       letterSpacing: {
         tight: '-0.02em',

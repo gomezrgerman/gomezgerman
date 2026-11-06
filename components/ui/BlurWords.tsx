@@ -1,9 +1,10 @@
 'use client'
 
-import { Fragment, useEffect, useRef, type CSSProperties } from 'react'
+import { Fragment, useRef, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '@/lib/motion'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,7 +18,7 @@ interface BlurWordsProps {
 export default function BlurWords({ lines, className, style }: BlurWordsProps) {
   const ref = useRef<HTMLHeadingElement>(null)
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     const el = ref.current
     if (!el || prefersReducedMotion()) return
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import React from 'react'
+import { useDeferredEffect } from '@/lib/useDeferredEffect'
 
 export interface SplitPage {
   left: React.ReactNode
@@ -61,7 +62,7 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
     })
   }
 
-  useEffect(() => {
+  useDeferredEffect(() => {
     if (isMobile || !wrapperRef.current) return
 
     const wrapper = wrapperRef.current
