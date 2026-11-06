@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import BlurWords from '@/components/ui/BlurWords'
+import CountUp from '@/components/ui/CountUp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -64,7 +66,8 @@ export default function MiniAbout() {
           >
             Quién hay detrás
           </p>
-          <h2
+          <BlurWords
+            lines={['No vengo del código.', 'Vengo del mostrador.']}
             className="font-anybody text-cream"
             style={{
               fontSize: 'clamp(2rem, 5vw, 4.5rem)',
@@ -73,10 +76,7 @@ export default function MiniAbout() {
               lineHeight: 1.0,
               marginBottom: '1.5rem',
             }}
-          >
-            No vengo del código.<br />
-            Vengo del mostrador.
-          </h2>
+          />
           <p
             className="font-cabinet text-cream-dim"
             style={{ fontSize: 'clamp(0.9rem, 1.1vw, 1rem)', maxWidth: '44ch', lineHeight: 1.8 }}
@@ -110,7 +110,7 @@ export default function MiniAbout() {
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  {num}
+                  <CountUp value={num} />
                 </p>
                 <p
                   className="font-cabinet text-cream-dim"

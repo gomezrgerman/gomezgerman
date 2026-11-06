@@ -18,6 +18,8 @@ export const FlowSection: React.FC<FlowSectionProps> = ({ children, className, s
     data-flow-section
     className={`relative min-h-screen w-full overflow-hidden ${className ?? ''}`}
   >
+    {/* Capa que se encoge cuando el siguiente panel la tapa */}
+    <div data-flow-scale className="relative" style={{ transformOrigin: '50% 0%', willChange: 'transform' }}>
     <div
       data-flow-inner
       className="flow-art-container relative flex min-h-screen w-full flex-col justify-between"
@@ -32,6 +34,8 @@ export const FlowSection: React.FC<FlowSectionProps> = ({ children, className, s
       }}
     >
       {children}
+    </div>
+    <div data-flow-shade aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundColor: '#000', opacity: 0, zIndex: 50 }} />
     </div>
   </section>
 )
@@ -85,6 +89,22 @@ export default function FlowArt({ children, className }: FlowArtProps) {
           },
         })
         if (tween.scrollTrigger) triggers.push(tween.scrollTrigger)
+      }
+
+      // El panel anterior se encoge y oscurece mientras este lo tapa
+      if (i > 0) {
+        const prev = sections[i - 1]
+        const prevScale = prev.querySelector<HTMLElement>('[data-flow-scale]')
+        const prevShade = prev.querySelector<HTMLElement>('[data-flow-shade]')
+        const cover = { trigger: section, start: 'top bottom', end: 'top top', scrub: true }
+        if (prevScale) {
+          const shrink = gsap.to(prevScale, { scale: 0.9, ease: 'none', scrollTrigger: cover })
+          if (shrink.scrollTrigger) triggers.push(shrink.scrollTrigger)
+        }
+        if (prevShade) {
+          const darken = gsap.to(prevShade, { opacity: 0.6, ease: 'none', scrollTrigger: { ...cover } })
+          if (darken.scrollTrigger) triggers.push(darken.scrollTrigger)
+        }
       }
 
       if (i < sections.length - 1) {

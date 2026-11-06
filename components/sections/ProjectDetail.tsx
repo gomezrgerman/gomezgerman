@@ -9,6 +9,7 @@ import type { Project } from '@/lib/projects'
 import ContactCTA from '@/components/sections/ContactCTA'
 import SplitScrollShowcase, { type SplitPage } from '@/components/ui/SplitScrollShowcase'
 import MeshCanvas from '@/components/ui/MeshCanvas'
+import MaskedTitle from '@/components/ui/MaskedTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -686,9 +687,18 @@ export default function ProjectDetail({ project, next }: Props) {
       // Hero: entra en mount sin scroll
       gsap.timeline({ delay: 0.15 })
         .from('.ph-number', { opacity: 0, duration: 1.2, ease: 'power2.out' })
-        .from('.ph-title', { y: 60, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.9')
-        .from('.ph-tagline', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.6')
+        .from('.ph-tagline', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
         .from('.ph-tag', { y: 12, opacity: 0, stagger: 0.06, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+
+      // Al bajar, el número de fondo gana peso y se desplaza; el titular se aleja
+      gsap.to('.ph-number', {
+        fontWeight: 900, xPercent: 8, ease: 'none',
+        scrollTrigger: { trigger: '.ph-hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
+      })
+      gsap.to('.ph-content', {
+        yPercent: -30, opacity: 0.2, ease: 'none',
+        scrollTrigger: { trigger: '.ph-hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
+      })
 
       // Resto de secciones: ScrollTrigger
       gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((el) => {
@@ -714,7 +724,7 @@ export default function ProjectDetail({ project, next }: Props) {
     <div ref={containerRef} style={{ backgroundColor: '#0a0e0b' }}>
       {/* ─── 1. HERO ─── */}
       <section
-        className="relative flex h-[100svh] flex-col justify-end overflow-hidden"
+        className="ph-hero relative flex h-[100svh] flex-col justify-end overflow-hidden"
         style={{ paddingLeft: 'var(--px)', paddingRight: 'var(--px)', paddingBottom: 'var(--space-xl)', backgroundColor: '#0a0e0b' }}
       >
         <MeshCanvas variant="subtle" />
@@ -736,8 +746,10 @@ export default function ProjectDetail({ project, next }: Props) {
         </span>
 
         {/* Contenido principal */}
-        <div className="relative z-10">
-          <h1
+        <div className="ph-content relative z-10">
+          <MaskedTitle
+            lines={[project.title]}
+            delay={0.35}
             className="ph-title font-anybody text-cream"
             style={{
               fontSize: 'clamp(3rem, 9vw, 9rem)',
@@ -745,9 +757,7 @@ export default function ProjectDetail({ project, next }: Props) {
               letterSpacing: '-0.03em',
               lineHeight: 0.95,
             }}
-          >
-            {project.title}
-          </h1>
+          />
 
           <p
             className="ph-tagline mt-4 font-cabinet text-cream-dim"
@@ -881,8 +891,8 @@ export default function ProjectDetail({ project, next }: Props) {
 
             {/* Título con slide */}
             <span
-              className="font-anybody text-cream inline-block transition-all duration-300 group-hover:text-green-light group-hover:translate-x-4"
-              style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}
+              className="font-anybody text-cream inline-block transition-all duration-500 group-hover:text-green-light group-hover:translate-x-4 group-hover:[font-weight:900]"
+              style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1 }}
             >
               {next.title}
             </span>
@@ -900,8 +910,8 @@ export default function ProjectDetail({ project, next }: Props) {
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
             </span>
             <span
-              className="font-anybody text-cream inline-block transition-all duration-300 group-hover:text-green-light group-hover:translate-x-4"
-              style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}
+              className="font-anybody text-cream inline-block transition-all duration-500 group-hover:text-green-light group-hover:translate-x-4 group-hover:[font-weight:900]"
+              style={{ fontSize: 'clamp(2rem, 6vw, 5rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1 }}
             >
               Ver todos los proyectos
             </span>

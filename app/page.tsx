@@ -3,6 +3,8 @@ import Hero from '@/components/sections/Hero'
 import Projects from '@/components/sections/Projects'
 import MiniAbout from '@/components/sections/MiniAbout'
 import ContactCTA from '@/components/sections/ContactCTA'
+import ProcessSteps from '@/components/sections/ProcessSteps'
+import ServiceTickets from '@/components/sections/ServiceTickets'
 
 export const metadata: Metadata = {
   title: 'Germán Gómez — Automatización & Desarrollo Web · Marina Alta',
@@ -68,6 +70,8 @@ export default function Home() {
           <Projects />
         </div>
         <MiniAbout />
+        <ProcessSteps />
+        <ServiceTickets />
         <ContactCTA />
       </main>
     </>

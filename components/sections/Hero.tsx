@@ -5,6 +5,9 @@ import gsap from 'gsap'
 import HeroCardDeck from '@/components/ui/HeroCardDeck'
 import HeroLogoReveal from '@/components/ui/HeroLogoReveal'
 import ScrollStroke from '@/components/ui/ScrollStroke'
+import SplitChars from '@/components/ui/SplitChars'
+import { prefersReducedMotion } from '@/lib/motion'
+import { INTRO_DELAY, animateHeroDesktop, animateHeroMobile } from '@/components/sections/heroMotion'
 import { hexAlpha } from '@/lib/utils'
 
 const SCALE_Y   = 2.2
@@ -29,7 +32,11 @@ const titleStyleMobile = {
   opacity: 0,
 }
 
+/** La cortina "GG" solo se muestra en la primera carga, no al volver a la home navegando. */
+let introPlayed = false
+
 export default function Hero() {
+  const [showIntro] = useState(() => !introPlayed)
   const sectionRef  = useRef<HTMLElement>(null)
   const canvasRef   = useRef<HTMLCanvasElement>(null)
   const logoWrapRef = useRef<HTMLDivElement>(null)
@@ -98,64 +105,36 @@ export default function Hero() {
     return () => { cancelAnimationFrame(rafId); obs.disconnect() }
   }, [])
 
-  // ── GSAP — entrada ─────────────────────────────────────────────────────
+  // ── GSAP — entrada letra a letra (E01) + parallax y peso con scroll (E02) ──
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const mobileLines = [mLine1Ref.current, mLine2Ref.current, mLine3Ref.current, mLine4Ref.current]
+    const desktopLines = [line1Ref.current, line2Ref.current, masRef.current, line3Ref.current, line4Ref.current]
+    const mSub = mSubRef.current
+    const sub = subtitleRef.current
 
+    if (prefersReducedMotion()) {
+      gsap.set([...mobileLines, mSub], { opacity: 1, y: 0 })
+      gsap.set(desktopLines, { opacity: 1, scaleY: SCALE_Y, transformOrigin: '0 0' })
+      gsap.set(sub, { opacity: 1, y: 0 })
+      return
+    }
+
+    const delay = showIntro ? INTRO_DELAY : 0.1
     const ctx = gsap.context(() => {
-      const mobile = window.innerWidth < 768
-
-      if (mobile) {
-        const mEls = [
-          mLine1Ref.current,
-          mLine2Ref.current,
-          mLine3Ref.current,
-          mLine4Ref.current,
-        ]
-        const sub = mSubRef.current
-        if (mEls.some((r) => !r) || !sub) return
-
-        if (reducedMotion) {
-          gsap.set([...mEls, sub], { opacity: 1, y: 0 })
-          return
-        }
-
-        gsap.timeline({ delay: 0.1 })
-          .fromTo(mEls[0], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' })
-          .fromTo(mEls[1], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.55')
-          .fromTo(mEls[2], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.75')
-          .fromTo(mEls[3], { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.75')
-          .fromTo(sub,     { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
-        return
-      }
-
-      // Desktop animation
-      const l1  = line1Ref.current
-      const l2  = line2Ref.current
-      const mas = masRef.current
-      const l3  = line3Ref.current
-      const l4  = line4Ref.current
-      const sub = subtitleRef.current
-      if (!l1 || !l2 || !mas || !l3 || !l4 || !sub) return
-
-      if (reducedMotion) {
-        gsap.set([l1, l2, mas, l3, l4], { opacity: 1, scaleY: SCALE_Y })
-        gsap.set(sub, { opacity: 1, y: 0 })
-        return
-      }
-
-      const tOrigin = '0 0'
-      gsap.timeline({ delay: 0.1 })
-        .fromTo(l1,  { opacity: 0, scaleY: SCALE_Y * 0.25, transformOrigin: tOrigin }, { opacity: 1, scaleY: SCALE_Y, duration: 1.1, ease: 'power3.out' })
-        .fromTo(l2,  { opacity: 0, scaleY: SCALE_Y * 0.25, transformOrigin: tOrigin }, { opacity: 1, scaleY: SCALE_Y, duration: 1.0, ease: 'power3.out' }, '-=0.55')
-        .fromTo(mas, { opacity: 0, scaleY: SCALE_Y * 0.25, transformOrigin: tOrigin }, { opacity: 1, scaleY: SCALE_Y, duration: 1.0, ease: 'power3.out' }, '-=0.85')
-        .fromTo(l3,  { opacity: 0, scaleY: SCALE_Y * 0.25, transformOrigin: tOrigin }, { opacity: 1, scaleY: SCALE_Y, duration: 1.0, ease: 'power3.out' }, '-=0.85')
-        .fromTo(l4,  { opacity: 0, scaleY: SCALE_Y * 0.25, transformOrigin: tOrigin }, { opacity: 1, scaleY: SCALE_Y, duration: 1.1, ease: 'power3.out' }, '-=0.85')
-        .fromTo(sub, { opacity: 0, y: 16 },                                            { opacity: 1, y: 0,            duration: 0.8, ease: 'power2.out' }, '-=0.65')
+      const mm = gsap.matchMedia()
+      mm.add('(max-width: 767px)', () => {
+        if (mobileLines.some((l) => !l) || !mSub) return
+        animateHeroMobile(mobileLines as HTMLElement[], mSub, delay)
+      })
+      mm.add('(min-width: 768px)', () => {
+        if (desktopLines.some((l) => !l) || !sub) return
+        animateHeroDesktop(desktopLines as HTMLElement[], sub, SCALE_Y, delay)
+      })
     })
+    introPlayed = true
 
     return () => ctx.revert()
-  }, [])
+  }, [showIntro])
 
   return (
     <section
@@ -163,6 +142,11 @@ export default function Hero() {
       className="relative overflow-hidden"
       style={{ backgroundColor: '#152B1C' }}
     >
+      {showIntro && (
+        <div aria-hidden className="intro-curtain">
+          <span className="font-anybody">GG</span>
+        </div>
+      )}
       <h1 className="sr-only">Germán Gómez — Diseño sistemas para negocios reales</h1>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 
@@ -173,14 +157,14 @@ export default function Hero() {
           className="select-none font-anybody text-cream"
           style={{ fontSize: 'clamp(2.5rem, 17vw, 6.5rem)', ...titleStyleMobile }}
         >
-          DISEÑO
+          <SplitChars text="DISEÑO" charClassName="hero-ch" />
         </span>
         <span
           ref={mLine2Ref}
           className="select-none font-anybody text-cream"
           style={{ fontSize: 'clamp(2.25rem, 14vw, 5.5rem)', ...titleStyleMobile }}
         >
-          SISTEMAS
+          <SplitChars text="SISTEMAS" charClassName="hero-ch" />
         </span>
 
         {/* Baraja de cards — intercalada entre el texto, como en desktop */}
@@ -216,14 +200,14 @@ export default function Hero() {
           className="select-none font-anybody text-cream"
           style={{ fontSize: 'clamp(1.05rem, 8.5vw, 3.3rem)', ...titleStyleMobile, letterSpacing: '-0.01em' }}
         >
-          PARA NEGOCIOS
+          <SplitChars text="PARA NEGOCIOS" charClassName="hero-ch" />
         </span>
         <span
           ref={mLine4Ref}
           className="select-none font-anybody text-cream"
           style={{ fontSize: 'clamp(2.5rem, 17vw, 6.5rem)', ...titleStyleMobile }}
         >
-          REALES
+          <SplitChars text="REALES" charClassName="hero-ch" />
         </span>
 
         <div ref={mSubRef} className="mt-6 flex flex-col items-center gap-2 px-2" style={{ opacity: 0 }}>
@@ -260,7 +244,7 @@ export default function Hero() {
           className="absolute block select-none font-anybody text-cream"
           style={{ top: '4vw', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 32rem)', ...titleStyleDesktop }}
         >
-          DISEÑO
+          <SplitChars text="DISEÑO" charClassName="hero-ch" />
         </span>
 
         {/* SISTE */}
@@ -269,7 +253,7 @@ export default function Hero() {
           className="absolute left-0 block select-none font-anybody text-cream"
           style={{ top: 'calc(5vh + 37.7vw)', paddingLeft: '1.5vw', fontSize: 'clamp(2rem, 14vw, 28rem)', ...titleStyleDesktop }}
         >
-          SISTE
+          <SplitChars text="SISTE" charClassName="hero-ch" />
         </span>
 
         {/* Baraja — ocupa desde el final de SISTE hasta el borde derecho */}
@@ -306,7 +290,7 @@ export default function Hero() {
           className="absolute block select-none font-anybody text-cream"
           style={{ top: 'calc(7vh + 65.4vw)', right: '1.5vw', fontSize: 'clamp(2rem, 14vw, 28rem)', ...titleStyleDesktop }}
         >
-          -MAS
+          <SplitChars text="-MAS" charClassName="hero-ch" />
         </span>
 
         {/* PARA NEGOCIOS */}
@@ -315,7 +299,7 @@ export default function Hero() {
           className="absolute left-0 block select-none font-anybody text-cream"
           style={{ top: 'calc(9vh + 98vw)', paddingLeft: '1.5vw', fontSize: 'clamp(1rem, 9vw, 17rem)', ...titleStyleDesktop }}
         >
-          PARA NEGOCIOS
+          <SplitChars text="PARA NEGOCIOS" charClassName="hero-ch" />
         </span>
 
         {/* REALES */}
@@ -324,7 +308,7 @@ export default function Hero() {
           className="absolute block select-none font-anybody text-cream"
           style={{ top: 'calc(11vh + 115.8vw)', left: 0, width: '100%', textAlign: 'center', fontSize: 'clamp(2rem, 17vw, 32rem)', ...titleStyleDesktop }}
         >
-          REALES
+          <SplitChars text="REALES" charClassName="hero-ch" />
         </span>
 
         {/* Subtítulo — banda con fondo que corta REALES a la mitad */}

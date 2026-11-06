@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { hexAlpha } from '@/lib/utils'
+import ProximityText from '@/components/ui/ProximityText'
+import Magnetic from '@/components/ui/Magnetic'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -223,18 +225,19 @@ export default function ContactCTA({
       </div>
 
       {/* Heading */}
-      <h2
+      <ProximityText
+        text={heading}
         className="cta-heading font-anybody text-cream"
         style={{
-          fontSize: 'clamp(3.5rem, 14vw, 14rem)',
+          // Las frases cortas ("¿Hablamos?") ocupan la pantalla; las largas se reducen
+          // para que el bloque quepa en una pantalla y no se haga eterno al bajar.
+          fontSize: heading.length <= 16 ? 'clamp(3.5rem, 14vw, 14rem)' : 'clamp(2.6rem, 7vw, 7.5rem)',
           fontWeight: 800,
           letterSpacing: '-0.035em',
           lineHeight: 0.88,
           marginBottom: 'clamp(2.5rem, 5vw, 4rem)',
         }}
-      >
-        {heading}
-      </h2>
+      />
 
       {/* Separador */}
       <div
@@ -259,6 +262,7 @@ export default function ContactCTA({
 
         {/* Contacto */}
         <div className="cta-email flex flex-col gap-5">
+          <Magnetic>
           <a
             href="mailto:contacto@german-gomez.es"
             className="group relative inline-block font-anybody"
@@ -272,6 +276,7 @@ export default function ContactCTA({
               style={{ width: 0, backgroundColor: '#DDD0BC' }}
             />
           </a>
+          </Magnetic>
 
           <div
             className="flex flex-col gap-2.5 font-cabinet"

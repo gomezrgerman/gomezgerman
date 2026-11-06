@@ -7,8 +7,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ContactCTA from '@/components/sections/ContactCTA'
 import MeshCanvas from '@/components/ui/MeshCanvas'
 import Certifications from '@/components/sections/Certifications'
+import MaskedTitle from '@/components/ui/MaskedTitle'
+import BlurWords from '@/components/ui/BlurWords'
+import ProjectsMarquee from '@/components/ui/ProjectsMarquee'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/** Escalón inicial (px) de cada paso del proceso. */
+const STAIR_OFFSETS = [0, 120, 240] as const
 
 const PROCESS = [
   {
@@ -36,12 +42,37 @@ export default function AboutContent() {
 
     const ctx = gsap.context(() => {
       // Hero: entra en mount
-      gsap.timeline({ delay: 0.15 })
-        .from('.about-heading', { y: 60, opacity: 0, duration: 1, ease: 'power3.out' })
-        .from('.about-sub', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.6')
+      // El titular tiene su propia entrada (letras desde máscara); aquí solo los textos de apoyo
+      gsap.from('.about-sub', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
+
+      // Foto: se descubre de abajo arriba mientras la imagen se asienta
+      gsap.fromTo('.about-photo', { clipPath: 'inset(100% 0% 0% 0%)' }, {
+        clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power4.inOut',
+        scrollTrigger: { trigger: '.about-photo', start: 'top 85%' },
+      })
+      gsap.fromTo('.about-photo img', { scale: 1.18 }, {
+        scale: 1, duration: 1.6, ease: 'power3.out',
+        scrollTrigger: { trigger: '.about-photo', start: 'top 85%' },
+      })
+
+      // Proceso: los pasos suben en escalera y el número gana peso con el scroll (solo escritorio)
+      const mm = gsap.matchMedia()
+      mm.add('(min-width: 768px)', () => {
+        const steps = gsap.utils.toArray<HTMLElement>('.about-step')
+        const stair = gsap.timeline({ scrollTrigger: { trigger: '.about-steps', start: 'top 90%', end: 'top 30%', scrub: 1 } })
+        steps.forEach((step, i) => {
+          stair.fromTo(step, { y: STAIR_OFFSETS[i] ?? 0 }, { y: 0, ease: 'none' }, 0)
+        })
+        stair.fromTo('.about-step-num', { fontWeight: 100 }, { fontWeight: 800, ease: 'none', stagger: 0.05 }, 0)
+      })
+      mm.add('(max-width: 767px)', () => {
+        gsap.utils.toArray<HTMLElement>('.about-step').forEach((step) => {
+          gsap.fromTo(step, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: step, start: 'top 85%' } })
+        })
+      })
 
       // Secciones de contenido
-      gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((el) => {
+      gsap.utils.toArray<HTMLElement>('.reveal-up:not(.about-step)').forEach((el) => {
         gsap.fromTo(
           el,
           { y: 60, opacity: 0 },
@@ -75,7 +106,8 @@ export default function AboutContent() {
           >
             Germán Gómez · Marina Alta, Alicante
           </p>
-          <h1
+          <MaskedTitle
+            lines={['No vengo del código.', 'Vengo del mostrador.']}
             className="about-heading font-anybody text-cream"
             style={{
               fontSize: 'clamp(2.4rem, 8vw, 8rem)',
@@ -83,10 +115,7 @@ export default function AboutContent() {
               letterSpacing: '-0.03em',
               lineHeight: 0.95,
             }}
-          >
-            No vengo del código.<br />
-            Vengo del mostrador.
-          </h1>
+          />
           <p
             className="about-sub mt-6 font-cabinet text-cream-dim"
             style={{ fontSize: 'clamp(0.875rem, 1.1vw, 1rem)', maxWidth: '52ch', lineHeight: 1.75 }}
@@ -137,7 +166,7 @@ export default function AboutContent() {
             {/* Foto */}
             <div className="reveal-up flex items-start justify-center md:justify-end">
               <div
-                className="relative w-full overflow-hidden"
+                className="about-photo relative w-full overflow-hidden"
                 style={{ aspectRatio: '4/5', border: '1px solid var(--color-border)', borderRadius: '2px', maxWidth: 'clamp(260px, 36vw, 460px)' }}
               >
                 <Image
@@ -169,7 +198,8 @@ export default function AboutContent() {
           }}
         >
           <div style={{ maxWidth: '72ch' }}>
-            <p
+            <BlurWords
+              lines={['Lo que más odio es el trabajo innecesario.']}
               className="font-anybody text-cream"
               style={{
                 fontSize: 'clamp(1.6rem, 3.2vw, 3rem)',
@@ -177,9 +207,7 @@ export default function AboutContent() {
                 letterSpacing: '-0.025em',
                 lineHeight: 1.1,
               }}
-            >
-              Lo que más odio es el trabajo innecesario.
-            </p>
+            />
             <p
               className="mt-5 font-cabinet text-cream-dim"
               style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', lineHeight: 1.75 }}
@@ -205,18 +233,18 @@ export default function AboutContent() {
           >
             Cómo trabajo
           </p>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
-            {PROCESS.map((step, i) => (
+          <div className="about-steps grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 md:items-start" style={{ maxWidth: '1400px', marginLeft: 'auto', marginRight: 'auto' }}>
+            {PROCESS.map((step) => (
               <div
                 key={step.num}
-                className="reveal-up"
+                className="reveal-up about-step"
                 style={{
                   borderTop: '1px solid var(--color-border)',
                   paddingTop: 'clamp(1.5rem, 2.5vw, 2rem)',
                 }}
               >
                 <span
-                  className="font-anybody block"
+                  className="about-step-num font-anybody block"
                   style={{
                     fontSize: 'clamp(3rem, 5vw, 4.5rem)',
                     fontWeight: 100,
@@ -253,6 +281,9 @@ export default function AboutContent() {
 
         {/* ─── FORMACIÓN ─── */}
         <Certifications />
+
+        {/* ─── CINTA ─── */}
+        <ProjectsMarquee />
 
         {/* ─── CTA ─── */}
         <ContactCTA

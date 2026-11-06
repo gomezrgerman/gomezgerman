@@ -2,44 +2,60 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '@/lib/motion'
 import Link from 'next/link'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const ROW = 'Sí, esto ahora va solo  —  Menos gestión, más negocio  —  Probablemente tu negocio necesita esto  —  '
 
-const TOOLTIP  = 'Mira cómo funciona'
-const DURATION = 20
+const TOOLTIP = 'Mira cómo funciona'
+/** Píxeles por fotograma a velocidad normal. */
+const BASE_SPEED = 1.1
 
 export default function ProjectsMarquee() {
   const trackRef     = useRef<HTMLDivElement>(null)
-  const tlRef        = useRef<gsap.core.Timeline | null>(null)
   const targetSpeed  = useRef(1)
-  const currentSpeed = useRef(1)
   const mouseRef     = useRef({ x: 0, y: 0, time: Date.now() })
   const decayTimer   = useRef<ReturnType<typeof setTimeout>>()
-  const rafRef       = useRef<number>(0)
 
   const [hovered,  setHovered]  = useState(false)
   const [cursor,   setCursor]   = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState(0)
 
+  // Avance continuo: velocidad del ratón + velocidad y sentido del scroll
   useEffect(() => {
-    if (!trackRef.current) return
+    const track = trackRef.current
+    if (!track || prefersReducedMotion()) return
 
-    tlRef.current = gsap.timeline({ repeat: -1 })
-    tlRef.current.fromTo(trackRef.current,
-      { x: '0%' }, { x: '-50%', duration: DURATION, ease: 'none' },
-    )
+    const motion = { x: 0, dir: -1, scrollVel: 0, speed: 1 }
+    const skewTo = gsap.quickTo(track, 'skewX', { duration: 0.4, ease: 'power3' })
+
+    const scroll = ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        motion.scrollVel = self.getVelocity()
+        if (self.direction) motion.dir = self.direction === 1 ? -1 : 1
+      },
+    })
 
     const tick = () => {
-      currentSpeed.current += (targetSpeed.current - currentSpeed.current) * 0.08
-      tlRef.current?.timeScale(currentSpeed.current)
-      rafRef.current = requestAnimationFrame(tick)
+      motion.speed += (targetSpeed.current - motion.speed) * 0.08
+      const boost = Math.min(Math.abs(motion.scrollVel) / 120, 18)
+      const half = track.scrollWidth / 2
+      const next = motion.x + motion.dir * (BASE_SPEED * motion.speed + boost)
+      motion.x = next <= -half ? next + half : next > 0 ? next - half : next
+      gsap.set(track, { x: motion.x })
+      skewTo(Math.max(-12, Math.min(12, -motion.scrollVel / 300)))
+      motion.scrollVel *= 0.9
     }
-    rafRef.current = requestAnimationFrame(tick)
+    gsap.ticker.add(tick)
 
     return () => {
-      tlRef.current?.kill()
-      cancelAnimationFrame(rafRef.current)
+      gsap.ticker.remove(tick)
+      scroll.kill()
     }
   }, [])
 
