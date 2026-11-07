@@ -57,6 +57,8 @@ export default function DashboardPage() {
     if (authenticated) {
       loadSubmissions()
     }
+    // Solo debe recargar al cambiar la sesión, no en cada render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated])
 
   const loadSubmissions = async () => {
@@ -499,15 +501,5 @@ export default function DashboardPage() {
         )}
       </div>
     </main>
-  )
-}
-
-function DetailField({ label, value }: { label: string; value: string }) {
-  if (!value) return null
-  return (
-    <div>
-      <span className="font-cabinet text-xs text-cream-dim">{label}</span>
-      <span className="font-cabinet text-sm text-cream block">{value}</span>
-    </div>
   )
 }

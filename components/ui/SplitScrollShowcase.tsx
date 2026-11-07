@@ -107,7 +107,6 @@ export default function SplitScrollShowcase({ pages, accent = '#4A7C59' }: Props
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', recalc)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages.length, isMobile])
 
   // ── Mobile: paneles apilados ─────────────────────────────────────────────

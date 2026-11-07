@@ -1,5 +1,10 @@
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // La raíz es esta carpeta: evita que Next la deduzca de otros package-lock.json del equipo
+  outputFileTracingRoot: dirname(fileURLToPath(import.meta.url)),
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
