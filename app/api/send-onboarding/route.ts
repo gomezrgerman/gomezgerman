@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       from: `"Germán Gómez" <${process.env.SMTP_USER}>`,
       to: email,
       subject: `${nombre} — un paso antes de empezar`,
-      html: buildOnboardingEmailHtml({ nombre, onboardingUrl }),
+      html: buildOnboardingEmailHtml({ onboardingUrl }),
     })
 
     return NextResponse.json({ success: true })
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function buildOnboardingEmailHtml({ nombre, onboardingUrl }: { nombre: string; onboardingUrl: string }): string {
+function buildOnboardingEmailHtml({ onboardingUrl }: { onboardingUrl: string }): string {
   const BG = '#0a0a0a', GREEN = '#4A7C59', GREEN_LIGHT = '#7DB892', CREAM = '#F5F0E8', CREAM_DIM = '#A89F8C', BORDER = '#1E1E1E', BG_CARD = '#111111'
 
   return `<!DOCTYPE html>

@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         from: `"Germán Gómez" <${process.env.SMTP_USER}>`,
         to: email,
         subject: `Recibido, ${safeNombre} — te respondo pronto`,
-        html: buildAutoReplyHtml({ nombre, negocio }),
+        html: buildAutoReplyHtml({ nombre }),
       }),
     ])
 
@@ -144,9 +144,7 @@ function buildNotificationHtml({
 </html>`
 }
 
-function buildAutoReplyHtml({ nombre, negocio }: { nombre: string; negocio: string }): string {
-  const BG = '#152E1F', BG_CARD = '#1C3828', CREAM = '#F5F0E8', GREEN = '#7DB892', BORDER = '#2E5240'
-
+function buildAutoReplyHtml({ nombre }: { nombre: string }): string {
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
